@@ -2,7 +2,9 @@ package mystore.services;
 
 import mystore.models.Loja;
 
+import java.util.Optional;
+
 public interface LojaService extends BasicService<Loja>{
 
-    Loja getLoja();
+    Optional<Loja> getLoja();
 }
