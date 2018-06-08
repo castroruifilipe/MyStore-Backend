@@ -1,0 +1,5 @@
+#!/bin/bash
+
+psql postgres -c "drop database mystore";
+psql postgres -c "create database mystore with owner mystore"
+

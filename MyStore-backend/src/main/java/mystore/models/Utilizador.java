@@ -28,6 +28,9 @@ public class Utilizador implements Serializable {
     @Column(nullable = false)
     private Boolean ativo = true;
 
+    @Column(name="url_imagem")
+    private String urlImagem;
+
 
     public Utilizador() {
     }
@@ -78,5 +81,29 @@ public class Utilizador implements Serializable {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+
+
+    public String getUrlImagem() {
+        return urlImagem;
+    }
+
+    public void setUrlImagem(String urlImagem) {
+        this.urlImagem = urlImagem;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Utilizador that = (Utilizador) o;
+
+        return getEmail().equals(that.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return getEmail().hashCode();
     }
 }
