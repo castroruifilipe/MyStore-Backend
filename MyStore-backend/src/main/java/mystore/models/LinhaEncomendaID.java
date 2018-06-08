@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 public class LinhaEncomendaID implements Serializable {
@@ -32,5 +33,19 @@ public class LinhaEncomendaID implements Serializable {
 
     public void setEncomenda(Encomenda encomenda) {
         this.encomenda = encomenda;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LinhaEncomendaID that = (LinhaEncomendaID) o;
+        return Objects.equals(produto, that.produto) &&
+                Objects.equals(encomenda, that.encomenda);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(produto, encomenda);
     }
 }

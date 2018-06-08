@@ -2,19 +2,16 @@ package mystore.demo;
 
 import com.github.javafaker.Book;
 import com.github.javafaker.Faker;
-import mystore.models.Loja;
 import mystore.models.Produto;
-import mystore.services.LojaService;
+import mystore.services.MyStoreService;
 import mystore.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Random;
-import java.util.Set;
 
 @Component
 public class DatabaseCreator implements ApplicationRunner {
@@ -26,7 +23,7 @@ public class DatabaseCreator implements ApplicationRunner {
     private ProdutoService produtoService;
 
     @Autowired
-    private LojaService lojaService;
+    private MyStoreService myStoreService;
 
     private Random random = new Random();
 
@@ -41,17 +38,7 @@ public class DatabaseCreator implements ApplicationRunner {
         }
         if (createDB) {
             this.addProdutos();
-            this.addLoja();
         }
-    }
-
-    private void addLoja() {
-        Set<Produto> produtos = new HashSet<>(produtoService.list());
-        Loja loja = new Loja();
-        loja.setNome("MyStore");
-        loja.setLocalizacao(faker.address().fullAddress());
-        loja.setProdutos(produtos);
-        lojaService.save(loja);
     }
 
     private void addProdutos() {

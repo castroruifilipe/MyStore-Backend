@@ -1,5 +1,6 @@
 package mystore;
 
+import mystore.models.MyStore;
 import mystore.security.JwtFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +24,11 @@ public class MyStoreBackendApplication {
         registrationBean.setFilter(new JwtFilter());
         registrationBean.addUrlPatterns("/produtos/*");
         return registrationBean;
+    }
+
+    @Bean
+    public MyStore getMyStore() {
+        return new MyStore();
     }
 
     public static void main(String[] args) {
