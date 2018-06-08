@@ -1,17 +1,21 @@
 package mystore.demo;
 
-import com.github.javafaker.Book;
-import com.github.javafaker.Faker;
+import mystore.argparse.Argparse;
+import mystore.demo.database.CategoriaCreator;
+import mystore.demo.database.ClienteCreator;
+import mystore.demo.database.ProdutoCreator;
+import mystore.models.Categoria;
+import mystore.models.Cliente;
 import mystore.models.Produto;
-import mystore.services.MyStoreService;
+import mystore.services.CategoriaService;
+import mystore.services.ClienteService;
 import mystore.services.ProdutoService;
+import net.sourceforge.argparse4j.inf.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Locale;
-import java.util.Random;
 
 @Component
 public class DatabaseCreator implements ApplicationRunner {
@@ -23,35 +27,62 @@ public class DatabaseCreator implements ApplicationRunner {
     private ProdutoService produtoService;
 
     @Autowired
-    private MyStoreService myStoreService;
+    private CategoriaService categoriaService;
 
-    private Random random = new Random();
 
-    private Faker faker = new Faker(new Locale("pt"));
-
+    @Autowired
+    private ClienteService clienteService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        boolean createDB = false;
-        if (args.containsOption(CREATE_DB_ARG)) {
-            createDB = true;
+        Namespace namespace = Argparse.parse(args.getSourceArgs());
+
+        if (namespace.getBoolean("createDB")) {
+            // Create database
+            createCategorias(namespace.getInt("nCategories"));
+            createClientes(namespace.getInt("nClients"));
+            createProdutos(namespace.getInt("nProducts"));
         }
-        if (createDB) {
-            this.addProdutos();
+
+    }
+
+    public void createCategorias(int nCategories){
+        CategoriaCreator categoriaCreator = new CategoriaCreator();
+        categoriaCreator.addRandomCategories(nCategories);
+        for(Categoria categoria: categoriaCreator.getItems()){
+            categoriaService.save(categoria);
         }
     }
 
-    private void addProdutos() {
-        for (int i = 0; i < N_PRODUTOS; i++) {
-            Book book = faker.book();
-            Produto produto = new Produto();
-            produto.setNome(book.title());
-            produto.setDescricao("Autor: " + book.author() + " Editora: " + book.publisher());
-            produto.setPrecoBase(random.nextInt(100) + 19.99);
-            produto.setIva(6);
-            produto.setStock(random.nextInt(140) + 10);
+    public void createClientes(int nClientes){
+        ClienteCreator clienteCreator = new ClienteCreator();
+        clienteCreator.addCliente("ruicastroleite@outlook.com","Rui Leite", "123");
+        clienteCreator.addCliente("diogomachado@gmail.com","Diogo Machado", "123");
+        clienteCreator.addCliente("andrerfcsantos@gmail.com","André Santos", "123");
+        clienteCreator.addRandomClientes(nClientes);
+        for(Cliente cliente: clienteCreator.getItems()){
+            clienteService.save(cliente);
+        }
+    }
+
+    public void createProdutos(int nProdutos){
+        ProdutoCreator produtoCreator = new ProdutoCreator();
+        produtoCreator.addRandomProducts(nProdutos);
+        for(Produto produto: produtoCreator.getItems()){
             produtoService.save(produto);
         }
-
     }
+
+
+
+
+//    private void addLoja() {
+//        Set<Produto> produtos = new HashSet<>(produtoService.list());
+//        Loja loja = new Loja();
+//        loja.setNome("MyStore");
+//        loja.setLocalizacao(faker.address().fullAddress());
+//        loja.setProdutos(produtos);
+//        lojaService.save(loja);
+//    }
+
 }

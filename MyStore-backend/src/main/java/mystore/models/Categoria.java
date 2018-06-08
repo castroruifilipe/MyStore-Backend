@@ -12,6 +12,7 @@ public class Categoria {
     @GeneratedValue
     private long id;
 
+    @Column(name="descricao", unique = true, nullable = false)
     private String descricao;
 
     @OneToMany
@@ -44,5 +45,20 @@ public class Categoria {
 
     public void setPromocoes(Set<Promocao> promocoes) {
         this.promocoes = promocoes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Categoria categoria = (Categoria) o;
+
+        return getDescricao().equals(categoria.getDescricao());
+    }
+
+    @Override
+    public int hashCode() {
+        return getDescricao().hashCode();
     }
 }
