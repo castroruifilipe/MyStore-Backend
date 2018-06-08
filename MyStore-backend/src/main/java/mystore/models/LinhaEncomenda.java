@@ -14,7 +14,7 @@ public class LinhaEncomenda implements Serializable {
     private LinhaEncomendaID id = new LinhaEncomendaID();
 
     @Column(nullable = false)
-    private float quantidade;
+    private int quantidade;
 
     @Column(nullable = false)
     private float preco;
@@ -53,11 +53,11 @@ public class LinhaEncomenda implements Serializable {
         getId().setEncomenda(encomenda);
     }
 
-    public float getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(float quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 

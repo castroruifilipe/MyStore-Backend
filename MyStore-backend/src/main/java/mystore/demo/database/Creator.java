@@ -19,6 +19,7 @@ public class Creator<T> {
     protected IdNumber idNumber;
     protected Number number;
     protected Lorem lorem;
+    protected DateAndTime dateAndTime;
 
     public Creator(){
         this.items = new HashSet<>();
@@ -31,6 +32,7 @@ public class Creator<T> {
         this.idNumber = faker.idNumber();
         this.number = faker.number();
         this.lorem = faker.lorem();
+        this.dateAndTime = faker.date();
     }
 
     public Set<T> getItems(){
