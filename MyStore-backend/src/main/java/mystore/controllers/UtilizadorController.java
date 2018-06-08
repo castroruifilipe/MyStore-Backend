@@ -33,7 +33,7 @@ public class UtilizadorController {
         return utilizadorService.signin(email, password)
                 .map(utilizador -> {
                     try {
-                        response.setHeader("Token", utilizadorService.tokenFor(utilizador));
+                        response.setHeader("Access-Token", utilizadorService.tokenFor(utilizador));
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }

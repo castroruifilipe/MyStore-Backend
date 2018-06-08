@@ -9,13 +9,12 @@ import java.util.Set;
 @Table(name = "cliente")
 public class Cliente extends Utilizador implements Serializable {
 
-
     @Column(unique = true)
     private String contribuinte;
 
     private String morada;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente")
     private Set<Encomenda> encomendas = new HashSet();
 
