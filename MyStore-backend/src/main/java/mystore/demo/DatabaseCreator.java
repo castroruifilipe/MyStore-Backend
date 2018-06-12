@@ -16,6 +16,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
+
 
 @Component
 public class DatabaseCreator implements ApplicationRunner {
@@ -40,8 +43,10 @@ public class DatabaseCreator implements ApplicationRunner {
         if (namespace.getBoolean("createDB")) {
             // Create database
             createCategorias(namespace.getInt("nCategories"));
-            createClientes(namespace.getInt("nClients"));
-            createProdutos(namespace.getInt("nProducts"));
+            List<Categoria> categorias = categoriaService.list();
+            createProdutos(namespace.getInt("nProducts"), categorias);
+            List<Produto> produtos = produtoService.list();
+            createClientes(namespace.getInt("nClients"), produtos);
         }
 
     }
@@ -54,20 +59,20 @@ public class DatabaseCreator implements ApplicationRunner {
         }
     }
 
-    public void createClientes(int nClientes){
+    public void createClientes(int nClientes, Collection<Produto> produtos){
         ClienteCreator clienteCreator = new ClienteCreator();
         clienteCreator.addCliente("ruicastroleite@outlook.com","Rui Leite", "123");
         clienteCreator.addCliente("diogomachado@gmail.com","Diogo Machado", "123");
         clienteCreator.addCliente("andrerfcsantos@gmail.com","André Santos", "123");
-        clienteCreator.addRandomClientes(nClientes);
+        clienteCreator.addRandomClientes(nClientes, produtos);
         for(Cliente cliente: clienteCreator.getItems()){
             clienteService.save(cliente);
         }
     }
 
-    public void createProdutos(int nProdutos){
+    public void createProdutos(int nProdutos, Collection<Categoria> categorias){
         ProdutoCreator produtoCreator = new ProdutoCreator();
-        produtoCreator.addRandomProducts(nProdutos);
+        produtoCreator.addRandomProducts(nProdutos, categorias);
         for(Produto produto: produtoCreator.getItems()){
             produtoService.save(produto);
         }

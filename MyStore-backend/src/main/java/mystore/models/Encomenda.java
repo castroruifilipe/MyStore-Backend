@@ -1,6 +1,7 @@
 package mystore.models;
 
 import mystore.models.enums.EstadoEncomenda;
+import mystore.models.enums.MetodoPagamento;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -37,6 +38,14 @@ public class Encomenda {
 
     @OneToMany(mappedBy = "id.encomenda", cascade = CascadeType.ALL)
     private Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
+
+    @Column(nullable = true)
+    private LocalDate dataPagamento;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "metodo_pagamento", nullable = false)
+    private MetodoPagamento metodoPagamento;
+
 
 
     public Encomenda() {
@@ -104,5 +113,40 @@ public class Encomenda {
 
     public void setLinhasEncomenda(Set<LinhaEncomenda> linhasEncomenda) {
         this.linhasEncomenda = linhasEncomenda;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public LocalDate getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(LocalDate dataPagamento) {
+        this.dataPagamento = dataPagamento;
+    }
+
+    public MetodoPagamento getMetodoPagamento() {
+        return metodoPagamento;
+    }
+
+    public void setMetodoPagamento(MetodoPagamento metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Encomenda encomenda = (Encomenda) o;
+
+        return getTrackingID() == encomenda.getTrackingID();
+    }
+
+    @Override
+    public int hashCode() {
+        return getTrackingID();
     }
 }

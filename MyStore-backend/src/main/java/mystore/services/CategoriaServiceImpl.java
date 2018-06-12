@@ -2,6 +2,7 @@ package mystore.services;
 
 import mystore.daos.CategoriaDAO;
 import mystore.models.Categoria;
+import mystore.models.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,9 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
+    @Transactional
     public List<Categoria> list() {
         return categoriaDAO.getAll();
     }
+
 }

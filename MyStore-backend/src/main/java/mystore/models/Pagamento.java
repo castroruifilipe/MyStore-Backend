@@ -13,7 +13,7 @@ public class Pagamento {
     @GeneratedValue
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDate data;
 
     @Column(nullable = false)
