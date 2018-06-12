@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -38,11 +39,14 @@ public class ProdutoController {
         return new Produto();
     }
 
-    @RequestMapping(value = "/novidades", method = GET)
-    public List<Produto> novidades() {
-        LocalDateTime semanaPassada = LocalDateTime.now().minusDays(7);
-        Predicate<Produto> is_novidade = produto -> produto.getDataRegisto().isAfter(semanaPassada);
-        return produtoService.list().parallelStream().filter(is_novidade).collect(Collectors.toList());
+    @RequestMapping(value = "/novidades/{quantidadeProdutos}", method = GET)
+    public List<Produto> novidades(@PathVariable int quantidadeProdutos) {
+        return produtoService.novidades(quantidadeProdutos);
+    }
+
+    @RequestMapping(value = "/maisVendidos", method = GET)
+    public List<Produto> maisVendidos() {
+        return null;
     }
 
 

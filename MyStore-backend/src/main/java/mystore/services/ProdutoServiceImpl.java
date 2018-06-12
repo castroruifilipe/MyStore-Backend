@@ -23,6 +23,16 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    public List<Produto> novidades(int quantidadeProdutos) {
+        return produtoDAO.novidades(quantidadeProdutos);
+    }
+
+    @Override
+    public List<Produto> maisVendidos() {
+        return null;
+    }
+
+    @Override
     public List<Produto> listPromocao() {
         return null;
     }
