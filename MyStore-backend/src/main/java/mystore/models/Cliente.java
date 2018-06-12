@@ -1,5 +1,7 @@
 package mystore.models;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -14,7 +16,7 @@ public class Cliente extends Utilizador implements Serializable {
 
     private String morada;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "cliente")
     private Set<Encomenda> encomendas = new HashSet();
 

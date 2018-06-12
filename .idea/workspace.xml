@@ -2,18 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9a4efa9-31a9-4bc2-90f7-059743d342eb" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/RandomCollectionUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/EncomendaCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/DatabaseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/DatabaseCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/CategoriaCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/CategoriaCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ClienteCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ClienteCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/Creator.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/Creator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/EncomendaCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/EncomendaCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/FuncionarioCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/FuncionarioCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ProdutoCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ProdutoCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Categoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Categoria.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Cliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Cliente.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Encomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Encomenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/LinhaEncomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/LinhaEncomenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Pagamento.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Pagamento.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/CategoriaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/CategoriaService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/CategoriaServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/CategoriaServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Produto.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Produto.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/MyStore-backend/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -25,33 +25,86 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Promocao.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Promocao.java">
+      <file leaf-file-name="DatabaseCreator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/DatabaseCreator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+            <state relative-caret-position="139">
+              <caret line="46" column="59" lean-forward="true" selection-start-line="46" selection-start-column="59" selection-end-line="46" selection-end-column="59" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Cliente.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Cliente.java">
+      <file leaf-file-name="GenericDAOImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/daos/GenericDAOImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            <state relative-caret-position="15">
+              <caret line="81" selection-start-line="81" selection-end-line="81" />
+              <folding>
+                <element signature="e#2806#2807#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Produto.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Produto.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Produto.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="16" column="8" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
+            <state relative-caret-position="88">
+              <caret line="40" column="63" lean-forward="true" selection-start-line="40" selection-start-column="63" selection-end-line="40" selection-end-column="63" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProdutoServiceImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/ProdutoServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="53">
+              <caret line="31" selection-start-line="31" selection-end-line="31" />
               <folding>
-                <element signature="e#2808#2809#0" expanded="true" />
-                <element signature="e#2851#2852#0" expanded="true" />
+                <element signature="e#719#720#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProdutoCreator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ProdutoCreator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="230">
+              <caret line="24" column="51" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ApplicationContextProvider.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/ApplicationContextProvider.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CategoriaCreator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/CategoriaCreator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5">
+              <caret line="33" column="5" lean-forward="true" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Categoria.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Categoria.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="324">
+              <caret line="24" selection-start-line="24" selection-end-line="24" />
             </state>
           </provider>
         </entry>
@@ -59,8 +112,8 @@
       <file leaf-file-name="Encomenda.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Encomenda.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1350">
-              <caret line="128" lean-forward="true" selection-start-line="128" selection-end-line="128" />
+            <state relative-caret-position="112">
+              <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
               <folding>
                 <element signature="e#2429#2430#0" expanded="true" />
                 <element signature="e#2457#2458#0" expanded="true" />
@@ -77,63 +130,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Funcionario.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Funcionario.java">
+      <file leaf-file-name="EncomendaCreator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/EncomendaCreator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Utilizador.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Utilizador.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
-              <folding>
-                <element signature="e#1942#1943#0" expanded="true" />
-                <element signature="e#1986#1987#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LinhaEncomenda.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/LinhaEncomenda.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="11" column="42" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LinhaEncomendaID.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/LinhaEncomendaID.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MyStore.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/MyStore.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="309">
+              <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Pagamento.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Pagamento.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="23" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -147,6 +151,14 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>@Trans</find>
+    </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/MyStore-backend/src/main/java/mystore</dir>
+    </dirStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -155,22 +167,24 @@
       <list>
         <option value="$PROJECT_DIR$/MyStore-backend/pom.xml" />
         <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/LinhaEncomendaCreator.java" />
-        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/CategoriaCreator.java" />
-        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Categoria.java" />
         <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Utilizador.java" />
-        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Produto.java" />
         <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/argparse/Argparse.java" />
-        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/Creator.java" />
         <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/LinhaEncomenda.java" />
         <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Pagamento.java" />
-        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Encomenda.java" />
-        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ClienteCreator.java" />
-        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ProdutoCreator.java" />
         <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/CategoriaService.java" />
         <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/CategoriaServiceImpl.java" />
-        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/DatabaseCreator.java" />
-        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/EncomendaCreator.java" />
         <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/RandomCollectionUtil.java" />
+        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/DatabaseCreator.java" />
+        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Produto.java" />
+        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Cliente.java" />
+        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/Creator.java" />
+        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ClienteCreator.java" />
+        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/FuncionarioCreator.java" />
+        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/EncomendaCreator.java" />
+        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Encomenda.java" />
+        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ProdutoCreator.java" />
+        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/CategoriaCreator.java" />
+        <option value="$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Categoria.java" />
       </list>
     </option>
   </component>
@@ -205,8 +219,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -312,6 +324,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="mystore" type="462c0819:PsiDirectoryNode" />
+              <item name="security" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MyStore-backend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MyStore-backend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="mystore" type="462c0819:PsiDirectoryNode" />
               <item name="services" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -325,7 +346,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -419,11 +442,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21522000" />
+    <option name="totallyTimeSpent" value="26542000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -443,20 +465,46 @@
       <window_info anchor="bottom" id="Java Enterprise" order="7" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.12954186" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.7424961" />
       <window_info anchor="bottom" id="Spring" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24942264" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24942264" />
       <window_info anchor="right" id="Bean Validation" order="3" />
       <window_info id="Web" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="right" id="Theme Preview" order="3" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.12954186" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24942264" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Java Enterprise" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info id="Web" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Spring" order="7" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="right" id="Bean Validation" order="3" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.328594" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info id="Designer" order="2" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -466,93 +514,10 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/CategoriaCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="26" column="35" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/Creator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/controllers/EncomendaController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/ServletInitializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/Main.java" />
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/CreateDatabase.java" />
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="81" column="36" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/LojaCreator.java" />
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/FuncionarioCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/LinhaEncomendaCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/daos/CategoriaDAOImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/daos/ClienteDAO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/daos/GenericDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/MyStoreBackendApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="37" column="44" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/CategoriaCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-50">
-          <caret line="26" column="35" selection-start-line="26" selection-start-column="16" selection-end-line="26" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -598,43 +563,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/daos/GenericDAOImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-480">
-          <caret line="17" column="27" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/resources/mystore.properties">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/Creator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="34" column="40" selection-start-line="34" selection-start-column="40" selection-end-line="34" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/enums/EstadoEncomenda.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="13" lean-forward="true" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ProdutoCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -645,13 +583,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/BasicService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="27" lean-forward="true" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/BasicService.java" />
     <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/ClienteServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -663,13 +595,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/ProdutoServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="23" />
         </state>
       </provider>
     </entry>
@@ -697,23 +622,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ClienteCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6">
-          <caret line="22" column="16" lean-forward="true" selection-start-line="22" selection-start-column="16" selection-end-line="23" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/EncomendaCreator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="36" column="69" selection-start-line="36" selection-start-column="69" selection-end-line="36" selection-end-column="69" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/RandomCollectionUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
@@ -734,34 +642,189 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/DatabaseCreator.java">
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Funcionario.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="68" selection-start-line="68" selection-end-line="68" />
+        <state relative-caret-position="90">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/MyStore.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Categoria.java">
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Pagamento.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        <state relative-caret-position="255">
+          <caret line="20" selection-start-line="20" selection-end-line="23" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Promocao.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Utilizador.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="795">
+          <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
+          <folding>
+            <element signature="e#1942#1943#0" expanded="true" />
+            <element signature="e#1986#1987#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/EncomendaService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/PromocaoService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/GenericService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/LinhaEncomendaService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/LinhaEncomendaServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/daos/GenericDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/daos/LinhaEncomendaDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/daos/LinhaEncomendaDAOImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/MyStoreBackendApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="55" selection-start-line="55" selection-end-line="55" />
+          <folding>
+            <element signature="e#2246#2247#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-aop/5.0.6.RELEASE/spring-aop-5.0.6.RELEASE.jar!/org/springframework/aop/framework/ReflectiveMethodInvocation.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="52" selection-start-line="52" selection-end-line="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/LinhaEncomenda.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="11" column="42" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/LinhaEncomendaID.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/Creator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="53" column="16" selection-start-line="53" selection-start-column="16" selection-end-line="53" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1373#1374#0" expanded="true" />
+            <element signature="e#1401#1402#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/LinhaEncomendaCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ClienteCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="32" column="35" lean-forward="true" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/FuncionarioCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="29" column="39" lean-forward="true" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Cliente.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        <state relative-caret-position="108">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/EncomendaCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="38" column="25" selection-start-line="38" selection-start-column="25" selection-end-line="38" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Encomenda.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="128" lean-forward="true" selection-start-line="128" selection-end-line="128" />
+        <state relative-caret-position="112">
+          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
           <folding>
             <element signature="e#2429#2430#0" expanded="true" />
             <element signature="e#2457#2458#0" expanded="true" />
@@ -777,70 +840,71 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Funcionario.java">
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/daos/GenericDAOImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        <state relative-caret-position="15">
+          <caret line="81" selection-start-line="81" selection-end-line="81" />
+          <folding>
+            <element signature="e#2806#2807#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/LinhaEncomenda.java">
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/services/ProdutoServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="11" column="42" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
+        <state relative-caret-position="53">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+          <folding>
+            <element signature="e#719#720#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/LinhaEncomendaID.java">
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/ApplicationContextProvider.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        <state relative-caret-position="60">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/MyStore.java">
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/ProdutoCreator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="230">
+          <caret line="24" column="51" selection-start-line="24" selection-start-column="51" selection-end-line="24" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Pagamento.java">
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/database/CategoriaCreator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="23" selection-end-column="44" />
+        <state relative-caret-position="5">
+          <caret line="33" column="5" lean-forward="true" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/demo/DatabaseCreator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="139">
+          <caret line="46" column="59" lean-forward="true" selection-start-line="46" selection-start-column="59" selection-end-line="46" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Categoria.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Produto.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="16" column="8" lean-forward="true" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
-          <folding>
-            <element signature="e#2808#2809#0" expanded="true" />
-            <element signature="e#2851#2852#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Promocao.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MyStore-backend/src/main/java/mystore/models/Utilizador.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
-          <folding>
-            <element signature="e#1942#1943#0" expanded="true" />
-            <element signature="e#1986#1987#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="88">
+          <caret line="40" column="63" lean-forward="true" selection-start-line="40" selection-start-column="63" selection-end-line="40" selection-end-column="63" />
         </state>
       </provider>
     </entry>

@@ -32,7 +32,6 @@ public class DatabaseCreator implements ApplicationRunner {
     @Autowired
     private CategoriaService categoriaService;
 
-
     @Autowired
     private ClienteService clienteService;
 

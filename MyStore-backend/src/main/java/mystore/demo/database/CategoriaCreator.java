@@ -28,6 +28,7 @@ public class CategoriaCreator extends Creator<Categoria> {
         for(int i=0; i<maxCategorias;i++){
             Categoria cat = new Categoria();
             cat.setDescricao(commerce.department());
+            cat.setId(getAndIncrementId());
             items.add(cat);
         }
     }
@@ -39,6 +40,7 @@ public class CategoriaCreator extends Creator<Categoria> {
     public void addCategoriaWithDesc(String categoria){
         Categoria cat = new Categoria();
         cat.setDescricao(commerce.department());
+        cat.setId(getAndIncrementId());
         items.add(cat);
     }
 

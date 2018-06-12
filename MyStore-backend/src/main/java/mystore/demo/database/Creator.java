@@ -20,6 +20,7 @@ public class Creator<T> {
     protected Number number;
     protected Lorem lorem;
     protected DateAndTime dateAndTime;
+    protected long idSeq;
 
     public Creator(){
         this.items = new HashSet<>();
@@ -33,6 +34,7 @@ public class Creator<T> {
         this.number = faker.number();
         this.lorem = faker.lorem();
         this.dateAndTime = faker.date();
+        this.idSeq = 0;
     }
 
     public Set<T> getItems(){
@@ -47,5 +49,14 @@ public class Creator<T> {
         return items.size();
     }
 
+    public long getAndIncrementId() {
+        long res = idSeq;
+        idSeq++;
+        return res;
+    }
+
+    public long getId() {
+        return idSeq;
+    }
 
 }

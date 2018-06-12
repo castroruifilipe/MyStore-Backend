@@ -34,14 +34,16 @@ public class ClienteCreator extends Creator<Cliente> {
             cli.setTelemovel(phoneNumber.cellPhone());
             cli.setAtivo(true);
             cli.setUrlImagem(internet.avatar());
-
+            cli.setId(getAndIncrementId());
             cli.setMorada(address.fullAddress());
             cli.setContribuinte(idNumber.valid());
+
             if(produtos != null){
                 EncomendaCreator encomendaCreator = new EncomendaCreator();
                 encomendaCreator.addRandomEncomendas(number.numberBetween(0,10),produtos);
                 cli.setEncomendas(encomendaCreator.getItems());
             }
+
             items.add(cli);
         }
     }

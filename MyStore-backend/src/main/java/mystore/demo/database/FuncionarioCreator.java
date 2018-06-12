@@ -40,6 +40,7 @@ public class FuncionarioCreator {
             func.setPassword("123");
             func.setTelemovel(phoneNumber.cellPhone());
             func.setAtivo(true);
+
             func.setUrlImagem(internet.avatar());
 
             func.setNumero(number.numberBetween(1000000,9999999));

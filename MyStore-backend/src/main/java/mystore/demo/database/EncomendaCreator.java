@@ -38,6 +38,7 @@ public class EncomendaCreator extends Creator<Encomenda> {
             encomenda.setPortes((float) number.randomDouble(2,0,4));
             encomenda.setLinhasEncomenda(new HashSet<>(linhasEncomenda));
             encomenda.setMetodoPagamento(metodoPagamento);
+            encomenda.setId(getAndIncrementId());
 
             if(encomenda.getEstado() != EstadoEncomenda.AGUARDA_PAGAMENTO
                     && encomenda.getEstado() != EstadoEncomenda.CANCELADA){

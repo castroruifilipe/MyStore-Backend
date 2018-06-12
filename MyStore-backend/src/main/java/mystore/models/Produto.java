@@ -28,7 +28,7 @@ public class Produto implements Serializable {
     @Column(nullable = false)
     private float iva;
 
-    @Column(nullable = false)
+    @Column(name = "data_registo")
     private LocalDateTime dataRegisto;
 
     @ManyToOne
