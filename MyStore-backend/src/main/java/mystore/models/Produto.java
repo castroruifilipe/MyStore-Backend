@@ -129,6 +129,13 @@ public class Produto implements Serializable {
         this.dataRegisto = dataRegisto;
     }
 
+    @PrePersist
+    public void setDataRegistoDefault() {
+        if (this.getDataRegisto() == null) {
+            this.setDataRegisto(LocalDateTime.now());
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
