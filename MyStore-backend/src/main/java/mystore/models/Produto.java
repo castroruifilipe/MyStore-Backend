@@ -2,6 +2,7 @@ package mystore.models;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +27,9 @@ public class Produto implements Serializable {
 
     @Column(nullable = false)
     private float iva;
+
+    @Column(nullable = false)
+    private LocalDateTime dataRegisto;
 
     @ManyToOne
     @JoinColumn(name = "categoria")
@@ -115,6 +119,14 @@ public class Produto implements Serializable {
 
     public void setLinhasEncomenda(Set<LinhaEncomenda> linhasEncomenda) {
         this.linhasEncomenda = linhasEncomenda;
+    }
+
+    public LocalDateTime getDataRegisto() {
+        return dataRegisto;
+    }
+
+    public void setDataRegisto(LocalDateTime dataRegisto) {
+        this.dataRegisto = dataRegisto;
     }
 
     @Override
