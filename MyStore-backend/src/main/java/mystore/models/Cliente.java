@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -48,4 +49,18 @@ public class Cliente extends Utilizador implements Serializable {
         this.encomendas = encomendas;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(contribuinte, cliente.contribuinte) &&
+                Objects.equals(morada, cliente.morada);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), contribuinte, morada, encomendas);
+    }
 }

@@ -22,7 +22,6 @@ public class ProdutoCreator extends Creator<Produto> {
             produto.setIva(number.numberBetween(10,23) / 100.0f);
             produto.setPrecoBase(number.randomDouble(2, 1,100));
             produto.setStock(number.numberBetween(0,300));
-            produto.setCodigo(getAndIncrementId());
             if(categorias!=null){
                 produto.setCategoria(RandomCollectionUtil.choice(categorias));
             }

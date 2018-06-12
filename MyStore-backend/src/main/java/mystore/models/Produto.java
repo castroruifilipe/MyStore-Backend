@@ -42,7 +42,7 @@ public class Produto implements Serializable {
     )
     private Set<Promocao> promocoes = new HashSet<>();
 
-    @OneToMany(mappedBy = "id.produto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "produto")
     private Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
 
 

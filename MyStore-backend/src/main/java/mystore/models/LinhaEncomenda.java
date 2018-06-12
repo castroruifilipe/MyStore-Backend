@@ -1,17 +1,22 @@
 package mystore.models;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "linha_encomenda")
-@AssociationOverrides({
-        @AssociationOverride(name = "id.produto", joinColumns = @JoinColumn(name = "produto")),
-        @AssociationOverride(name = "id.encomenda", joinColumns = @JoinColumn(name = "encomenda"))
-})
 public class LinhaEncomenda implements Serializable {
 
-    private LinhaEncomendaID id = new LinhaEncomendaID();
+    @Id
+    @GeneratedValue
+    private long id;
+
+    @ManyToOne
+    private Produto produto;
+
+    @ManyToOne
+    private Encomenda encomenda;
 
     @Column(nullable = false)
     private int quantidade;
@@ -26,31 +31,28 @@ public class LinhaEncomenda implements Serializable {
     public LinhaEncomenda() {
     }
 
-    @EmbeddedId
-    public LinhaEncomendaID getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(LinhaEncomendaID id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    @Transient
     public Produto getProduto() {
-        return getId().getProduto();
+        return produto;
     }
 
     public void setProduto(Produto produto) {
-        getId().setProduto(produto);
+        this.produto = produto;
     }
 
-    @Transient
     public Encomenda getEncomenda() {
-        return getId().getEncomenda();
+        return encomenda;
     }
 
     public void setEncomenda(Encomenda encomenda) {
-        getId().setEncomenda(encomenda);
+        this.encomenda = encomenda;
     }
 
     public int getQuantidade() {
@@ -77,4 +79,23 @@ public class LinhaEncomenda implements Serializable {
         this.valorDesconto = valorDesconto;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LinhaEncomenda that = (LinhaEncomenda) o;
+        return id == that.id &&
+                quantidade == that.quantidade &&
+                Float.compare(that.preco, preco) == 0 &&
+                Float.compare(that.valorDesconto, valorDesconto) == 0 &&
+                Objects.equals(produto, that.produto) &&
+                Objects.equals(encomenda, that.encomenda);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, produto, encomenda, quantidade, preco, valorDesconto);
+    }
 }

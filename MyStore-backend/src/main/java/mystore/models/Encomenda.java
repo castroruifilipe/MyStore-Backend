@@ -36,10 +36,10 @@ public class Encomenda {
     @JoinColumn(name = "pagamento")
     private Pagamento pagamento;
 
-    @OneToMany(mappedBy = "id.encomenda", cascade = CascadeType.ALL)
-    private Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "encomenda")
+    private Set<LinhaEncomenda> linhasEncomenda;
 
-    @Column(nullable = true)
+    @Column
     private LocalDate dataPagamento;
 
     @Enumerated(EnumType.STRING)

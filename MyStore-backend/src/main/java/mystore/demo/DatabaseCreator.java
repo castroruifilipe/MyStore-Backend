@@ -3,12 +3,15 @@ package mystore.demo;
 import mystore.argparse.Argparse;
 import mystore.demo.database.CategoriaCreator;
 import mystore.demo.database.ClienteCreator;
+import mystore.demo.database.EncomendaCreator;
 import mystore.demo.database.ProdutoCreator;
 import mystore.models.Categoria;
 import mystore.models.Cliente;
+import mystore.models.Encomenda;
 import mystore.models.Produto;
 import mystore.services.CategoriaService;
 import mystore.services.ClienteService;
+import mystore.services.EncomendaService;
 import mystore.services.ProdutoService;
 import net.sourceforge.argparse4j.inf.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,9 @@ public class DatabaseCreator implements ApplicationRunner {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private EncomendaService encomendaService;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Namespace namespace = Argparse.parse(args.getSourceArgs());
@@ -50,34 +56,32 @@ public class DatabaseCreator implements ApplicationRunner {
 
     }
 
-    public void createCategorias(int nCategories){
+    public void createCategorias(int nCategories) {
         CategoriaCreator categoriaCreator = new CategoriaCreator();
         categoriaCreator.addRandomCategories(nCategories);
-        for(Categoria categoria: categoriaCreator.getItems()){
+        for (Categoria categoria : categoriaCreator.getItems()) {
             categoriaService.save(categoria);
         }
     }
 
-    public void createClientes(int nClientes, Collection<Produto> produtos){
+    public void createClientes(int nClientes, Collection<Produto> produtos) {
         ClienteCreator clienteCreator = new ClienteCreator();
-        clienteCreator.addCliente("ruicastroleite@outlook.com","Rui Leite", "123");
-        clienteCreator.addCliente("diogomachado@gmail.com","Diogo Machado", "123");
-        clienteCreator.addCliente("andrerfcsantos@gmail.com","André Santos", "123");
+        clienteCreator.addCliente("ruicastroleite@outlook.com", "Rui Leite", "123");
+        clienteCreator.addCliente("diogomachado@gmail.com", "Diogo Machado", "123");
+        clienteCreator.addCliente("andrerfcsantos@gmail.com", "André Santos", "123");
         clienteCreator.addRandomClientes(nClientes, produtos);
-        for(Cliente cliente: clienteCreator.getItems()){
+        for (Cliente cliente : clienteCreator.getItems()) {
             clienteService.save(cliente);
         }
     }
 
-    public void createProdutos(int nProdutos, Collection<Categoria> categorias){
+    public void createProdutos(int nProdutos, Collection<Categoria> categorias) {
         ProdutoCreator produtoCreator = new ProdutoCreator();
         produtoCreator.addRandomProducts(nProdutos, categorias);
-        for(Produto produto: produtoCreator.getItems()){
+        for (Produto produto : produtoCreator.getItems()) {
             produtoService.save(produto);
         }
     }
-
-
 
 
 //    private void addLoja() {

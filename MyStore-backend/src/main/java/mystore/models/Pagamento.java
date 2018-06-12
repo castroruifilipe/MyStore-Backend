@@ -4,6 +4,7 @@ import mystore.models.enums.MetodoPagamento;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "pagamento")
@@ -57,5 +58,21 @@ public class Pagamento {
 
     public void setMetodoPagamento(MetodoPagamento metodoPagamento) {
         this.metodoPagamento = metodoPagamento;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pagamento pagamento = (Pagamento) o;
+        return id == pagamento.id &&
+                Double.compare(pagamento.total, total) == 0 &&
+                Objects.equals(data, pagamento.data) &&
+                metodoPagamento == pagamento.metodoPagamento;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, data, total, metodoPagamento);
     }
 }

@@ -45,4 +45,5 @@ public class ProdutoController {
         return produtoService.list().parallelStream().filter(is_novidade).collect(Collectors.toList());
     }
 
+
 }

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -79,5 +80,24 @@ public class Promocao implements Serializable {
 
     public void setProdutos(Set<Produto> produtos) {
         this.produtos = produtos;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Promocao promocao = (Promocao) o;
+        return id == promocao.id &&
+                Double.compare(promocao.desconto, desconto) == 0 &&
+                Objects.equals(descricao, promocao.descricao) &&
+                Objects.equals(dataInicio, promocao.dataInicio) &&
+                Objects.equals(dataFim, promocao.dataFim) &&
+                Objects.equals(produtos, promocao.produtos);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, desconto, descricao, dataInicio, dataFim, produtos);
     }
 }

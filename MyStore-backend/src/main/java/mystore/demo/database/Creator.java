@@ -49,12 +49,6 @@ public class Creator<T> {
         return items.size();
     }
 
-    public long getAndIncrementId() {
-        long res = idSeq;
-        idSeq++;
-        return res;
-    }
-
     public long getId() {
         return idSeq;
     }

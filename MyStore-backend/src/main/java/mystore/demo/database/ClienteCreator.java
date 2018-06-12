@@ -34,7 +34,6 @@ public class ClienteCreator extends Creator<Cliente> {
             cli.setTelemovel(phoneNumber.cellPhone());
             cli.setAtivo(true);
             cli.setUrlImagem(internet.avatar());
-            cli.setId(getAndIncrementId());
             cli.setMorada(address.fullAddress());
             cli.setContribuinte(idNumber.valid());
 
