@@ -28,8 +28,8 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public List<Produto> maisVendidos() {
-        return null;
+    public List<Produto> maisVendidos(int quantidadeProdutos) {
+        return produtoDAO.maisVendidos(quantidadeProdutos);
     }
 
     @Override

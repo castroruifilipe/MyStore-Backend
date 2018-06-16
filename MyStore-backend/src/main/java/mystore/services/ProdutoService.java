@@ -10,7 +10,7 @@ public interface ProdutoService extends GenericService<Produto> {
 
     List<Produto> novidades(int quantidadeProdutos);
 
-    List<Produto> maisVendidos();
+    List<Produto> maisVendidos(int quantidadeProdutos);
 
     List<Produto> listPromocao();
 }

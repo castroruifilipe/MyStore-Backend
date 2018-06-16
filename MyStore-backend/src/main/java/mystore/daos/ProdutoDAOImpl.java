@@ -1,13 +1,17 @@
 package mystore.daos;
 
+import mystore.models.LinhaEncomenda;
 import mystore.models.Produto;
 import mystore.models.Promocao;
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository("produtoDAO")
 public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements ProdutoDAO {
@@ -28,7 +32,26 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
 
     @Override
     public List<Produto> maisVendidos(int quantidadeProdutos) {
-        return null;
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<LinhaEncomenda> root = criteriaQuery.from(LinhaEncomenda.class);
+
+        Join<LinhaEncomenda, Produto> linhaEncomenda_produto = root.join("produto", JoinType.INNER);
+
+        Expression<?>[] expressions = new Expression[2];
+        expressions[0] = linhaEncomenda_produto.get("codigo");
+        expressions[1] = criteriaBuilder.sum(root.get("quantidade"));
+
+        Order porQuantidadeComprada = criteriaBuilder.desc(criteriaBuilder.sum(root.get("quantidade")));
+
+        criteriaQuery
+                .multiselect(expressions)
+                .groupBy(linhaEncomenda_produto.get("codigo"))
+                .orderBy(porQuantidadeComprada);
+
+        List<Object[]> result = entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
+        result.forEach(objects -> System.out.println(objects[0] + "\t\t" + objects[1]));
+        return result.parallelStream().map(objects -> find((long) objects[0]).get()).collect(Collectors.toList());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package mystore.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -8,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "produto")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Produto implements Serializable {
 
     @Id

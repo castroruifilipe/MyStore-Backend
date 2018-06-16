@@ -1,5 +1,7 @@
 package mystore;
 
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import mystore.models.MyStore;
 import mystore.security.JwtFilter;
 import org.springframework.boot.SpringApplication;
@@ -50,6 +52,11 @@ public class MyStoreBackendApplication {
     @Bean
     public MyStore getMyStore() {
         return new MyStore();
+    }
+
+    @Bean
+    public Module getHibernate5Module() {
+        return new Hibernate5Module();
     }
 
     public static void main(String[] args) {
