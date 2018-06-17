@@ -14,32 +14,33 @@ public class ClienteCreator extends Creator<Cliente> {
 
     protected Collection<Produto> produtos;
 
-    public ClienteCreator(){
+    public ClienteCreator() {
         super();
         this.produtos = null;
     }
 
-    public ClienteCreator(Collection<Produto> produtos){
+    public ClienteCreator(Collection<Produto> produtos) {
         super();
         this.produtos = produtos;
     }
 
 
-    public void addRandomClientes(int nClientes, Collection<Produto> produtos){
-        for(int i=0; i<nClientes;i++){
+    public void addRandomClientes(int nClientes, Collection<Produto> produtos) {
+        for (int i = 0; i < nClientes; i++) {
             Cliente cli = new Cliente();
             cli.setEmail(internet.emailAddress());
             cli.setNome(name.nameWithMiddle());
             cli.setPassword("123");
             cli.setTelemovel(phoneNumber.cellPhone());
             cli.setAtivo(true);
-            cli.setUrlImagem(internet.avatar());
-            cli.setMorada(address.fullAddress());
+            cli.setRua(address.streetAddress());
+            cli.setCodigoPostal(address.zipCode());
+            cli.setLocalidade(address.city());
             cli.setContribuinte(idNumber.valid());
 
-            if(produtos != null){
+            if (produtos != null) {
                 EncomendaCreator encomendaCreator = new EncomendaCreator();
-                encomendaCreator.addRandomEncomendas(number.numberBetween(0,10),produtos);
+                encomendaCreator.addRandomEncomendas(number.numberBetween(0, 10), produtos);
                 cli.setEncomendas(encomendaCreator.getItems());
             }
 
@@ -47,16 +48,17 @@ public class ClienteCreator extends Creator<Cliente> {
         }
     }
 
-    public void addCliente(String email, String name, String password){
+    public void addCliente(String email, String name, String password) {
         Cliente cli = new Cliente();
         cli.setEmail(email);
         cli.setNome(name);
         cli.setPassword(password);
         cli.setTelemovel(phoneNumber.cellPhone());
         cli.setAtivo(true);
-        cli.setUrlImagem(internet.avatar());
 
-        cli.setMorada(address.fullAddress());
+        cli.setRua(address.streetAddress());
+        cli.setCodigoPostal(address.zipCode());
+        cli.setLocalidade(address.city());
         cli.setContribuinte(idNumber.valid());
 
         items.add(cli);

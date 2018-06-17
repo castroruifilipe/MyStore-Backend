@@ -1,5 +1,6 @@
 package mystore.daos;
 
+import mystore.models.Categoria;
 import mystore.models.LinhaEncomenda;
 import mystore.models.Produto;
 import mystore.models.Promocao;
@@ -52,6 +53,17 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         List<Object[]> result = entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
         result.forEach(objects -> System.out.println(objects[0] + "\t\t" + objects[1]));
         return result.parallelStream().map(objects -> find((long) objects[0]).get()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Produto> listPaginated(long categoria, int firstResult, int maxResults) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
+        Root<Produto> root = criteriaQuery.from(type);
+        criteriaQuery
+                .select(root)
+                .where(criteriaBuilder.equal(root.get("categoria"), categoria));
+        return entityManager.createQuery(criteriaQuery).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
 
     @Override

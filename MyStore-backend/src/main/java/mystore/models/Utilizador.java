@@ -28,9 +28,6 @@ public class Utilizador implements Serializable {
     @Column(nullable = false)
     private Boolean ativo = true;
 
-    @Column(name="url_imagem")
-    private String urlImagem;
-
 
     public Utilizador() {
     }
@@ -83,14 +80,6 @@ public class Utilizador implements Serializable {
         this.ativo = ativo;
     }
 
-
-    public String getUrlImagem() {
-        return urlImagem;
-    }
-
-    public void setUrlImagem(String urlImagem) {
-        this.urlImagem = urlImagem;
-    }
 
     @Override
     public boolean equals(Object o) {

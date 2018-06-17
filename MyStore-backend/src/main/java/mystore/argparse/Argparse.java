@@ -52,7 +52,7 @@ public class Argparse {
         parser.addArgument("-nCategories", "--nCategories")
                 .dest("nCategories")
                 .type(Integer.class)
-                .setDefault(20)
+                .setDefault(8)
                 .required(false)
                 .help("Number of random categories to create.");
 
@@ -66,7 +66,7 @@ public class Argparse {
         parser.addArgument("-nProducts", "--nProducts")
                 .dest("nProducts")
                 .type(Integer.class)
-                .setDefault(100)
+                .setDefault(200)
                 .required(false)
                 .help("Number of random prdducts to create.");
 

@@ -5,6 +5,7 @@ import mystore.models.enums.RoleUtilizador;
 import mystore.services.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 @RequestMapping("/utilizadores")
@@ -55,6 +57,11 @@ public class UtilizadorController {
         RoleUtilizador role = RoleUtilizador.valueOf(body.get("role"));
 
         utilizadorService.signup(email, password, nome, role);
+    }
+
+    @RequestMapping(path = "/editarDados", method = PUT)
+    public void editarDados(@RequestAttribute long uid, @RequestBody Map<String, String> body) {
+        System.out.println("\n\n" + uid);
     }
 
 }

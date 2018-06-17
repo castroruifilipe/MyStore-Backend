@@ -41,8 +41,6 @@ public class FuncionarioCreator {
             func.setTelemovel(phoneNumber.cellPhone());
             func.setAtivo(true);
 
-            func.setUrlImagem(internet.avatar());
-
             func.setNumero(number.numberBetween(1000000,9999999));
             funcionariosCriados.add(func);
         }

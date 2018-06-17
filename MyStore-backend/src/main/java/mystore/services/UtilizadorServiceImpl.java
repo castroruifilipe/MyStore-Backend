@@ -19,6 +19,7 @@ import javax.persistence.EntityExistsException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 import static java.time.ZoneOffset.UTC;
@@ -70,7 +71,7 @@ public class UtilizadorServiceImpl implements UtilizadorService {
         Date expiration = Date.from(LocalDateTime.now().plusHours(24).toInstant(UTC));
         RoleUtilizador role = (utilizador instanceof Cliente ? CLIENTE : FUNCIONARIO);
         return Jwts.builder()
-                .setSubject(utilizador.getEmail())
+                .setSubject(utilizador.getId() + "")
                 .claim("Role", role.toString())
                 .setExpiration(expiration)
                 .setIssuer(ISSUER)
@@ -94,6 +95,21 @@ public class UtilizadorServiceImpl implements UtilizadorService {
     }
 
     @Override
+    public Optional<? extends Utilizador> get(long uid) {
+        Optional<? extends Utilizador> utilizador = Optional.empty();
+        Optional<Cliente> cliente = clienteDAO.find(uid);
+        if (cliente.isPresent()) {
+            utilizador = cliente;
+        } else {
+            Optional<Funcionario> funcionario = funcionarioDAO.find(uid);
+            if (funcionario.isPresent()) {
+                utilizador = funcionario;
+            }
+        }
+        return utilizador;
+    }
+
+    @Override
     public Optional<? extends Utilizador> verify(String token) {
         Jws<Claims> claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
         return get(claims.getBody().getSubject().toString());
@@ -108,6 +124,40 @@ public class UtilizadorServiceImpl implements UtilizadorService {
             }
         }
         return Optional.empty();
+    }
+
+    @Override
+    public void atualizarDados(long uid, Map<String, String> dados) {
+        Optional<? extends Utilizador> utilizador = get(uid);
+        if (utilizador.isPresent()) {
+            Utilizador u = utilizador.get();
+            if (dados.containsKey("nome")) {
+                u.setNome(dados.get("nome"));
+            }
+            if (dados.containsKey("telemovel")) {
+                u.setTelemovel(dados.get("telemovel"));
+            }
+
+            if (u instanceof Cliente) {
+                Cliente c = (Cliente) u;
+                if (dados.containsKey("localidade")) {
+                    c.setLocalidade(dados.get("localidade"));
+                }
+                if (dados.containsKey("rua")) {
+                    c.setRua(dados.get("rua"));
+                }
+                if (dados.containsKey("codigoPostal")) {
+                    c.setCodigoPostal(dados.get("codigoPostal"));
+                }
+                if (dados.containsKey("contribuinte")) {
+                    c.setContribuinte(dados.get("contribuint"));
+                }
+                clienteDAO.update(c);
+            } else {
+                Funcionario f = (Funcionario) u;
+                funcionarioDAO.update(f);
+            }
+        }
     }
 }
 

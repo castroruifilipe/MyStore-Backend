@@ -20,6 +20,7 @@ public class Creator<T> {
     protected Number number;
     protected Lorem lorem;
     protected DateAndTime dateAndTime;
+    protected Shakespeare shakespeare;
     protected long idSeq;
 
     public Creator(){
@@ -34,6 +35,7 @@ public class Creator<T> {
         this.number = faker.number();
         this.lorem = faker.lorem();
         this.dateAndTime = faker.date();
+        this.shakespeare = faker.shakespeare();
         this.idSeq = 0;
     }
 

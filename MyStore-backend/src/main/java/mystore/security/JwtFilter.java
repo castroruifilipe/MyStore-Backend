@@ -30,7 +30,7 @@ public class JwtFilter extends GenericFilterBean {
         try {
             final Claims claims = Jwts.parser().setSigningKey("SECRET")
                     .parseClaimsJws(token).getBody();
-            request.setAttribute("claims", claims);
+            request.setAttribute("uid", claims.getSubject());
         } catch (final SignatureException e) {
             throw new ServletException("Token inválido");
         }
