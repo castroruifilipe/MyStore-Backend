@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,6 +23,11 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Transactional
     public List<Produto> list() {
         return produtoDAO.getAll();
+    }
+
+    @Override
+    public Optional<Produto> get(long codigo) {
+        return produtoDAO.find(codigo);
     }
 
     @Override

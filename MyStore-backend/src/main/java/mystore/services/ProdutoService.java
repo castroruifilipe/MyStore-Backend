@@ -5,10 +5,13 @@ import mystore.models.Produto;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProdutoService extends GenericService<Produto> {
 
     List<Produto> list();
+
+    Optional<Produto> get(long codigo);
 
     List<Produto> novidades(int quantidadeProdutos);
 

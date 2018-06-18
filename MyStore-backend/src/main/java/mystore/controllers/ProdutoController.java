@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityExistsException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +37,9 @@ public class ProdutoController {
         return produtoService.list();
     }
 
-    @RequestMapping(method = POST)
-    public Produto save(@RequestBody Map<String, String> body) {
-        return new Produto();
-    }
-
-    @RequestMapping(value = "/{id}", method = GET)
-    public Produto get(@PathVariable String id) {
-        return new Produto();
+    @RequestMapping(value = "/{codigo}", method = GET)
+    public Produto get(@PathVariable long codigo) {
+        return produtoService.get(codigo).orElseThrow(() -> new EntityExistsException("Produto não existe"));
     }
 
     @RequestMapping(value = "/novidades/{quantidadeProdutos}", method = GET)
