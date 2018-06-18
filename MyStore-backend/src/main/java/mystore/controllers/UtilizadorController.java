@@ -78,7 +78,10 @@ public class UtilizadorController {
         if (!body.containsKey("oldPassword") || !body.containsKey("newPassword")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
-        utilizadorService.alterarPassword(uid, body.get("oldPassword"), body.get("newPassword"));
+        boolean r = utilizadorService.alterarPassword(uid, body.get("oldPassword"), body.get("newPassword"));
+        if (!r) {
+            throw new AuthenticationCredentialsNotFoundException("Credenciais inválidas");
+        }
     }
 
 }
