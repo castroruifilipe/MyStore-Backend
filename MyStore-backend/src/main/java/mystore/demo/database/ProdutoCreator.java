@@ -18,7 +18,7 @@ public class ProdutoCreator extends Creator<Produto> {
 
             Produto produto = new Produto();
             produto.setNome(commerce.productName());
-            produto.setDescricao(lorem.paragraph(4));
+            produto.setDescricao(lorem.paragraph(3));
             produto.setIva(number.numberBetween(10,23) / 100.0f);
             produto.setPrecoBase(number.randomDouble(2, 1,100));
             produto.setStock(number.numberBetween(0,300));

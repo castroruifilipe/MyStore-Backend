@@ -20,6 +20,7 @@ public class Produto implements Serializable {
     @Column(nullable = false)
     private String nome;
 
+    @Column(columnDefinition = "TEXT")
     private String descricao;
 
     @Column(name = "preco_base", nullable = false)
