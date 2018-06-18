@@ -17,13 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
 import static java.time.ZoneOffset.UTC;
-import static java.util.Collections.*;
 import static mystore.models.enums.RoleUtilizador.CLIENTE;
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
 
@@ -113,6 +111,24 @@ public class UtilizadorServiceImpl implements UtilizadorService {
     public Optional<? extends Utilizador> verify(String token) {
         Jws<Claims> claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
         return get(claims.getBody().getSubject().toString());
+    }
+
+    @Override
+    public boolean alterarPassword(long uid, String oldPassword, String newPassword) {
+        Optional<? extends Utilizador> u = get(uid);
+        if (u.isPresent()) {
+            Utilizador utilizador = u.get();
+            if (bCryptPasswordEncoder.matches(oldPassword, utilizador.getPassword())) {
+                utilizador.setPassword(bCryptPasswordEncoder.encode(newPassword));
+                if (utilizador instanceof Cliente) {
+                    clienteDAO.update((Cliente) utilizador);
+                } else {
+                    funcionarioDAO.update((Funcionario) utilizador);
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

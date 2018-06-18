@@ -75,6 +75,10 @@ public class UtilizadorController {
 
     @RequestMapping(path = "/alterarPassword", method = PUT)
     public void alterarPassword(@RequestAttribute long uid, @RequestBody Map<String, String> body) {
-
+        if (!body.containsKey("oldPassword") || !body.containsKey("newPassword")) {
+            throw new IllegalArgumentException("Dados inválidos");
+        }
+        utilizadorService.alterarPassword(uid, body.get("oldPassword"), body.get("newPassword"));
     }
+
 }

@@ -21,4 +21,6 @@ public interface UtilizadorService {
     Optional<? extends Utilizador> get(long uid);
 
     Optional<? extends Utilizador> verify(String accessToken);
+
+    boolean alterarPassword(long uid, String oldPassword, String newPassword);
 }

@@ -45,7 +45,12 @@ public class MyStoreBackendApplication {
     public FilterRegistrationBean getJwtFilter() {
         final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         registrationBean.setFilter(new JwtFilter());
-        registrationBean.addUrlPatterns("/clientes/*", "/utilizadores/editarDados", "/utilizadores/dados");
+        registrationBean.addUrlPatterns(
+                "/clientes/*",
+                "/utilizadores/editarDados",
+                "/utilizadores/dados",
+                "/utilizadores/alterarPassword"
+        );
         return registrationBean;
     }
 
