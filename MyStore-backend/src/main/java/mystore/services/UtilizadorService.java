@@ -12,7 +12,7 @@ public interface UtilizadorService {
 
     Optional<? extends Utilizador> signin(String email, String password);
 
-    void atualizarDados(long uid, Map<String, String> dados);
+    Optional<? extends Utilizador> atualizarDados(long uid, Map<String, String> dados);
 
     String tokenFor(Utilizador utilizador);
 

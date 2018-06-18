@@ -127,7 +127,7 @@ public class UtilizadorServiceImpl implements UtilizadorService {
     }
 
     @Override
-    public void atualizarDados(long uid, Map<String, String> dados) {
+    public Optional<? extends Utilizador> atualizarDados(long uid, Map<String, String> dados) {
         Optional<? extends Utilizador> utilizador = get(uid);
         if (utilizador.isPresent()) {
             Utilizador u = utilizador.get();
@@ -150,13 +150,17 @@ public class UtilizadorServiceImpl implements UtilizadorService {
                     c.setCodigoPostal(dados.get("codigoPostal"));
                 }
                 if (dados.containsKey("contribuinte")) {
-                    c.setContribuinte(dados.get("contribuint"));
+                    c.setContribuinte(dados.get("contribuinte"));
                 }
                 clienteDAO.update(c);
+                return Optional.of(c);
             } else {
                 Funcionario f = (Funcionario) u;
                 funcionarioDAO.update(f);
+                return Optional.of(f);
             }
+        } else {
+            return Optional.empty();
         }
     }
 }
