@@ -51,7 +51,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public void save(Produto objToSave) {
-        produtoDAO.save(objToSave);
+    public void save(Produto produto) {
+        produtoDAO.save(produto);
     }
 }

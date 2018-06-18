@@ -2,6 +2,7 @@ package mystore.services;
 
 import mystore.models.Funcionario;
 
-public interface FuncionarioService extends GenericService<Funcionario> {
+public interface FuncionarioService {
 
+    void save(Funcionario funcionario);
 }

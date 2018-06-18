@@ -7,9 +7,11 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProdutoService extends GenericService<Produto> {
+public interface ProdutoService {
 
     List<Produto> list();
+
+    void save(Produto produto);
 
     Optional<Produto> get(long codigo);
 
