@@ -31,6 +31,7 @@ public class EncomendaServiceImpl implements EncomendaService {
     }
 
     @Override
+    @Transactional
     public List<Encomenda> list() {
         return encomendaDAO.getAll();
     }

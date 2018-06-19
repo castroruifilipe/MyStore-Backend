@@ -11,5 +11,5 @@ import java.util.List;
 
 @Repository("encomendaDAO")
 public class EncomendaDAOImpl extends GenericDAOImpl<Encomenda, Long> implements EncomendaDAO {
-    
+
 }
