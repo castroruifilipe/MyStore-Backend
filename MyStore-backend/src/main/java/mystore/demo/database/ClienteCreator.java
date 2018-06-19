@@ -1,31 +1,28 @@
 package mystore.demo.database;
 
-import com.github.javafaker.*;
-import mystore.models.Categoria;
 import mystore.models.Cliente;
 import mystore.models.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
 
 public class ClienteCreator extends Creator<Cliente> {
 
     protected Collection<Produto> produtos;
 
-    @Autowired
-    protected BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public ClienteCreator() {
+
+    public ClienteCreator(BCryptPasswordEncoder bCryptPasswordEncoder) {
         super();
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.produtos = null;
     }
 
-    public ClienteCreator(Collection<Produto> produtos) {
+    public ClienteCreator(Collection<Produto> produtos, BCryptPasswordEncoder bCryptPasswordEncoder) {
         super();
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.produtos = produtos;
     }
 

@@ -36,6 +36,9 @@ public class DatabaseCreator implements ApplicationRunner {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    protected BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Namespace namespace = Argparse.parse(args.getSourceArgs());
@@ -60,7 +63,7 @@ public class DatabaseCreator implements ApplicationRunner {
     }
 
     public void createClientes(int nClientes, Collection<Produto> produtos) {
-        ClienteCreator clienteCreator = new ClienteCreator();
+        ClienteCreator clienteCreator = new ClienteCreator(bCryptPasswordEncoder);
         clienteCreator.addCliente("ruicastroleite@outlook.com", "Rui Leite", "123");
         clienteCreator.addCliente("diogomachado@gmail.com", "Diogo Machado", "123");
         clienteCreator.addCliente("andrerfcsantos@gmail.com", "André Santos", "123");
