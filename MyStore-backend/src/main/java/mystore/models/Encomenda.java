@@ -1,6 +1,7 @@
 package mystore.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
 
@@ -19,9 +20,9 @@ public class Encomenda {
     @GeneratedValue
     private long id;
 
+    @JsonIgnoreProperties("encomendas")
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cliente")
-    @JsonBackReference
     private Cliente cliente;
 
     @Enumerated(EnumType.STRING)
