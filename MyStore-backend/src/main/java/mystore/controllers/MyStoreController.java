@@ -14,7 +14,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping("/mystore")
-public class MyStoreController {
+public class  MyStoreController {
 
     @Autowired
     private MyStoreService myStoreService;

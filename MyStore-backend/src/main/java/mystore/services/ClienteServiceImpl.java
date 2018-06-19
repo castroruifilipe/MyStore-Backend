@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -19,4 +20,7 @@ public class ClienteServiceImpl implements ClienteService {
     public void save(Cliente objToSave) {
         clienteDAO.save(objToSave);
     }
+
+    @Override
+    public Optional<Cliente>  get(long uid) { return clienteDAO.find(uid);}
 }

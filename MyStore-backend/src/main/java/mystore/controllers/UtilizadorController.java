@@ -28,7 +28,7 @@ public class UtilizadorController {
     private UtilizadorService utilizadorService;
 
 
-    @RequestMapping(path = "signin", method = POST)
+    @RequestMapping(path = "/signin", method = POST)
     public Utilizador signin(@RequestBody Map<String, String> credentials, HttpServletResponse response) {
         if (!credentials.containsKey("email") || !credentials.containsKey("password")) {
             throw new IllegalArgumentException("Credenciais inválidas");

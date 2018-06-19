@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Table(name = "encomenda")
 public class Encomenda {
@@ -15,6 +17,10 @@ public class Encomenda {
     @Id
     @GeneratedValue
     private long id;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "cliente")
+    private Cliente cliente;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -36,7 +42,7 @@ public class Encomenda {
     @JoinColumn(name = "pagamento")
     private Pagamento pagamento;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "encomenda")
+    @OneToMany(fetch = LAZY, cascade = CascadeType.ALL, mappedBy = "encomenda")
     private Set<LinhaEncomenda> linhasEncomenda;
 
     @Column
@@ -45,7 +51,6 @@ public class Encomenda {
     @Enumerated(EnumType.STRING)
     @Column(name = "metodo_pagamento", nullable = false)
     private MetodoPagamento metodoPagamento;
-
 
 
     public Encomenda() {
@@ -129,6 +134,14 @@ public class Encomenda {
 
     public void setMetodoPagamento(MetodoPagamento metodoPagamento) {
         this.metodoPagamento = metodoPagamento;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     @Override

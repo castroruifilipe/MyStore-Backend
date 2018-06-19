@@ -8,6 +8,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Table(name = "cliente")
 public class Cliente extends Utilizador implements Serializable {
@@ -21,7 +24,7 @@ public class Cliente extends Utilizador implements Serializable {
 
     private String codigoPostal;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "cliente")
     @JoinColumn(name = "cliente")
     private Set<Encomenda> encomendas = new HashSet();
 

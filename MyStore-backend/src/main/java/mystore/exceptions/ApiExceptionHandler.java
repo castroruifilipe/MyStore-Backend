@@ -1,5 +1,7 @@
 package mystore.exceptions;
 
+import com.mchange.rmi.NotAuthorizedException;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,6 +11,8 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.persistence.EntityExistsException;
 
+import java.nio.file.AccessDeniedException;
+
 import static mystore.exceptions.ApiErrorResponse.ApiErrorResponseBuilder;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
@@ -17,7 +21,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 public class ApiExceptionHandler {
 
     @ResponseStatus(FORBIDDEN)
-    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    @ExceptionHandler({AuthenticationCredentialsNotFoundException.class, AccessDeniedException.class})
     public final ApiErrorResponse handleUserNotFoundException(Exception exception, WebRequest request) {
         ApiErrorResponse errorResponse = ApiErrorResponseBuilder.anApiErrorResponse()
                 .withStatus(FORBIDDEN)

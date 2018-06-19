@@ -3,6 +3,7 @@ package mystore.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
+import mystore.models.enums.RoleUtilizador;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -31,6 +32,7 @@ public class JwtFilter extends GenericFilterBean {
             final Claims claims = Jwts.parser().setSigningKey("SECRET")
                     .parseClaimsJws(token).getBody();
             request.setAttribute("uid", claims.getSubject());
+            request.setAttribute("role", claims.get("role", RoleUtilizador.class));
         } catch (final SignatureException e) {
             throw new ServletException("Token inválido");
         }
