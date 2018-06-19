@@ -36,7 +36,7 @@ public class EncomendaController {
     @RequestMapping(method = GET)
     public List<Encomenda> list(@RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
-            throw new AuthorizationServiceException("Sem autorização");
+            //throw new AuthorizationServiceException("Sem autorização");
         }
         return encomendaService.list();
     }
