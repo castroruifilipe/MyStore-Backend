@@ -1,13 +1,11 @@
 package mystore.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.FetchType.LAZY;
@@ -39,14 +37,12 @@ public class Encomenda {
     private String endereco;
 
     @Column(nullable = false)
-    private float portes;
-
-    @OneToOne
-    @JoinColumn(name = "pagamento")
-    private Pagamento pagamento;
+    private double portes;
 
     @OneToMany(fetch = LAZY, cascade = CascadeType.ALL, mappedBy = "encomenda")
     private Set<LinhaEncomenda> linhasEncomenda;
+
+    private double total;
 
     @Column
     private LocalDate dataPagamento;
@@ -95,20 +91,20 @@ public class Encomenda {
         this.endereco = endereco;
     }
 
-    public float getPortes() {
+    public double getPortes() {
         return portes;
     }
 
-    public void setPortes(float portes) {
+    public void setPortes(double portes) {
         this.portes = portes;
     }
 
-    public Pagamento getPagamento() {
-        return pagamento;
+    public double getTotal() {
+        return total;
     }
 
-    public void setPagamento(Pagamento pagamento) {
-        this.pagamento = pagamento;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public Set<LinhaEncomenda> getLinhasEncomenda() {

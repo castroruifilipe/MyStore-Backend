@@ -36,11 +36,19 @@ public class EncomendaCreator extends Creator<Encomenda> {
             encomenda.setEndereco(address.fullAddress());
             encomenda.setEstado(estado);
             encomenda.setTrackingID(number.numberBetween(0, 10000000));
-            encomenda.setPortes((float) number.randomDouble(2, 0, 4));
+            encomenda.setPortes(number.randomDouble(2, 0, 4));
             encomenda.setMetodoPagamento(metodoPagamento);
             encomenda.setCliente(cli);
 
-            encomenda.setLinhasEncomenda(createLinhasEncomenda(encomenda, nLinhas, produtos));
+            Set<LinhaEncomenda> linhas = createLinhasEncomenda(encomenda, nLinhas, produtos);
+            encomenda.setLinhasEncomenda(linhas);
+
+            double total = linhas
+                    .stream()
+                    .mapToDouble(linha -> linha.getQuantidade() * (linha.getPrecoUnitario() - linha.getValorDesconto()))
+                    .sum();
+
+            encomenda.setTotal(total);
 
             if (encomenda.getEstado() != EstadoEncomenda.AGUARDA_PAGAMENTO
                     && encomenda.getEstado() != EstadoEncomenda.CANCELADA) {
@@ -62,9 +70,8 @@ public class EncomendaCreator extends Creator<Encomenda> {
             linhaEncomenda.setEncomenda(encomenda);
             linhaEncomenda.setQuantidade(number.numberBetween(1, 5));
             linhaEncomenda.setValorDesconto(0);
-            float precoUnitario = (float) rp.getPrecoBase() * (1 + rp.getIva());
-            float precoTotal = (precoUnitario * linhaEncomenda.getQuantidade()) - linhaEncomenda.getValorDesconto();
-            linhaEncomenda.setPreco(precoUnitario);
+            double precoUnitario = rp.getPrecoBase() * (1 + rp.getIva());
+            linhaEncomenda.setPrecoUnitario(precoUnitario);
 
             linhas.add(linhaEncomenda);
         }

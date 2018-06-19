@@ -21,11 +21,11 @@ public class LinhaEncomenda implements Serializable {
     @Column(nullable = false)
     private int quantidade;
 
-    @Column(nullable = false)
-    private float preco;
+    @Column(name = "preco_unitario", nullable = false)
+    private double precoUnitario;
 
     @Column(nullable = false)
-    private float valorDesconto;
+    private double valorDesconto;
 
 
     public LinhaEncomenda() {
@@ -63,19 +63,19 @@ public class LinhaEncomenda implements Serializable {
         this.quantidade = quantidade;
     }
 
-    public float getPreco() {
-        return preco;
+    public double getPrecoUnitario() {
+        return precoUnitario;
     }
 
-    public void setPreco(float preco) {
-        this.preco = preco;
+    public void setPrecoUnitario(double preco) {
+        this.precoUnitario = preco;
     }
 
-    public float getValorDesconto() {
+    public double getValorDesconto() {
         return valorDesconto;
     }
 
-    public void setValorDesconto(float valorDesconto) {
+    public void setValorDesconto(double valorDesconto) {
         this.valorDesconto = valorDesconto;
     }
 
@@ -87,8 +87,8 @@ public class LinhaEncomenda implements Serializable {
         LinhaEncomenda that = (LinhaEncomenda) o;
         return id == that.id &&
                 quantidade == that.quantidade &&
-                Float.compare(that.preco, preco) == 0 &&
-                Float.compare(that.valorDesconto, valorDesconto) == 0 &&
+                Double.compare(that.precoUnitario, precoUnitario) == 0 &&
+                Double.compare(that.valorDesconto, valorDesconto) == 0 &&
                 Objects.equals(produto, that.produto) &&
                 Objects.equals(encomenda, that.encomenda);
     }
@@ -96,6 +96,6 @@ public class LinhaEncomenda implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, produto, encomenda, quantidade, preco, valorDesconto);
+        return Objects.hash(id, produto, encomenda, quantidade, precoUnitario, valorDesconto);
     }
 }

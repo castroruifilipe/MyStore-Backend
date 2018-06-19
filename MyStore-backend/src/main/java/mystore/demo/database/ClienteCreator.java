@@ -4,6 +4,8 @@ import com.github.javafaker.*;
 import mystore.models.Categoria;
 import mystore.models.Cliente;
 import mystore.models.Produto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -13,6 +15,9 @@ import java.util.Set;
 public class ClienteCreator extends Creator<Cliente> {
 
     protected Collection<Produto> produtos;
+
+    @Autowired
+    protected BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public ClienteCreator() {
         super();
@@ -30,7 +35,7 @@ public class ClienteCreator extends Creator<Cliente> {
             Cliente cli = new Cliente();
             cli.setEmail(internet.emailAddress());
             cli.setNome(name.nameWithMiddle());
-            cli.setPassword("123");
+            cli.setPassword(bCryptPasswordEncoder.encode("123"));
             cli.setTelemovel(phoneNumber.cellPhone());
             cli.setAtivo(true);
             cli.setRua(address.streetAddress());
@@ -52,7 +57,7 @@ public class ClienteCreator extends Creator<Cliente> {
         Cliente cli = new Cliente();
         cli.setEmail(email);
         cli.setNome(name);
-        cli.setPassword(password);
+        cli.setPassword(bCryptPasswordEncoder.encode(password));
         cli.setTelemovel(phoneNumber.cellPhone());
         cli.setAtivo(true);
 

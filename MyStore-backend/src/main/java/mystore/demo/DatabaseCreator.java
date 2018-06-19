@@ -9,14 +9,12 @@ import mystore.models.Categoria;
 import mystore.models.Cliente;
 import mystore.models.Encomenda;
 import mystore.models.Produto;
-import mystore.services.CategoriaService;
-import mystore.services.ClienteService;
-import mystore.services.EncomendaService;
-import mystore.services.ProdutoService;
+import mystore.services.*;
 import net.sourceforge.argparse4j.inf.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -37,10 +35,6 @@ public class DatabaseCreator implements ApplicationRunner {
 
     @Autowired
     private ClienteService clienteService;
-
-    @Autowired
-    private EncomendaService encomendaService;
-
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -83,15 +77,5 @@ public class DatabaseCreator implements ApplicationRunner {
             produtoService.save(produto);
         }
     }
-
-
-//    private void addLoja() {
-//        Set<Produto> produtos = new HashSet<>(produtoService.list());
-//        Loja loja = new Loja();
-//        loja.setNome("MyStore");
-//        loja.setLocalizacao(faker.address().fullAddress());
-//        loja.setProdutos(produtos);
-//        lojaService.save(loja);
-//    }
 
 }
