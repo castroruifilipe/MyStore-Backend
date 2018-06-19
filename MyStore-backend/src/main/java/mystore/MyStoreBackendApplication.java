@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -50,7 +51,7 @@ public class MyStoreBackendApplication {
                 "/utilizadores/editarDados",
                 "/utilizadores/dados",
                 "/utilizadores/alterarPassword",
-                "/encomendas"
+                "/encomendas/*"
         );
         return registrationBean;
     }

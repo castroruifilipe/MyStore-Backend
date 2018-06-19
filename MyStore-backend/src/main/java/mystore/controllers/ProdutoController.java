@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ public class ProdutoController {
 
     @RequestMapping(value = "/{codigo}", method = GET)
     public Produto get(@PathVariable long codigo) {
-        return produtoService.get(codigo).orElseThrow(() -> new EntityExistsException("Produto não existe"));
+        return produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
     }
 
     @RequestMapping(value = "/novidades/{quantidadeProdutos}", method = GET)
@@ -53,7 +54,7 @@ public class ProdutoController {
     }
 
     @RequestMapping(value = "/categoria/{categoria}", method = GET)
-    public List<Produto> porCategoria(@PathVariable String categoria, @RequestParam int pagina, @RequestParam int size) {
+    public List<Produto> ofCategoria(@PathVariable String categoria, @RequestParam int pagina, @RequestParam int size) {
         Optional<Categoria> categoria_obj = categoriaService.get(categoria);
         if (categoria_obj.isPresent()) {
             return produtoService.porCategoria(categoria_obj.get().getId(), pagina, size);

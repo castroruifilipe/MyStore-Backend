@@ -40,7 +40,7 @@ public class ClienteCreator extends Creator<Cliente> {
 
             if (produtos != null) {
                 EncomendaCreator encomendaCreator = new EncomendaCreator();
-                encomendaCreator.addRandomEncomendas(number.numberBetween(0, 10), produtos);
+                encomendaCreator.addRandomEncomendas(number.numberBetween(0, 10), produtos, cli);
                 cli.setEncomendas(encomendaCreator.getItems());
             }
 

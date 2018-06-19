@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.Optional;
@@ -65,12 +66,12 @@ public class UtilizadorController {
 
     @RequestMapping(path = "/editarDados", method = PUT)
     public Utilizador editarDados(@RequestAttribute long uid, @RequestBody Map<String, String> body) {
-        return utilizadorService.atualizarDados(uid, body).orElseThrow(() -> new EntityExistsException("Utilizador não existe"));
+        return utilizadorService.atualizarDados(uid, body).orElseThrow(() -> new EntityNotFoundException("Utilizador não existe"));
     }
 
     @RequestMapping(path = "/dados", method = GET)
     public Utilizador getDados(@RequestAttribute long uid) {
-        return utilizadorService.get(uid).orElseThrow(() -> new EntityExistsException("Utilizador não existe"));
+        return utilizadorService.get(uid).orElseThrow(() -> new EntityNotFoundException("Utilizador não existe"));
     }
 
     @RequestMapping(path = "/alterarPassword", method = PUT)

@@ -29,4 +29,9 @@ public class EncomendaServiceImpl implements EncomendaService {
         encomendaDAO.save(encomenda);
     }
 
+    @Override
+    public List<Encomenda> list() {
+        return encomendaDAO.getAll();
+    }
+
 }

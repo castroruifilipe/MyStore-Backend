@@ -8,12 +8,12 @@ import mystore.services.ClienteService;
 import mystore.services.EncomendaService;
 import mystore.services.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,20 +34,31 @@ public class EncomendaController {
 
 
     @RequestMapping(method = GET)
-    public List<Encomenda> getEncomendas(@RequestAttribute RoleUtilizador role) throws AccessDeniedException {
+    public List<Encomenda> list(@RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
-            throw new AccessDeniedException("Sem autorização");
+            throw new AuthorizationServiceException("Sem autorização");
         }
-        return new ArrayList<>();
+        return encomendaService.list();
     }
 
     @RequestMapping(path = "/cliente", method = GET)
-    public List<Encomenda> getEncomendas(@RequestAttribute long uid) {
+    public List<Encomenda> ofCliente(@RequestAttribute long uid) {
         Optional<Cliente> optionalCliente = clienteService.get(uid);
         if (optionalCliente.isPresent()) {
             return new ArrayList<>(optionalCliente.get().getEncomendas());
-        } else {
-            throw new EntityExistsException("Cliente não existe");
         }
+        throw new EntityNotFoundException("Cliente não existe");
+    }
+
+    @RequestMapping(path = "/{id}", method = GET)
+    public Encomenda get(@RequestAttribute long uid, @RequestAttribute RoleUtilizador role, @PathVariable long id) {
+        Optional<Encomenda> optionalEncomenda = encomendaService.get(id);
+        if (optionalEncomenda.isPresent()) {
+            Encomenda encomenda = optionalEncomenda.get();
+            if (role == FUNCIONARIO || encomenda.getCliente().getId() == uid) {
+                return encomenda;
+            }
+        }
+        throw new EntityNotFoundException("Encomenda não existe");
     }
 }

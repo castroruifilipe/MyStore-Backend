@@ -1,6 +1,7 @@
 package mystore.demo.database;
 
 import mystore.demo.RandomCollectionUtil;
+import mystore.models.Cliente;
 import mystore.models.Encomenda;
 import mystore.models.LinhaEncomenda;
 import mystore.models.Produto;
@@ -19,7 +20,7 @@ public class EncomendaCreator extends Creator<Encomenda> {
         super();
     }
 
-    public void addRandomEncomendas(int nEncomendas, Collection<Produto> produtos) {
+    public void addRandomEncomendas(int nEncomendas, Collection<Produto> produtos, Cliente cli) {
         Collection<EstadoEncomenda> estados = Arrays.asList(EstadoEncomenda.values());
         Collection<MetodoPagamento> metodosPagamento = Arrays.asList(MetodoPagamento.values());
 
@@ -37,6 +38,7 @@ public class EncomendaCreator extends Creator<Encomenda> {
             encomenda.setTrackingID(number.numberBetween(0, 10000000));
             encomenda.setPortes((float) number.randomDouble(2, 0, 4));
             encomenda.setMetodoPagamento(metodoPagamento);
+            encomenda.setCliente(cli);
 
             encomenda.setLinhasEncomenda(createLinhasEncomenda(encomenda, nLinhas, produtos));
 
@@ -62,7 +64,7 @@ public class EncomendaCreator extends Creator<Encomenda> {
             linhaEncomenda.setValorDesconto(0);
             float precoUnitario = (float) rp.getPrecoBase() * (1 + rp.getIva());
             float precoTotal = (precoUnitario * linhaEncomenda.getQuantidade()) - linhaEncomenda.getValorDesconto();
-            linhaEncomenda.setPreco(precoTotal);
+            linhaEncomenda.setPreco(precoUnitario);
 
             linhas.add(linhaEncomenda);
         }

@@ -70,7 +70,7 @@ public class UtilizadorServiceImpl implements UtilizadorService {
         RoleUtilizador role = (utilizador instanceof Cliente ? CLIENTE : FUNCIONARIO);
         return Jwts.builder()
                 .setSubject(utilizador.getId() + "")
-                .claim("Role", role.toString())
+                .claim("role", role.toString())
                 .setExpiration(expiration)
                 .setIssuer(ISSUER)
                 .signWith(SignatureAlgorithm.HS512, SECRET)

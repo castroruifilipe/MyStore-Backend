@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureException;
 import mystore.models.enums.RoleUtilizador;
 import org.springframework.web.filter.GenericFilterBean;
 
+import javax.management.relation.Role;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -32,7 +33,10 @@ public class JwtFilter extends GenericFilterBean {
             final Claims claims = Jwts.parser().setSigningKey("SECRET")
                     .parseClaimsJws(token).getBody();
             request.setAttribute("uid", claims.getSubject());
-            request.setAttribute("role", claims.get("role", RoleUtilizador.class));
+
+            RoleUtilizador role = RoleUtilizador.valueOf((String) claims.get("role"));
+            request.setAttribute("role", role);
+
         } catch (final SignatureException e) {
             throw new ServletException("Token inválido");
         }

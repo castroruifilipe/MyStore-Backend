@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public class CarrinhoController {
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "addProduto", method = PUT)
     public void addProduto(@RequestParam long codigo, @RequestParam int quantidade, HttpSession session) {
-        Produto produto = produtoService.get(codigo).orElseThrow(() -> new EntityExistsException("Produto não existe"));
+        Produto produto = produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
         List<LinhaCarrinho> carrinho = new ArrayList<>();
         if (session.getAttribute("carrinho") != null) {
             carrinho = (List<LinhaCarrinho>) session.getAttribute("carrinho");
@@ -48,6 +48,6 @@ public class CarrinhoController {
                 }
             }
         }
-        throw new EntityExistsException("Produto não está no carrinho");
+        throw new EntityNotFoundException("Produto não está no carrinho");
     }
 }

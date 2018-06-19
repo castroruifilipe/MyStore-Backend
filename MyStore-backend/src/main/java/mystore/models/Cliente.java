@@ -25,7 +25,6 @@ public class Cliente extends Utilizador implements Serializable {
     private String codigoPostal;
 
     @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "cliente")
-    @JoinColumn(name = "cliente")
     private Set<Encomenda> encomendas = new HashSet();
 
 
