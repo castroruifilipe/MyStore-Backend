@@ -1,5 +1,6 @@
 package mystore.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
 
@@ -20,6 +21,7 @@ public class Encomenda {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "cliente")
+    @JsonBackReference
     private Cliente cliente;
 
     @Enumerated(EnumType.STRING)

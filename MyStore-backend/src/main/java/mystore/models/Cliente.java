@@ -1,5 +1,6 @@
 package mystore.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Cliente extends Utilizador implements Serializable {
     private String codigoPostal;
 
     @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "cliente")
+    @JsonManagedReference
     private Set<Encomenda> encomendas = new HashSet();
 
 

@@ -41,6 +41,7 @@ public class DatabaseCreator implements ApplicationRunner {
     @Autowired
     private EncomendaService encomendaService;
 
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         Namespace namespace = Argparse.parse(args.getSourceArgs());
