@@ -1,10 +1,7 @@
 package mystore.demo.database;
 
 import mystore.demo.RandomCollectionUtil;
-import mystore.models.Cliente;
-import mystore.models.Encomenda;
-import mystore.models.LinhaEncomenda;
-import mystore.models.Produto;
+import mystore.models.*;
 import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
 
@@ -31,9 +28,15 @@ public class EncomendaCreator extends Creator<Encomenda> {
             MetodoPagamento metodoPagamento = RandomCollectionUtil.choice(metodosPagamento);
             int nLinhas = number.numberBetween(0, 10);
 
+            Morada morada = new Morada();
+            morada.setRua(address.streetAddress());
+            morada.setCodigoPostal(address.zipCode());
+            morada.setLocalidade(address.city());
+
             Encomenda encomenda = new Encomenda();
             encomenda.setData(data);
-            encomenda.setEndereco(address.fullAddress());
+            encomenda.setMoradaEnvio(morada);
+            encomenda.setMoradaFaturacao(cli.getMorada());
             encomenda.setEstado(estado);
             encomenda.setTrackingID(number.numberBetween(0, 10000000));
             encomenda.setPortes(number.randomDouble(2, 0, 4));

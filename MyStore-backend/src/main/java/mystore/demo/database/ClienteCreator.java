@@ -1,6 +1,7 @@
 package mystore.demo.database;
 
 import mystore.models.Cliente;
+import mystore.models.Morada;
 import mystore.models.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,10 +36,14 @@ public class ClienteCreator extends Creator<Cliente> {
             cli.setPassword(bCryptPasswordEncoder.encode("123"));
             cli.setTelemovel(phoneNumber.cellPhone());
             cli.setAtivo(true);
-            cli.setRua(address.streetAddress());
-            cli.setCodigoPostal(address.zipCode());
-            cli.setLocalidade(address.city());
             cli.setContribuinte(idNumber.valid());
+
+            Morada morada = new Morada();
+            morada.setRua(address.streetAddress());
+            morada.setCodigoPostal(address.zipCode());
+            morada.setLocalidade(address.city());
+
+            cli.setMorada(morada);
 
             if (produtos != null) {
                 EncomendaCreator encomendaCreator = new EncomendaCreator();
@@ -57,11 +62,14 @@ public class ClienteCreator extends Creator<Cliente> {
         cli.setPassword(bCryptPasswordEncoder.encode(password));
         cli.setTelemovel(phoneNumber.cellPhone());
         cli.setAtivo(true);
-
-        cli.setRua(address.streetAddress());
-        cli.setCodigoPostal(address.zipCode());
-        cli.setLocalidade(address.city());
         cli.setContribuinte(idNumber.valid());
+
+        Morada morada = new Morada();
+        morada.setRua(address.streetAddress());
+        morada.setCodigoPostal(address.zipCode());
+        morada.setLocalidade(address.city());
+
+        cli.setMorada(morada);
 
         items.add(cli);
     }

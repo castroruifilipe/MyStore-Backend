@@ -20,11 +20,9 @@ public class Cliente extends Utilizador implements Serializable {
     @Column(unique = true)
     private String contribuinte;
 
-    private String rua;
-
-    private String localidade;
-
-    private String codigoPostal;
+    @OneToOne(fetch = EAGER, cascade = ALL)
+    @JoinColumn(name = "morada")
+    private Morada morada;
 
     @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "cliente")
     @JsonIgnoreProperties("cliente")
@@ -42,7 +40,6 @@ public class Cliente extends Utilizador implements Serializable {
         this.contribuinte = contribuinte;
     }
 
-
     public Set<Encomenda> getEncomendas() {
         return encomendas;
     }
@@ -51,28 +48,12 @@ public class Cliente extends Utilizador implements Serializable {
         this.encomendas = encomendas;
     }
 
-    public String getRua() {
-        return rua;
+    public Morada getMorada() {
+        return morada;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-
-    public String getLocalidade() {
-        return localidade;
-    }
-
-    public void setLocalidade(String localidade) {
-        this.localidade = localidade;
-    }
-
-    public String getCodigoPostal() {
-        return codigoPostal;
-    }
-
-    public void setCodigoPostal(String codigoPostal) {
-        this.codigoPostal = codigoPostal;
+    public void setMorada(Morada morada) {
+        this.morada = morada;
     }
 
     @Override
@@ -81,16 +62,11 @@ public class Cliente extends Utilizador implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Cliente cliente = (Cliente) o;
-        return Objects.equals(contribuinte, cliente.contribuinte) &&
-                Objects.equals(rua, cliente.rua) &&
-                Objects.equals(localidade, cliente.localidade) &&
-                Objects.equals(codigoPostal, cliente.codigoPostal) &&
-                Objects.equals(encomendas, cliente.encomendas);
+        return Objects.equals(contribuinte, cliente.contribuinte);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(super.hashCode(), contribuinte, rua, localidade, codigoPostal, encomendas);
+        return Objects.hash(super.hashCode(), contribuinte, morada, encomendas);
     }
 }

@@ -8,6 +8,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Set;
 
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -33,13 +35,19 @@ public class Encomenda {
     @Column(name = "tracking_id", nullable = false)
     private int trackingID;
 
-    @Column(nullable = false)
-    private String endereco;
+    @OneToOne(fetch = EAGER, cascade = ALL)
+    @JoinColumn(name = "morada_envio")
+    private Morada moradaEnvio;
+
+    @OneToOne(fetch = EAGER, cascade = ALL)
+    @JoinColumn(name = "morada_faturacao")
+    private Morada moradaFaturacao;
 
     @Column(nullable = false)
     private double portes;
 
-    @OneToMany(fetch = LAZY, cascade = CascadeType.ALL, mappedBy = "encomenda")
+    @JsonIgnoreProperties("encomenda")
+    @OneToMany(fetch = EAGER, cascade = ALL, mappedBy = "encomenda")
     private Set<LinhaEncomenda> linhasEncomenda;
 
     private double total;
@@ -83,12 +91,20 @@ public class Encomenda {
         this.trackingID = trackingID;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public Morada getMoradaEnvio() {
+        return moradaEnvio;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setMoradaEnvio(Morada moradaEnvio) {
+        this.moradaEnvio = moradaEnvio;
+    }
+
+    public Morada getMoradaFaturacao() {
+        return moradaFaturacao;
+    }
+
+    public void setMoradaFaturacao(Morada moradaFaturacao) {
+        this.moradaFaturacao = moradaFaturacao;
     }
 
     public double getPortes() {
@@ -147,9 +163,7 @@ public class Encomenda {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Encomenda encomenda = (Encomenda) o;
-
         return getTrackingID() == encomenda.getTrackingID();
     }
 

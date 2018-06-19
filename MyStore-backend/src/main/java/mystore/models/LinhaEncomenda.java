@@ -85,17 +85,12 @@ public class LinhaEncomenda implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LinhaEncomenda that = (LinhaEncomenda) o;
-        return id == that.id &&
-                quantidade == that.quantidade &&
-                Double.compare(that.precoUnitario, precoUnitario) == 0 &&
-                Double.compare(that.valorDesconto, valorDesconto) == 0 &&
-                Objects.equals(produto, that.produto) &&
+        return Objects.equals(produto, that.produto) &&
                 Objects.equals(encomenda, that.encomenda);
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, produto, encomenda, quantidade, precoUnitario, valorDesconto);
     }
 }

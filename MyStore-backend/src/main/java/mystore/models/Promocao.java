@@ -97,7 +97,6 @@ public class Promocao implements Serializable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, desconto, descricao, dataInicio, dataFim, produtos);
     }
 }

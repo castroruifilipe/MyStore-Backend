@@ -3,6 +3,7 @@ package mystore.models;
 public class LinhaCarrinho {
 
     private Produto produto;
+
     private int quantidade;
 
 

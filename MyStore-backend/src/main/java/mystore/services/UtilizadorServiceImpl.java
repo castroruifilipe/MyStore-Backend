@@ -8,6 +8,7 @@ import mystore.daos.ClienteDAO;
 import mystore.daos.FuncionarioDAO;
 import mystore.models.Cliente;
 import mystore.models.Funcionario;
+import mystore.models.Morada;
 import mystore.models.Utilizador;
 import mystore.models.enums.RoleUtilizador;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,18 +157,20 @@ public class UtilizadorServiceImpl implements UtilizadorService {
 
             if (u instanceof Cliente) {
                 Cliente c = (Cliente) u;
+                Morada m = c.getMorada();
                 if (dados.containsKey("localidade")) {
-                    c.setLocalidade(dados.get("localidade"));
+                    m.setLocalidade(dados.get("localidade"));
                 }
                 if (dados.containsKey("rua")) {
-                    c.setRua(dados.get("rua"));
+                    m.setRua(dados.get("rua"));
                 }
                 if (dados.containsKey("codigoPostal")) {
-                    c.setCodigoPostal(dados.get("codigoPostal"));
+                    m.setCodigoPostal(dados.get("codigoPostal"));
                 }
                 if (dados.containsKey("contribuinte")) {
                     c.setContribuinte(dados.get("contribuinte"));
                 }
+                c.setMorada(m);
                 clienteDAO.update(c);
                 return Optional.of(c);
             } else {

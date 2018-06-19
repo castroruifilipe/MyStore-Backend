@@ -1,5 +1,6 @@
 package mystore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
@@ -7,6 +8,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+
+import static javax.persistence.CascadeType.*;
+import static javax.persistence.FetchType.*;
 
 @Entity
 @Table(name = "produto")
@@ -39,14 +43,15 @@ public class Produto implements Serializable {
     @JoinColumn(name = "categoria")
     private Categoria categoria;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {PERSIST, MERGE})
     @JoinTable(name = "produto_promocao",
             joinColumns = @JoinColumn(name = "produto"),
             inverseJoinColumns = @JoinColumn(name = "promocao")
     )
     private Set<Promocao> promocoes = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "produto")
+    @JsonIgnoreProperties("produto")
+    @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "produto")
     private Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
 
 
@@ -144,9 +149,7 @@ public class Produto implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Produto produto = (Produto) o;
-
         return getNome().equals(produto.getNome());
     }
 

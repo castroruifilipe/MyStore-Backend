@@ -12,7 +12,7 @@ public class Categoria {
     @GeneratedValue
     private long id;
 
-    @Column(name="descricao", unique = true, nullable = false)
+    @Column(unique = true, nullable = false)
     private String descricao;
 
     @OneToMany
@@ -23,12 +23,11 @@ public class Categoria {
     public Categoria() {
     }
 
-
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    private void setId(long id) {
         this.id = id;
     }
 
@@ -52,9 +51,7 @@ public class Categoria {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Categoria categoria = (Categoria) o;
-
         return getDescricao().equals(categoria.getDescricao());
     }
 
