@@ -159,6 +159,9 @@ public class UtilizadorServiceImpl implements UtilizadorService {
             if (u instanceof Cliente) {
                 Cliente c = (Cliente) u;
                 Morada m = c.getMorada();
+                if (m == null) {
+                    m = new Morada();
+                }
                 if (dados.containsKey("localidade")) {
                     m.setLocalidade(dados.get("localidade"));
                 }
