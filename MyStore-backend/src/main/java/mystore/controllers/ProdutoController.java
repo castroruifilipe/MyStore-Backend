@@ -64,7 +64,7 @@ public class ProdutoController {
         return produtoService.search(value);
     }
 
-    @RequestMapping(value = "/search/{categoria}", method = GET)
+    @RequestMapping(value = "/search/categoria/{categoria}", method = GET)
     public List<Produto> search(@PathVariable String categoria, @RequestParam String value) {
         Optional<Categoria> categoria_obj = categoriaService.get(categoria);
         if (categoria_obj.isPresent()) {
