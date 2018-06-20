@@ -1,5 +1,7 @@
 package mystore.models;
 
+import java.util.Objects;
+
 public class LinhaCarrinho {
 
     private Produto produto;
@@ -29,5 +31,19 @@ public class LinhaCarrinho {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LinhaCarrinho that = (LinhaCarrinho) o;
+        return quantidade == that.quantidade &&
+                Objects.equals(produto, that.produto);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(produto, quantidade);
     }
 }
