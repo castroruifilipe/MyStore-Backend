@@ -1,10 +1,8 @@
 package mystore.services;
 
 import mystore.daos.ProdutoDAO;
-import mystore.models.Categoria;
 import mystore.models.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +40,12 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public List<Produto> porCategoria(long categoria, int pagina, int size) {
-        return produtoDAO.listPaginated(categoria, (pagina - 1) * size, size);
+        return produtoDAO.listByCategoria(categoria, (pagina - 1) * size, size);
+    }
+
+    @Override
+    public List<Produto> porCategoria(long categoria, int size) {
+        return produtoDAO.listByCategoria(categoria, 0, size);
     }
 
     @Override

@@ -61,19 +61,27 @@ public class ProdutoController {
 
     @RequestMapping(value = "/search", method = GET)
     public List<Produto> search(@RequestParam String value) {
-        System.out.println("\n\n" + value);
         return produtoService.search(value);
     }
 
     @RequestMapping(value = "/search/categoria", method = GET)
     public List<Produto> search(@RequestParam String categoria, @RequestParam String value) {
-        System.out.println("\n\n" + categoria + "  "  + value);
         Optional<Categoria> categoria_obj = categoriaService.get(categoria);
         if (categoria_obj.isPresent()) {
             return produtoService.search(categoria_obj.get().getId(), value);
         } else {
             return new ArrayList<>();
         }
+    }
+
+    @RequestMapping(value = "/relacionados/{quantidadeProdutos}", method = GET)
+    public List<Produto> relacionados(@PathVariable int quantidadeProdutos, @RequestParam long codigo) {
+        Optional<Produto> optionalProduto = produtoService.get(codigo);
+        if (optionalProduto.isPresent()) {
+            long categoria = optionalProduto.get().getCategoria().getId();
+            return produtoService.porCategoria(categoria, quantidadeProdutos);
+        }
+        throw new EntityNotFoundException("Produto não existe");
     }
 
 }

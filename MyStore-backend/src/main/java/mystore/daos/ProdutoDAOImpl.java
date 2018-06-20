@@ -56,7 +56,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
     }
 
     @Override
-    public List<Produto> listPaginated(long categoria, int firstResult, int maxResults) {
+    public List<Produto> listByCategoria(long categoria, int firstResult, int maxResults) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
         Root<Produto> root = criteriaQuery.from(type);
