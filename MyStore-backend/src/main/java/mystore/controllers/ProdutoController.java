@@ -14,6 +14,8 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -78,8 +80,13 @@ public class ProdutoController {
     public List<Produto> relacionados(@PathVariable int quantidadeProdutos, @RequestParam long codigo) {
         Optional<Produto> optionalProduto = produtoService.get(codigo);
         if (optionalProduto.isPresent()) {
+            Predicate<Produto> notSame = produto -> produto.getCodigo() != codigo;
             long categoria = optionalProduto.get().getCategoria().getId();
-            return produtoService.porCategoria(categoria, quantidadeProdutos);
+            return produtoService
+                    .porCategoria(categoria, quantidadeProdutos)
+                    .parallelStream()
+                    .filter(notSame)
+                    .collect(Collectors.toList());
         }
         throw new EntityNotFoundException("Produto não existe");
     }
