@@ -49,8 +49,8 @@ public class ProdutoController {
         return produtoService.maisVendidos(quantidadeProdutos);
     }
 
-    @RequestMapping(value = "/categoria/{categoria}", method = GET)
-    public List<Produto> ofCategoria(@PathVariable String categoria, @RequestParam int pagina, @RequestParam int size) {
+    @RequestMapping(value = "/categoria", method = GET)
+    public List<Produto> ofCategoria(@RequestParam String categoria, @RequestParam int pagina, @RequestParam int size) {
         Optional<Categoria> categoria_obj = categoriaService.get(categoria);
         if (categoria_obj.isPresent()) {
             return produtoService.porCategoria(categoria_obj.get().getId(), pagina, size);
@@ -61,11 +61,13 @@ public class ProdutoController {
 
     @RequestMapping(value = "/search", method = GET)
     public List<Produto> search(@RequestParam String value) {
+        System.out.println("\n\n" + value);
         return produtoService.search(value);
     }
 
-    @RequestMapping(value = "/search/categoria/{categoria}", method = GET)
-    public List<Produto> search(@PathVariable String categoria, @RequestParam String value) {
+    @RequestMapping(value = "/search/categoria", method = GET)
+    public List<Produto> search(@RequestParam String categoria, @RequestParam String value) {
+        System.out.println("\n\n" + categoria + "  "  + value);
         Optional<Categoria> categoria_obj = categoriaService.get(categoria);
         if (categoria_obj.isPresent()) {
             return produtoService.search(categoria_obj.get().getId(), value);

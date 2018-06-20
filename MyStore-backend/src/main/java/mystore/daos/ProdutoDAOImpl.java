@@ -74,8 +74,8 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         criteriaQuery
                 .select(root)
                 .where(criteriaBuilder.or(
-                        criteriaBuilder.like(root.get("nome"), value),
-                        criteriaBuilder.like(root.get("descricao"), value))
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("nome")), "%" + value.toLowerCase() + "%"),
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("descricao")), "%" + value.toLowerCase() + "%"))
                 );
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
@@ -89,8 +89,8 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
                 .select(root)
                 .where(criteriaBuilder.and(
                         criteriaBuilder.or(
-                                criteriaBuilder.like(root.get("nome"), value),
-                                criteriaBuilder.like(root.get("descricao"), value))),
+                                criteriaBuilder.like(criteriaBuilder.lower(root.get("nome")), "%" + value.toLowerCase() + "%"),
+                                criteriaBuilder.like(criteriaBuilder.lower(root.get("descricao")), "%" + value.toLowerCase() + "%"))),
                         criteriaBuilder.equal(root.get("categoria"), categoria)
                 );
         return entityManager.createQuery(criteriaQuery).getResultList();
