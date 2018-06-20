@@ -67,6 +67,36 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
     }
 
     @Override
+    public List<Produto> search(String value) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
+        Root<Produto> root = criteriaQuery.from(type);
+        criteriaQuery
+                .select(root)
+                .where(criteriaBuilder.or(
+                        criteriaBuilder.like(root.get("nome"), value),
+                        criteriaBuilder.like(root.get("descricao"), value))
+                );
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public List<Produto> search(long categoria, String value) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
+        Root<Produto> root = criteriaQuery.from(type);
+        criteriaQuery
+                .select(root)
+                .where(criteriaBuilder.and(
+                        criteriaBuilder.or(
+                                criteriaBuilder.like(root.get("nome"), value),
+                                criteriaBuilder.like(root.get("descricao"), value))),
+                        criteriaBuilder.equal(root.get("categoria"), categoria)
+                );
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
     public List<Produto> findPromocao() {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);

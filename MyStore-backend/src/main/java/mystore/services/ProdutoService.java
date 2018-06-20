@@ -22,4 +22,8 @@ public interface ProdutoService {
     List<Produto> porCategoria(long categoria, int pagina, int size);
 
     List<Produto> listPromocao();
+
+    List<Produto> search(String value);
+
+    List<Produto> search(long categoria, String value);
 }

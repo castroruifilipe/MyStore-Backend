@@ -51,6 +51,16 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    public List<Produto> search(String value) {
+        return produtoDAO.search(value);
+    }
+
+    @Override
+    public List<Produto> search(long categoria, String value) {
+        return produtoDAO.search(categoria, value);
+    }
+
+    @Override
     public void save(Produto produto) {
         produtoDAO.save(produto);
     }

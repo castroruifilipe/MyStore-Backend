@@ -57,7 +57,21 @@ public class ProdutoController {
         } else {
             return new ArrayList<>();
         }
+    }
 
+    @RequestMapping(value = "/search", method = GET)
+    public List<Produto> search(@RequestParam String value) {
+        return produtoService.search(value);
+    }
+
+    @RequestMapping(value = "/search/{categoria}", method = GET)
+    public List<Produto> search(@PathVariable String categoria, @RequestParam String value) {
+        Optional<Categoria> categoria_obj = categoriaService.get(categoria);
+        if (categoria_obj.isPresent()) {
+            return produtoService.search(categoria_obj.get().getId(), value);
+        } else {
+            return new ArrayList<>();
+        }
     }
 
 }

@@ -13,5 +13,9 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long> {
 
     List<Produto> listPaginated(long categoria, int firstResult, int lastResult);
 
+    List<Produto> search(String value);
+
+    List<Produto> search(long categoria, String value);
+
     List<Produto> findPromocao();
 }
