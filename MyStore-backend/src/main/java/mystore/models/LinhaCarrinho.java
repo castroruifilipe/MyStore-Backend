@@ -33,17 +33,20 @@ public class LinhaCarrinho {
         this.quantidade = quantidade;
     }
 
+    public void addQuantidade(int quantidade) {
+        this.quantidade += quantidade;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LinhaCarrinho that = (LinhaCarrinho) o;
-        return quantidade == that.quantidade &&
-                Objects.equals(produto, that.produto);
+        return Objects.equals(produto, that.produto);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(produto, quantidade);
+        return Objects.hash(produto.getCodigo());
     }
 }

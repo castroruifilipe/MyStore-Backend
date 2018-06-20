@@ -40,6 +40,12 @@ public class Carrinho {
     }
 
     public void addProduto(Produto produto, int quantidade) {
+        for (LinhaCarrinho linha : linhasCarrinho) {
+            if (linha.getProduto().getCodigo() == produto.getCodigo()) {
+                linha.addQuantidade(quantidade);
+                return;
+            }
+        }
         linhasCarrinho.add(new LinhaCarrinho(produto, quantidade));
     }
 
