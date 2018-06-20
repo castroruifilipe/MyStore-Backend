@@ -1,20 +1,17 @@
 package mystore.controllers;
 
-import com.mchange.rmi.NotAuthorizedException;
 import mystore.models.Cliente;
 import mystore.models.Encomenda;
 import mystore.models.enums.RoleUtilizador;
 import mystore.services.ClienteService;
 import mystore.services.EncomendaService;
-import mystore.services.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AuthorizationServiceException;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
-import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

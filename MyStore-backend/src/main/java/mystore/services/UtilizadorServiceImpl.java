@@ -144,6 +144,7 @@ public class UtilizadorServiceImpl implements UtilizadorService {
     }
 
     @Override
+    @Transactional
     public Optional<? extends Utilizador> atualizarDados(long uid, Map<String, String> dados) {
         Optional<? extends Utilizador> utilizador = get(uid);
         if (utilizador.isPresent()) {

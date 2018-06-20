@@ -1,7 +1,5 @@
 package mystore.controllers;
 
-
-import mystore.models.MyStore;
 import mystore.services.MyStoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +12,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping("/mystore")
-public class  MyStoreController {
+public class MyStoreController {
 
     @Autowired
     private MyStoreService myStoreService;
