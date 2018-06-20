@@ -80,13 +80,7 @@ public class ProdutoController {
     public List<Produto> relacionados(@PathVariable int quantidadeProdutos, @RequestParam long codigo) {
         Optional<Produto> optionalProduto = produtoService.get(codigo);
         if (optionalProduto.isPresent()) {
-            Predicate<Produto> notSame = produto -> produto.getCodigo() != codigo;
-            long categoria = optionalProduto.get().getCategoria().getId();
-            return produtoService
-                    .porCategoria(categoria, quantidadeProdutos)
-                    .parallelStream()
-                    .filter(notSame)
-                    .collect(Collectors.toList());
+            return produtoService.related(optionalProduto.get(), quantidadeProdutos);
         }
         throw new EntityNotFoundException("Produto não existe");
     }

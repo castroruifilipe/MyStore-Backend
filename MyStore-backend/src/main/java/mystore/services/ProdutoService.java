@@ -21,7 +21,7 @@ public interface ProdutoService {
 
     List<Produto> porCategoria(long categoria, int pagina, int size);
 
-    List<Produto> porCategoria(long categoria, int size);
+    List<Produto> related(Produto produto, int size);
 
     List<Produto> listPromocao();
 

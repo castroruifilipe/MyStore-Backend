@@ -12,6 +12,7 @@ import javax.persistence.metamodel.Metamodel;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository("produtoDAO")
@@ -64,6 +65,19 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
                 .select(root)
                 .where(criteriaBuilder.equal(root.get("categoria"), categoria));
         return entityManager.createQuery(criteriaQuery).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+
+    @Override
+    public List<Produto> related(Produto produto, int maxResults) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
+        Root<Produto> root = criteriaQuery.from(type);
+        criteriaQuery
+                .select(root)
+                .where(criteriaBuilder.and(
+                        criteriaBuilder.equal(root.get("categoria"), produto.getCategoria().getId())),
+                        criteriaBuilder.notEqual(root.get("codigo"), produto.getCodigo()));
+        return entityManager.createQuery(criteriaQuery).setMaxResults(maxResults).getResultList();
     }
 
     @Override
