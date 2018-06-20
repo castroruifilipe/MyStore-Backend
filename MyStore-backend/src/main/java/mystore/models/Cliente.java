@@ -22,7 +22,7 @@ public class Cliente extends Utilizador implements Serializable {
 
     @OneToOne(fetch = EAGER, cascade = ALL)
     @JoinColumn(name = "morada")
-    private Morada morada;
+    private Morada morada = new Morada();
 
     @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "cliente")
     @JsonIgnoreProperties("cliente")
