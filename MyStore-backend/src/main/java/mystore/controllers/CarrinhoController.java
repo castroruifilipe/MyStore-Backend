@@ -24,7 +24,7 @@ public class CarrinhoController {
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/addProduto", method = PUT)
-    public void addProduto(@RequestParam long codigo, @RequestParam int quantidade, HttpSession session) {
+    public Carrinho addProduto(@RequestParam long codigo, @RequestParam int quantidade, HttpSession session) {
         Produto produto = produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
         Carrinho carrinho = new Carrinho();
         if (session.getAttribute("carrinho") != null) {
@@ -32,14 +32,16 @@ public class CarrinhoController {
         }
         carrinho.addProduto(produto, quantidade);
         session.setAttribute("carrinho", carrinho);
+        return carrinho;
     }
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/removeProduto", method = PUT)
-    public void removeProduto(@RequestParam long codigo, HttpSession session) {
+    public Carrinho removeProduto(@RequestParam long codigo, HttpSession session) {
         if (session.getAttribute("carrinho") != null) {
             Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
             carrinho.removeProduto(codigo);
+            return carrinho;
         }
         throw new EntityNotFoundException("Produto não está no carrinho");
     }
