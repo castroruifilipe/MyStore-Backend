@@ -1,52 +1,43 @@
 package mystore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 public class LinhaCarrinho {
 
-    private long codigoProduto;
+    @JsonIgnoreProperties(value = {"descricao", "stock", "iva", "dataRegisto", "categoria", "linhasEncomenda"})
+    private Produto produto;
 
-    private String nomeProduto;
+    //private long codigoProduto;
+
+    //private String nomeProduto;
 
     private int quantidade;
 
-    private double precoUnitario;
+    //private double precoUnitario;
 
     private double subTotal;
 
 
-    public LinhaCarrinho(long codigoProduto) {
+    /*public LinhaCarrinho(long codigoProduto) {
         this.codigoProduto = codigoProduto;
+    }*/
+
+    public LinhaCarrinho(Produto produto) {
+        this.produto = produto;
     }
 
-    public LinhaCarrinho(long codigoProduto, String nomeProduto, double precoUnitario, int quantidade) {
+    /*public LinhaCarrinho(long codigoProduto, String nomeProduto, double precoUnitario, int quantidade) {
         this.codigoProduto = codigoProduto;
         this.nomeProduto = nomeProduto;
         this.quantidade = quantidade;
         this.precoUnitario = precoUnitario;
         this.subTotal = this.quantidade * this.precoUnitario;
-    }
+    }*/
 
-    public long getCodigoProduto() {
-        return codigoProduto;
-    }
-
-    public void setCodigoProduto(long codigoProduto) {
-        this.codigoProduto = codigoProduto;
-    }
-
-    public String getNomeProduto() {
-        return nomeProduto;
-    }
-
-    public void setNomeProduto(String nomeProduto) {
-        this.nomeProduto = nomeProduto;
-    }
-
-    public double getPrecoUnitario() {
-        return precoUnitario;
-    }
-
-    public void setPrecoUnitario(double precoUnitario) {
-        this.precoUnitario = precoUnitario;
+    public LinhaCarrinho(Produto produto, int quantidade) {
+        this.produto = produto;
+        this.quantidade = quantidade;
+        this.subTotal = this.quantidade * produto.getPrecoFinal();
     }
 
     public double getSubTotal() {
@@ -61,14 +52,22 @@ public class LinhaCarrinho {
         return quantidade;
     }
 
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
-        this.subTotal = this.precoUnitario * this.quantidade;
+        this.subTotal = produto.getPrecoFinal() * this.quantidade;
     }
 
     public void addQuantidade(int quantidade) {
         this.quantidade += quantidade;
-        this.subTotal = this.precoUnitario * this.quantidade;
+        this.subTotal = produto.getPrecoFinal() * this.quantidade;
     }
 
 
@@ -77,11 +76,11 @@ public class LinhaCarrinho {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LinhaCarrinho that = (LinhaCarrinho) o;
-        return codigoProduto == that.codigoProduto;
+        return produto.getCodigo() == that.getProduto().getCodigo();
     }
 
     @Override
     public int hashCode() {
-        return Long.hashCode(codigoProduto);
+        return Long.hashCode(produto.getCodigo());
     }
 }

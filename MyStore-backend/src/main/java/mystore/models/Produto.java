@@ -134,6 +134,10 @@ public class Produto implements Serializable {
         this.dataRegisto = dataRegisto;
     }
 
+    public double getPrecoFinal() {
+        return precoPromocional != 0 ? precoPromocional : precoBase;
+    }
+
     @PrePersist
     public void setDataRegistoDefault() {
         if (this.getDataRegisto() == null) {

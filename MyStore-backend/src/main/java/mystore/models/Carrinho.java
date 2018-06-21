@@ -14,28 +14,24 @@ public class Carrinho {
     }
 
     public void addProduto(Produto produto, int quantidade) {
-        double precoUnitario;
-        if (produto.getPrecoPromocional() == 0) {
-            precoUnitario = produto.getPrecoBase();
-        } else {
-            precoUnitario = produto.getPrecoPromocional();
-        }
-
-        LinhaCarrinho linhaCarrinho = new LinhaCarrinho(produto.getCodigo(), produto.getNome(), precoUnitario, quantidade);
+        //LinhaCarrinho linhaCarrinho = new LinhaCarrinho(produto.getCodigo(), produto.getNome(), precoUnitario, quantidade);
+        LinhaCarrinho linhaCarrinho = new LinhaCarrinho(produto, quantidade);
         if (linhasCarrinho.contains(linhaCarrinho)) {
             linhaCarrinho = linhasCarrinho.get(linhasCarrinho.indexOf(linhaCarrinho));
-            if (linhaCarrinho.getPrecoUnitario() != precoUnitario) {
-                linhaCarrinho.setPrecoUnitario(precoUnitario);
+            if (linhaCarrinho.getProduto().getPrecoFinal() != produto.getPrecoFinal()) {
+                linhaCarrinho.setProduto(produto);
             }
             linhaCarrinho.addQuantidade(quantidade);
         } else {
             linhasCarrinho.add(linhaCarrinho);
         }
-        total += precoUnitario * quantidade;
+        total += produto.getPrecoFinal() * quantidade;
     }
 
     public void removeProduto(long codigoProduto) {
-        LinhaCarrinho linhaCarrinho = new LinhaCarrinho(codigoProduto);
+        Produto produto = new Produto();
+        produto.setCodigo(codigoProduto);
+        LinhaCarrinho linhaCarrinho = new LinhaCarrinho(produto);
         if (linhasCarrinho.contains(linhaCarrinho)) {
             total -= linhaCarrinho.getSubTotal();
             linhasCarrinho.remove(linhaCarrinho);
