@@ -41,4 +41,20 @@ public class Carrinho {
             linhasCarrinho.remove(linhaCarrinho);
         }
     }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public List<LinhaCarrinho> getLinhasCarrinho() {
+        return linhasCarrinho;
+    }
+
+    public void setLinhasCarrinho(List<LinhaCarrinho> linhasCarrinho) {
+        this.linhasCarrinho = linhasCarrinho;
+    }
 }

@@ -53,6 +53,10 @@ public class LinhaCarrinho {
         return subTotal;
     }
 
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
+    }
+
     public int getQuantidade() {
         return quantidade;
     }
@@ -66,6 +70,7 @@ public class LinhaCarrinho {
         this.quantidade += quantidade;
         this.subTotal = this.precoUnitario * this.quantidade;
     }
+
 
     @Override
     public boolean equals(Object o) {
