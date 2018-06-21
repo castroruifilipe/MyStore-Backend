@@ -33,7 +33,7 @@ public class PromocaoCreator extends Creator<Promocao> {
                 promocao.setProdutos(new HashSet<>(produtos.subList(index1, index2)));
             }
 
-            promocao.setDesconto(number.numberBetween(10, 80));
+            promocao.setDesconto(number.numberBetween(10, 80) / 100);
 
             LocalDate inicio, fim;
             Date inicio_d, fim_d;
