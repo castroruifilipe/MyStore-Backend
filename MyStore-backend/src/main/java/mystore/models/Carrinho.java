@@ -14,7 +14,6 @@ public class Carrinho {
     }
 
     public void addProduto(Produto produto, int quantidade) {
-        //LinhaCarrinho linhaCarrinho = new LinhaCarrinho(produto.getCodigo(), produto.getNome(), precoUnitario, quantidade);
         LinhaCarrinho linhaCarrinho = new LinhaCarrinho(produto, quantidade);
         if (linhasCarrinho.contains(linhaCarrinho)) {
             linhaCarrinho = linhasCarrinho.get(linhasCarrinho.indexOf(linhaCarrinho));
@@ -33,6 +32,7 @@ public class Carrinho {
         produto.setCodigo(codigoProduto);
         LinhaCarrinho linhaCarrinho = new LinhaCarrinho(produto);
         if (linhasCarrinho.contains(linhaCarrinho)) {
+            linhaCarrinho = linhasCarrinho.get(linhasCarrinho.indexOf(linhaCarrinho));
             total -= linhaCarrinho.getSubTotal();
             linhasCarrinho.remove(linhaCarrinho);
         }

@@ -7,32 +7,14 @@ public class LinhaCarrinho {
     @JsonIgnoreProperties(value = {"descricao", "stock", "iva", "dataRegisto", "categoria", "linhasEncomenda"})
     private Produto produto;
 
-    //private long codigoProduto;
-
-    //private String nomeProduto;
-
     private int quantidade;
-
-    //private double precoUnitario;
 
     private double subTotal;
 
 
-    /*public LinhaCarrinho(long codigoProduto) {
-        this.codigoProduto = codigoProduto;
-    }*/
-
     public LinhaCarrinho(Produto produto) {
         this.produto = produto;
     }
-
-    /*public LinhaCarrinho(long codigoProduto, String nomeProduto, double precoUnitario, int quantidade) {
-        this.codigoProduto = codigoProduto;
-        this.nomeProduto = nomeProduto;
-        this.quantidade = quantidade;
-        this.precoUnitario = precoUnitario;
-        this.subTotal = this.quantidade * this.precoUnitario;
-    }*/
 
     public LinhaCarrinho(Produto produto, int quantidade) {
         this.produto = produto;
@@ -69,7 +51,6 @@ public class LinhaCarrinho {
         this.quantidade += quantidade;
         this.subTotal = produto.getPrecoFinal() * this.quantidade;
     }
-
 
     @Override
     public boolean equals(Object o) {
