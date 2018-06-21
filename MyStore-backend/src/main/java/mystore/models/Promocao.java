@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Table(name = "promocao")
 public class Promocao implements Serializable {
@@ -27,8 +30,15 @@ public class Promocao implements Serializable {
     @Column(name = "data_fim", nullable = false)
     private LocalDate dataFim;
 
-    @ManyToMany(mappedBy = "promocoes", fetch = FetchType.EAGER)
+    @ManyToMany
+    @JoinTable(name = "produto_promocao",
+            joinColumns = @JoinColumn(name = "promocao"),
+            inverseJoinColumns = @JoinColumn(name = "produto")
+    )
     private Set<Produto> produtos = new HashSet<>();
+
+    @ManyToOne(fetch = LAZY)
+    private Categoria categoria;
 
 
     public Promocao() {
@@ -80,6 +90,24 @@ public class Promocao implements Serializable {
 
     public void setProdutos(Set<Produto> produtos) {
         this.produtos = produtos;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public double getPrecoFinal(double preco) {
+        return preco - (100 - desconto);
+    }
+
+    public boolean isAtual() {
+        LocalDate now = LocalDate.now();
+        return (now.isAfter(dataInicio) || now.isEqual(dataInicio)) &&
+                (now.isBefore(dataFim) || now.isEqual(dataFim));
     }
 
     @Override

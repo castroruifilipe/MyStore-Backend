@@ -3,8 +3,10 @@ package mystore.demo.database;
 import mystore.demo.RandomCollectionUtil;
 import mystore.models.Categoria;
 import mystore.models.Produto;
+import mystore.models.Promocao;
 
 import java.util.Collection;
+import java.util.List;
 
 
 public class ProdutoCreator extends Creator<Produto> {
@@ -29,6 +31,5 @@ public class ProdutoCreator extends Creator<Produto> {
             items.add(produto);
         }
     }
-
 
 }

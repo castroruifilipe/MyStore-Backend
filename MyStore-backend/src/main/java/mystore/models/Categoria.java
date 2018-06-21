@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "categoria")
 public class Categoria {
@@ -15,8 +17,7 @@ public class Categoria {
     @Column(unique = true, nullable = false)
     private String descricao;
 
-    @OneToMany
-    @JoinColumn(name = "categoria")
+    @OneToMany(mappedBy = "categoria", cascade = ALL)
     private Set<Promocao> promocoes = new HashSet<>();
 
 

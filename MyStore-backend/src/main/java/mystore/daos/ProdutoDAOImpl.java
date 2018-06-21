@@ -13,7 +13,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import static javax.persistence.criteria.JoinType.*;
 
 @Repository("produtoDAO")
 public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements ProdutoDAO {
@@ -38,7 +41,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<LinhaEncomenda> root = criteriaQuery.from(LinhaEncomenda.class);
 
-        Join<LinhaEncomenda, Produto> linhaEncomenda_produto = root.join("produto", JoinType.INNER);
+        Join<LinhaEncomenda, Produto> linhaEncomenda_produto = root.join("produto", INNER);
 
         Expression<?>[] expressions = new Expression[2];
         expressions[0] = linhaEncomenda_produto.get("codigo");
@@ -108,6 +111,28 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
                         criteriaBuilder.equal(root.get("categoria"), categoria)
                 );
         return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public void updatePrices(Promocao promocao) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaUpdate<Produto> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(type);
+        Root<Produto> root = criteriaUpdate.from(type);
+
+        criteriaUpdate
+                .set(root.<Double>get("precoPromocional"),
+                        criteriaBuilder.diff(root.get("precoBase"),
+                                criteriaBuilder.prod(root.get("precoBase"), promocao.getDesconto())));
+
+        if (promocao.getCategoria() != null) {
+            criteriaUpdate
+                    .where(criteriaBuilder.equal(root.get("categoria"), promocao.getCategoria().getId()));
+        } else {
+            Set<Long> ids = promocao.getProdutos().parallelStream().map(Produto::getCodigo).collect(Collectors.toSet());
+            criteriaUpdate
+                    .where(root.get("codigo").in(ids));
+        }
+        entityManager.createQuery(criteriaUpdate).executeUpdate();
     }
 
     @Override

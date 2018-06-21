@@ -1,14 +1,8 @@
 package mystore.demo;
 
 import mystore.argparse.Argparse;
-import mystore.demo.database.CategoriaCreator;
-import mystore.demo.database.ClienteCreator;
-import mystore.demo.database.EncomendaCreator;
-import mystore.demo.database.ProdutoCreator;
-import mystore.models.Categoria;
-import mystore.models.Cliente;
-import mystore.models.Encomenda;
-import mystore.models.Produto;
+import mystore.demo.database.*;
+import mystore.models.*;
 import mystore.services.*;
 import net.sourceforge.argparse4j.inf.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +11,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -37,6 +33,9 @@ public class DatabaseCreator implements ApplicationRunner {
     private ClienteService clienteService;
 
     @Autowired
+    PromocaoService promocaoService;
+
+    @Autowired
     protected BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -46,10 +45,15 @@ public class DatabaseCreator implements ApplicationRunner {
         if (namespace.getBoolean("createDB")) {
             // Create database
             createCategorias(namespace.getInt("nCategories"));
+            System.out.println("\nInseridas categorias.");
             List<Categoria> categorias = categoriaService.list();
             createProdutos(namespace.getInt("nProducts"), categorias);
+            System.out.println("\nInseridos produtos.");
             List<Produto> produtos = produtoService.list();
             createClientes(namespace.getInt("nClients"), produtos);
+            System.out.println("\nInseridos clientes.");
+            createPromocoes(produtos, categorias);
+            System.out.println("\nInseridas promoções.");
         }
 
     }
@@ -78,6 +82,14 @@ public class DatabaseCreator implements ApplicationRunner {
         produtoCreator.addRandomProducts(nProdutos, categorias);
         for (Produto produto : produtoCreator.getItems()) {
             produtoService.save(produto);
+        }
+    }
+
+    public void createPromocoes(Collection<Produto> produtos, Collection<Categoria> categorias) {
+        PromocaoCreator promocaoCreator = new PromocaoCreator();
+        promocaoCreator.addRandomPromocoes(new ArrayList<>(produtos), new ArrayList<>(categorias));
+        for (Promocao promocao : promocaoCreator.getItems()) {
+            promocaoService.save(promocao);
         }
     }
 

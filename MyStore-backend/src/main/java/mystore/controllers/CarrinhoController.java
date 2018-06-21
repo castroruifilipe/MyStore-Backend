@@ -2,18 +2,20 @@ package mystore.controllers;
 
 import mystore.models.Carrinho;
 import mystore.models.Produto;
+import mystore.models.Promocao;
 import mystore.services.ProdutoService;
+import mystore.services.PromocaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
-
 import java.util.Map;
+import java.util.Optional;
 
+import static java.util.AbstractMap.SimpleEntry;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
@@ -23,6 +25,9 @@ public class CarrinhoController {
 
     @Autowired
     private ProdutoService produtoService;
+
+    @Autowired
+    private PromocaoService promocaoService;
 
 
     @SuppressWarnings("unchecked")
@@ -35,6 +40,7 @@ public class CarrinhoController {
         int quantidade = Integer.valueOf(body.get("quantidade"));
 
         Produto produto = produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
+
         Carrinho carrinho = new Carrinho();
         if (session.getAttribute("carrinho") != null) {
             carrinho = (Carrinho) session.getAttribute("carrinho");
@@ -46,7 +52,12 @@ public class CarrinhoController {
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/removeProduto", method = PUT)
-    public Carrinho removeProduto(@RequestBody long codigo, HttpSession session) {
+    public Carrinho removeProduto(@RequestBody Map<String, String> body, HttpSession session) {
+        if (!body.containsKey("codigo")) {
+            throw new IllegalArgumentException("Dados inválidos");
+        }
+        long codigo = Long.valueOf(body.get("codigo"));
+
         if (session.getAttribute("carrinho") != null) {
             Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
             carrinho.removeProduto(codigo);

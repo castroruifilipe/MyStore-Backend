@@ -30,6 +30,9 @@ public class Produto implements Serializable {
     @Column(name = "preco_base", nullable = false)
     private double precoBase;
 
+    @Column(name = "preco_promocional", nullable = false)
+    private double precoPromocional;
+
     @Column(nullable = false)
     private int stock;
 
@@ -42,13 +45,6 @@ public class Produto implements Serializable {
     @ManyToOne
     @JoinColumn(name = "categoria")
     private Categoria categoria;
-
-    @ManyToMany(cascade = {PERSIST, MERGE})
-    @JoinTable(name = "produto_promocao",
-            joinColumns = @JoinColumn(name = "produto"),
-            inverseJoinColumns = @JoinColumn(name = "promocao")
-    )
-    private Set<Promocao> promocoes = new HashSet<>();
 
     @JsonIgnoreProperties("produto")
     @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "produto")
@@ -90,6 +86,14 @@ public class Produto implements Serializable {
         this.precoBase = precoBase;
     }
 
+    public double getPrecoPromocional() {
+        return precoPromocional;
+    }
+
+    public void setPrecoPromocional(double precoPromocional) {
+        this.precoPromocional = precoPromocional;
+    }
+
     public int getStock() {
         return stock;
     }
@@ -112,14 +116,6 @@ public class Produto implements Serializable {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
-    }
-
-    public Set<Promocao> getPromocoes() {
-        return promocoes;
-    }
-
-    public void setPromocoes(Set<Promocao> promocoes) {
-        this.promocoes = promocoes;
     }
 
     public Set<LinhaEncomenda> getLinhasEncomenda() {

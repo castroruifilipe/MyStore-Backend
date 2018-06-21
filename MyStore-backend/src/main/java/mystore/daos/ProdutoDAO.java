@@ -2,7 +2,9 @@ package mystore.daos;
 
 import mystore.models.Categoria;
 import mystore.models.Produto;
+import mystore.models.Promocao;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface ProdutoDAO extends GenericDAO<Produto, Long> {
@@ -18,6 +20,8 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long> {
     List<Produto> search(String value);
 
     List<Produto> search(long categoria, String value);
+
+    void updatePrices(Promocao promocao);
 
     List<Produto> findPromocao();
 }

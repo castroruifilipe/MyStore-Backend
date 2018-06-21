@@ -1,60 +1,44 @@
 package mystore.models;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Carrinho {
 
-    private long id;
+    private double total = 0;
 
-    private Cliente cliente;
-
-    private Set<LinhaCarrinho> linhasCarrinho = new HashSet<>();
+    private List<LinhaCarrinho> linhasCarrinho = new ArrayList<>();
 
 
     public Carrinho() {
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Set<LinhaCarrinho> getLinhasCarrinho() {
-        return linhasCarrinho;
-    }
-
-    public void setLinhasCarrinho(Set<LinhaCarrinho> linhasCarrinho) {
-        this.linhasCarrinho = linhasCarrinho;
-    }
-
     public void addProduto(Produto produto, int quantidade) {
-        for (LinhaCarrinho linha : linhasCarrinho) {
-            if (linha.getProduto().getCodigo() == produto.getCodigo()) {
-                linha.addQuantidade(quantidade);
-                return;
-            }
+        double precoUnitario;
+        if (produto.getPrecoPromocional() == 0) {
+            precoUnitario = produto.getPrecoBase();
+        } else {
+            precoUnitario = produto.getPrecoPromocional();
         }
-        linhasCarrinho.add(new LinhaCarrinho(produto, quantidade));
+
+        LinhaCarrinho linhaCarrinho = new LinhaCarrinho(produto.getCodigo(), produto.getNome(), precoUnitario, quantidade);
+        if (linhasCarrinho.contains(linhaCarrinho)) {
+            linhaCarrinho = linhasCarrinho.get(linhasCarrinho.indexOf(linhaCarrinho));
+            if (linhaCarrinho.getPrecoUnitario() != precoUnitario) {
+                linhaCarrinho.setPrecoUnitario(precoUnitario);
+            }
+            linhaCarrinho.addQuantidade(quantidade);
+        } else {
+            linhasCarrinho.add(linhaCarrinho);
+        }
+        total += precoUnitario * quantidade;
     }
 
-    public void removeProduto(long codigo) {
-        for (LinhaCarrinho linha : linhasCarrinho) {
-            if (linha.getProduto().getCodigo() == codigo) {
-                linhasCarrinho.remove(linha);
-                return;
-            }
+    public void removeProduto(long codigoProduto) {
+        LinhaCarrinho linhaCarrinho = new LinhaCarrinho(codigoProduto);
+        if (linhasCarrinho.contains(linhaCarrinho)) {
+            total -= linhaCarrinho.getSubTotal();
+            linhasCarrinho.remove(linhaCarrinho);
         }
     }
 }

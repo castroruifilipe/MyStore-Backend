@@ -4,6 +4,7 @@ import mystore.models.Categoria;
 import mystore.models.Produto;
 import mystore.services.CategoriaService;
 import mystore.services.ProdutoService;
+import mystore.services.PromocaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +15,6 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -29,6 +28,9 @@ public class ProdutoController {
 
     @Autowired
     private CategoriaService categoriaService;
+
+    @Autowired
+    private PromocaoService promocaoService;
 
 
     @RequestMapping(method = GET, produces = APPLICATION_JSON_VALUE)
