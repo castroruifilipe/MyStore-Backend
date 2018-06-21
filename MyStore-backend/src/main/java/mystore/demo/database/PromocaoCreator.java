@@ -32,8 +32,8 @@ public class PromocaoCreator extends Creator<Promocao> {
                 int index2 = number.numberBetween(index1, produtos.size() - 1);
                 promocao.setProdutos(new HashSet<>(produtos.subList(index1, index2)));
             }
-
-            promocao.setDesconto(number.numberBetween(10, 80) / 100);
+            
+            promocao.setDesconto(number.numberBetween(10, 80) / 100.0);
 
             LocalDate inicio, fim;
             Date inicio_d, fim_d;
