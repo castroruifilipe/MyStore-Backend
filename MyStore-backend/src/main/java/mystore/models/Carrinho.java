@@ -64,8 +64,8 @@ public class Carrinho {
     }
 
     public void clear() {
-        this.linhasCarrinho.clear();
-        this.total = 0;
+        linhasCarrinho = new ArrayList<>();
+        total = 0;
     }
 
     public double getTotal() {
