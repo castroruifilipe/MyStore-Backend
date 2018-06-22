@@ -1,7 +1,6 @@
 package mystore.models;
 
 
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +12,7 @@ import java.util.Map;
 import static org.springframework.context.annotation.ScopedProxyMode.INTERFACES;
 import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
 
-@Component
-@Scope(value = "session", proxyMode = TARGET_CLASS)
+
 public class Carrinho implements Serializable {
 
     private double total = 0;

@@ -22,78 +22,8 @@ public class CarrinhoController {
     @Autowired
     private ProdutoService produtoService;
 
-    @Autowired
-    private Carrinho carrinho;
-
 
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/addProduto", method = PUT)
-    public Carrinho addProduto(@RequestBody Map<String, String> body) {
-        if (!body.containsKey("codigo") || !body.containsKey("quantidade")) {
-            throw new IllegalArgumentException("Dados inválidos");
-        }
-        long codigo = Long.valueOf(body.get("codigo"));
-        int quantidade = Integer.valueOf(body.get("quantidade"));
-
-        Produto produto = produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
-
-        if (carrinho != null) {
-            carrinho.addProduto(produto, quantidade);
-        } else {
-            carrinho = new Carrinho();
-            carrinho.addProduto(produto, quantidade);
-        }
-        return carrinho;
-    }
-
-    @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/removeProduto", method = PUT)
-    public Carrinho removeProduto(@RequestBody Map<String, String> body) {
-        if (!body.containsKey("codigo")) {
-            throw new IllegalArgumentException("Dados inválidos");
-        }
-        long codigo = Long.valueOf(body.get("codigo"));
-
-        if (carrinho != null) {
-            carrinho.removeProduto(codigo);
-            return carrinho;
-        }
-        throw new EntityNotFoundException("Produto não está no carrinho");
-    }
-
-    @SuppressWarnings("unchecked")
-    @RequestMapping(method = GET)
-    public Carrinho get() {
-        if (carrinho == null) {
-            carrinho = new Carrinho();
-        }
-        return carrinho;
-    }
-
-    @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/clear", method = PUT)
-    public Carrinho clear() {
-        if (carrinho != null) {
-            carrinho.clear();
-        } else {
-            carrinho = new Carrinho();
-        }
-        return carrinho;
-    }
-
-    @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/update", method = PUT)
-    public Carrinho update(@RequestBody Map<Long, Integer> quantidades) {
-        if (carrinho != null) {
-            carrinho.update(quantidades);
-        } else {
-            carrinho = new Carrinho();
-        }
-        return carrinho;
-    }
-
-
-    /*@SuppressWarnings("unchecked")
     @RequestMapping(value = "/addProduto", method = PUT)
     public Carrinho addProduto(@RequestBody Map<String, String> body, HttpSession session) {
         if (!body.containsKey("codigo") || !body.containsKey("quantidade")) {
@@ -166,6 +96,6 @@ public class CarrinhoController {
             session.setAttribute("carrinho", carrinho);
         }
         return carrinho;
-    }*/
+    }
 
 }
