@@ -83,11 +83,15 @@ public class CarrinhoController {
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/clear", method = PUT)
     public Carrinho clear(HttpSession session) {
-        Carrinho carrinho = new Carrinho();
+        /*Carrinho carrinho = new Carrinho();
         if (session.getAttribute("carrinho") != null) {
             carrinho = (Carrinho) session.getAttribute("carrinho");
             carrinho.clear();
         }
+        session.setAttribute("carrinho", carrinho);
+        return carrinho;*/
+
+        Carrinho carrinho = new Carrinho();
         session.setAttribute("carrinho", carrinho);
         return carrinho;
     }
