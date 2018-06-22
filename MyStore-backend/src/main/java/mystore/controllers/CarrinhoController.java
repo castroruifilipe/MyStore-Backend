@@ -2,9 +2,7 @@ package mystore.controllers;
 
 import mystore.models.Carrinho;
 import mystore.models.Produto;
-import mystore.models.Promocao;
 import mystore.services.ProdutoService;
-import mystore.services.PromocaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-import static java.util.AbstractMap.SimpleEntry;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
@@ -27,9 +21,6 @@ public class CarrinhoController {
 
     @Autowired
     private ProdutoService produtoService;
-
-    @Autowired
-    private PromocaoService promocaoService;
 
 
     @SuppressWarnings("unchecked")
@@ -43,12 +34,14 @@ public class CarrinhoController {
 
         Produto produto = produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
 
-        Carrinho carrinho = new Carrinho();
-        if (session.getAttribute("carrinho") != null) {
-            carrinho = (Carrinho) session.getAttribute("carrinho");
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        if (carrinho != null) {
+            carrinho.addProduto(produto, quantidade);
+        } else {
+            carrinho = new Carrinho();
+            carrinho.addProduto(produto, quantidade);
+            session.setAttribute("carrinho", carrinho);
         }
-        carrinho.addProduto(produto, quantidade);
-        session.setAttribute("carrinho", carrinho);
         return carrinho;
     }
 
@@ -60,10 +53,9 @@ public class CarrinhoController {
         }
         long codigo = Long.valueOf(body.get("codigo"));
 
-        if (session.getAttribute("carrinho") != null) {
-            Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        if (carrinho != null) {
             carrinho.removeProduto(codigo);
-            session.setAttribute("carrinho", carrinho);
             return carrinho;
         }
         throw new EntityNotFoundException("Produto não está no carrinho");
@@ -72,37 +64,38 @@ public class CarrinhoController {
     @SuppressWarnings("unchecked")
     @RequestMapping(method = GET)
     public Carrinho get(HttpSession session) {
-        Carrinho carrinho = new Carrinho();
-        if (session.getAttribute("carrinho") != null) {
-            carrinho = (Carrinho) session.getAttribute("carrinho");
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        if (carrinho == null) {
+            carrinho = new Carrinho();
+            session.setAttribute("carrinho", carrinho);
         }
-        session.setAttribute("carrinho", carrinho);
         return carrinho;
     }
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/clear", method = PUT)
     public Carrinho clear(HttpSession session) {
-        Carrinho carrinho = new Carrinho();
-        if (session.getAttribute("carrinho") != null) {
-            carrinho = (Carrinho) session.getAttribute("carrinho");
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        if (carrinho != null) {
             carrinho.clear();
+        } else {
+            carrinho = new Carrinho();
+            session.setAttribute("carrinho", carrinho);
         }
-        session.setAttribute("carrinho", carrinho);
         return carrinho;
     }
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/update", method = PUT)
     public Carrinho update(@RequestBody Map<Long, Integer> quantidades, HttpSession session) {
-        Carrinho carrinho = new Carrinho();
-        if (session.getAttribute("carrinho") != null) {
-            carrinho = (Carrinho) session.getAttribute("carrinho");
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        if (carrinho != null) {
             carrinho.update(quantidades);
+        } else {
+            carrinho = new Carrinho();
+            session.setAttribute("carrinho", carrinho);
         }
-        session.setAttribute("carrinho", carrinho);
         return carrinho;
     }
-
 
 }
