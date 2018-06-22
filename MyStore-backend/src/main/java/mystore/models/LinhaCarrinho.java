@@ -2,7 +2,9 @@ package mystore.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-public class LinhaCarrinho {
+import java.io.Serializable;
+
+public class LinhaCarrinho implements Serializable {
 
     @JsonIgnoreProperties(value = {"descricao", "stock", "iva", "dataRegisto", "categoria", "linhasEncomenda"})
     private Produto produto;

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
 import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -17,7 +18,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 @RequestMapping("/carrinho")
-public class CarrinhoController {
+public class CarrinhoController implements Serializable {
 
     @Autowired
     private ProdutoService produtoService;

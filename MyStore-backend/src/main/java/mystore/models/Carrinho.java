@@ -3,15 +3,17 @@ package mystore.models;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static org.springframework.context.annotation.ScopedProxyMode.*;
+import static org.springframework.web.context.WebApplicationContext.*;
 
 @Component
-@Scope(value = "session", proxyMode = TARGET_CLASS)
+@Scope(value = SCOPE_SESSION, proxyMode = TARGET_CLASS)
 public class Carrinho {
 
     private double total = 0;
