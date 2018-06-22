@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class LinhaCarrinho implements Serializable {
 
-    @JsonIgnoreProperties(value = {"descricao", "stock", "iva", "dataRegisto", "categoria", "linhasEncomenda"})
+    @JsonIgnoreProperties(value = {"descricao", "iva", "dataRegisto", "categoria", "linhasEncomenda"})
     private Produto produto;
 
     private int quantidade;
