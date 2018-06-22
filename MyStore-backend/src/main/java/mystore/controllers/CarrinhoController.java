@@ -77,8 +77,10 @@ public class CarrinhoController {
     public Carrinho clear(HttpSession session) {
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho != null) {
+            System.out.println("\n\n\nAQUI1");
             carrinho.clear();
         } else {
+            System.out.println("\n\n\nAQUI2");
             carrinho = new Carrinho();
             session.setAttribute("carrinho", carrinho);
         }
