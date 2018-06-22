@@ -74,7 +74,7 @@ public class Carrinho implements Serializable {
 
     public void clear() {
         linhasCarrinho = new ArrayList<>();
-        total = 10;
+        total = 0;
     }
 
     public double getTotal() {
