@@ -12,6 +12,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
@@ -73,7 +74,7 @@ public class CarrinhoController {
     }
 
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/clear", method = PUT)
+    @RequestMapping(value = "/clear", method = DELETE)
     public Carrinho clear(HttpSession session) {
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho != null) {
