@@ -53,7 +53,7 @@ public class CarrinhoController {
     }
 
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/removeProduto", method = DELETE)
+    @RequestMapping(value = "/removeProduto", method = PUT)
     public Carrinho removeProduto(@RequestBody Map<String, String> body, HttpSession session) {
         if (!body.containsKey("codigo")) {
             throw new IllegalArgumentException("Dados inválidos");
@@ -80,7 +80,7 @@ public class CarrinhoController {
     }
 
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/clear", method = DELETE)
+    @RequestMapping(value = "/clear", method = PUT)
     public Carrinho clear(HttpSession session) {
         Carrinho carrinho = new Carrinho();
         if (session.getAttribute("carrinho") != null) {
