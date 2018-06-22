@@ -8,7 +8,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
 import static org.springframework.context.annotation.ScopedProxyMode.INTERFACES;
 import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
 
@@ -73,8 +75,8 @@ public class Carrinho implements Serializable {
     }
 
     public void clear() {
-        linhasCarrinho = new ArrayList<>();
-        total = 0;
+        List<Long> codigosProduto = linhasCarrinho.stream().map(linha -> linha.getProduto().getCodigo()).collect(toList());
+        codigosProduto.forEach(codigoProduto -> removeProduto(codigoProduto));
     }
 
     public double getTotal() {
