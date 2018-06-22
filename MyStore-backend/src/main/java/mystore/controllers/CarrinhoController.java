@@ -63,6 +63,7 @@ public class CarrinhoController {
         if (session.getAttribute("carrinho") != null) {
             Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
             carrinho.removeProduto(codigo);
+            session.setAttribute("carrinho", carrinho);
             return carrinho;
         }
         throw new EntityNotFoundException("Produto não está no carrinho");
@@ -71,12 +72,12 @@ public class CarrinhoController {
     @SuppressWarnings("unchecked")
     @RequestMapping(method = GET)
     public Carrinho get(HttpSession session) {
+        Carrinho carrinho = new Carrinho();
         if (session.getAttribute("carrinho") != null) {
-            Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
-            return carrinho;
-        } else {
-            return new Carrinho();
+            carrinho = (Carrinho) session.getAttribute("carrinho");
         }
+        session.setAttribute("carrinho", carrinho);
+        return carrinho;
     }
 
     @SuppressWarnings("unchecked")
@@ -87,19 +88,20 @@ public class CarrinhoController {
             carrinho = (Carrinho) session.getAttribute("carrinho");
             carrinho.clear();
         }
+        session.setAttribute("carrinho", carrinho);
         return carrinho;
     }
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/update", method = PUT)
     public Carrinho update(@RequestBody Map<Long, Integer> quantidades, HttpSession session) {
+        Carrinho carrinho = new Carrinho();
         if (session.getAttribute("carrinho") != null) {
-            Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+            carrinho = (Carrinho) session.getAttribute("carrinho");
             carrinho.update(quantidades);
-            return carrinho;
-        } else {
-            return new Carrinho();
         }
+        session.setAttribute("carrinho", carrinho);
+        return carrinho;
     }
 
 
