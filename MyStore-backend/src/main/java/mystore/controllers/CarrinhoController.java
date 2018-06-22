@@ -22,10 +22,13 @@ public class CarrinhoController {
     @Autowired
     private ProdutoService produtoService;
 
+    @Autowired
+    private Carrinho carrinho;
+
 
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/addProduto", method = PUT)
-    public Carrinho addProduto(@RequestBody Map<String, String> body, HttpSession session) {
+    public Carrinho addProduto(@RequestBody Map<String, String> body) {
         if (!body.containsKey("codigo") || !body.containsKey("quantidade")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
@@ -34,13 +37,11 @@ public class CarrinhoController {
 
         Produto produto = produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
 
-        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho != null) {
             carrinho.addProduto(produto, quantidade);
         } else {
             carrinho = new Carrinho();
             carrinho.addProduto(produto, quantidade);
-            session.setAttribute("carrinho", carrinho);
         }
         return carrinho;
     }
