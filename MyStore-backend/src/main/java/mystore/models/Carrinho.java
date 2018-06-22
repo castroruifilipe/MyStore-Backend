@@ -3,18 +3,17 @@ package mystore.models;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.springframework.context.annotation.ScopedProxyMode.*;
-import static org.springframework.web.context.WebApplicationContext.*;
+import static org.springframework.context.annotation.ScopedProxyMode.INTERFACES;
 
 @Component
-@Scope(value = SCOPE_SESSION, proxyMode = TARGET_CLASS)
-public class Carrinho {
+@Scope(value = "session", proxyMode = INTERFACES)
+public class Carrinho implements Serializable {
 
     private double total = 0;
 
