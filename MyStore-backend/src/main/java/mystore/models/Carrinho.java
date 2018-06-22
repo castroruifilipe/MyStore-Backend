@@ -57,12 +57,15 @@ public class Carrinho {
                 }
             }
         }
-
         total = 0;
         for (LinhaCarrinho linha : linhasCarrinho) {
             total += linha.getSubTotal();
         }
+    }
 
+    public void clear() {
+        this.linhasCarrinho.clear();
+        this.total = 0;
     }
 
     public double getTotal() {

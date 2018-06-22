@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import static java.util.AbstractMap.SimpleEntry;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
@@ -51,7 +53,7 @@ public class CarrinhoController {
     }
 
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/removeProduto", method = PUT)
+    @RequestMapping(value = "/removeProduto", method = DELETE)
     public Carrinho removeProduto(@RequestBody Map<String, String> body, HttpSession session) {
         if (!body.containsKey("codigo")) {
             throw new IllegalArgumentException("Dados inválidos");
@@ -78,8 +80,19 @@ public class CarrinhoController {
     }
 
     @SuppressWarnings("unchecked")
-    @RequestMapping(value = "/updateCarrinho", method = PUT)
-    public Carrinho updateCarrinho(@RequestBody Map<Long, Integer> quantidades, HttpSession session) {
+    @RequestMapping(value = "/clear", method = DELETE)
+    public Carrinho clear(HttpSession session) {
+        Carrinho carrinho = new Carrinho();
+        if (session.getAttribute("carrinho") != null) {
+            carrinho = (Carrinho) session.getAttribute("carrinho");
+            carrinho.clear();
+        }
+        return carrinho;
+    }
+
+    @SuppressWarnings("unchecked")
+    @RequestMapping(value = "/update", method = PUT)
+    public Carrinho update(@RequestBody Map<Long, Integer> quantidades, HttpSession session) {
         if (session.getAttribute("carrinho") != null) {
             Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
             carrinho.update(quantidades);
