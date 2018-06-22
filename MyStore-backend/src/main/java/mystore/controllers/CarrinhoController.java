@@ -93,6 +93,7 @@ public class CarrinhoController {
 
         Carrinho carrinho = new Carrinho();
         session.setAttribute("carrinho", carrinho);
+        System.out.println(session.getAttribute("carrinho").toString());
         return carrinho;
     }
 

@@ -83,4 +83,12 @@ public class Carrinho {
     public void setLinhasCarrinho(List<LinhaCarrinho> linhasCarrinho) {
         this.linhasCarrinho = linhasCarrinho;
     }
+
+    @Override
+    public String toString() {
+        return "Carrinho{" +
+                "total=" + total +
+                ", linhasCarrinho=" + linhasCarrinho +
+                '}';
+    }
 }
