@@ -48,6 +48,7 @@ public class CarrinhoController {
             carrinho = (Carrinho) session.getAttribute("carrinho");
         }
         carrinho.addProduto(produto, quantidade);
+        session.removeAttribute("carrinho");
         session.setAttribute("carrinho", carrinho);
         return carrinho;
     }
@@ -63,6 +64,7 @@ public class CarrinhoController {
         if (session.getAttribute("carrinho") != null) {
             Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
             carrinho.removeProduto(codigo);
+            session.removeAttribute("carrinho");
             session.setAttribute("carrinho", carrinho);
             return carrinho;
         }
@@ -76,6 +78,7 @@ public class CarrinhoController {
         if (session.getAttribute("carrinho") != null) {
             carrinho = (Carrinho) session.getAttribute("carrinho");
         }
+        session.removeAttribute("carrinho");
         session.setAttribute("carrinho", carrinho);
         return carrinho;
     }
@@ -101,6 +104,7 @@ public class CarrinhoController {
             carrinho = (Carrinho) session.getAttribute("carrinho");
             carrinho.update(quantidades);
         }
+        session.removeAttribute("carrinho");
         session.setAttribute("carrinho", carrinho);
         return carrinho;
     }
