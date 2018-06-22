@@ -76,4 +76,18 @@ public class CarrinhoController {
             return new Carrinho();
         }
     }
+
+    @SuppressWarnings("unchecked")
+    @RequestMapping(value = "/updateCarrinho", method = PUT)
+    public Carrinho updateCarrinho(@RequestBody Map<Long, Integer> quantidades, HttpSession session) {
+        if (session.getAttribute("carrinho") != null) {
+            Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+            carrinho.update(quantidades);
+            return carrinho;
+        } else {
+            return new Carrinho();
+        }
+    }
+
+
 }

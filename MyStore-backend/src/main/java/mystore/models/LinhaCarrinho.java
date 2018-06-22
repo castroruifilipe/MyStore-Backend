@@ -12,6 +12,9 @@ public class LinhaCarrinho {
     private double subTotal;
 
 
+    public LinhaCarrinho() {
+    }
+
     public LinhaCarrinho(Produto produto) {
         this.produto = produto;
     }
