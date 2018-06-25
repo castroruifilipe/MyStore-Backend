@@ -75,8 +75,8 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
                 .orderBy(porQuantidadeComprada);
 
         List<Object[]> list = entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
-        Map<Produto, Integer> result = new TreeMap<>();
-        list.forEach(object -> result.put(find((long) object[0]).get(), (int) object[1]));
+        Map<Produto, Long> result = new TreeMap<>();
+        list.forEach(object -> result.put(find((long) object[0]).get(), (long) object[1]));
         return result;
     }
 
