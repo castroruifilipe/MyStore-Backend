@@ -161,7 +161,7 @@ public class Encomenda {
             portes = 5.45;
         }
         if (total == 0.0) {
-            total = linhasEncomenda
+            total = portes + linhasEncomenda
                     .parallelStream()
                     .mapToDouble(LinhaEncomenda::getSubTotal)
                     .sum();
