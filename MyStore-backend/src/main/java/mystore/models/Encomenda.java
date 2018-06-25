@@ -12,6 +12,7 @@ import java.util.Set;
 import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
+import static mystore.models.enums.EstadoEncomenda.*;
 
 @Entity
 @Table(name = "encomenda")
@@ -150,21 +151,23 @@ public class Encomenda {
 
     @PrePersist
     public void setDefault() {
-        if (this.getData() == null) {
-            this.setData(LocalDate.now());
+        if (data == null) {
+            data = LocalDate.now();
         }
-        if (this.getDataPagamento() == null) {
-            this.setDataPagamento(LocalDate.now().plusDays(7));
+        if (dataPagamento == null) {
+            dataPagamento = LocalDate.now().plusDays(7);
         }
-        if (this.getPortes() == 0.0) {
-            this.setPortes(5.45);
+        if (portes == 0.0) {
+            portes = 5.45;
         }
-        if (this.getTotal() == 0.0) {
-            this.setTotal(this.getLinhasEncomenda()
+        if (total == 0.0) {
+            total = linhasEncomenda
                     .parallelStream()
                     .mapToDouble(LinhaEncomenda::getValorFinal)
-                    .sum()
-            );
+                    .sum();
+        }
+        if (estado == null) {
+            estado = AGUARDA_PAGAMENTO;
         }
     }
 
