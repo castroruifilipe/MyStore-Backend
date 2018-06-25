@@ -56,7 +56,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
     }
 
     @Override
-    public Map<Produto, Integer> maisVendidosComQtd(int quantidadeProdutos) {
+    public Map<Produto, Long> maisVendidosComQtd(int quantidadeProdutos) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<LinhaEncomenda> root = criteriaQuery.from(LinhaEncomenda.class);
