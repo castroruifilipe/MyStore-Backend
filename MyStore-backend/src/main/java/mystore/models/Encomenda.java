@@ -6,6 +6,7 @@ import mystore.models.enums.MetodoPagamento;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.*;
@@ -32,16 +33,12 @@ public class Encomenda {
     @Column(nullable = false)
     private LocalDate data;
 
-    @Column(name = "tracking_id", nullable = false)
-    private int trackingID;
+    @Column(name = "tracking_id", nullable = false, columnDefinition = "serial")
+    private long trackingID;
 
     @OneToOne(fetch = EAGER, cascade = ALL)
     @JoinColumn(name = "morada_envio")
     private Morada moradaEnvio;
-
-    @OneToOne(fetch = EAGER, cascade = ALL)
-    @JoinColumn(name = "morada_faturacao")
-    private Morada moradaFaturacao;
 
     @Column(nullable = false)
     private double portes;
@@ -83,11 +80,11 @@ public class Encomenda {
         this.data = data;
     }
 
-    public int getTrackingID() {
+    public long getTrackingID() {
         return trackingID;
     }
 
-    public void setTrackingID(int trackingID) {
+    public void setTrackingID(long trackingID) {
         this.trackingID = trackingID;
     }
 
@@ -97,14 +94,6 @@ public class Encomenda {
 
     public void setMoradaEnvio(Morada moradaEnvio) {
         this.moradaEnvio = moradaEnvio;
-    }
-
-    public Morada getMoradaFaturacao() {
-        return moradaFaturacao;
-    }
-
-    public void setMoradaFaturacao(Morada moradaFaturacao) {
-        this.moradaFaturacao = moradaFaturacao;
     }
 
     public double getPortes() {
@@ -159,6 +148,26 @@ public class Encomenda {
         this.cliente = cliente;
     }
 
+    @PrePersist
+    public void setDefault() {
+        if (this.getData() == null) {
+            this.setData(LocalDate.now());
+        }
+        if (this.getDataPagamento() == null) {
+            this.setDataPagamento(LocalDate.now().plusDays(7));
+        }
+        if (this.getPortes() == 0.0) {
+            this.setPortes(5.45);
+        }
+        if (this.getTotal() == 0.0) {
+            this.setTotal(this.getLinhasEncomenda()
+                    .parallelStream()
+                    .mapToDouble(LinhaEncomenda::getValorFinal)
+                    .sum()
+            );
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -169,6 +178,6 @@ public class Encomenda {
 
     @Override
     public int hashCode() {
-        return getTrackingID();
+        return Long.hashCode(trackingID);
     }
 }

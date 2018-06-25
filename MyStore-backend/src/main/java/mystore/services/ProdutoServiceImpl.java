@@ -39,6 +39,11 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    public List<Produto> emPromocao(int quantidadeProdutos) {
+        return produtoDAO.emPromocao(quantidadeProdutos);
+    }
+
+    @Override
     public List<Produto> porCategoria(long categoria, int pagina, int size) {
         return produtoDAO.listByCategoria(categoria, (pagina - 1) * size, size);
     }
@@ -46,11 +51,6 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public List<Produto> related(Produto produto, int size) {
         return produtoDAO.related(produto, size);
-    }
-
-    @Override
-    public List<Produto> listPromocao() {
-        return null;
     }
 
     @Override

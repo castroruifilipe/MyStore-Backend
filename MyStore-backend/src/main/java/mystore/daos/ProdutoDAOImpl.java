@@ -60,6 +60,18 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
     }
 
     @Override
+    public List<Produto> emPromocao(int quantidadeProdutos) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
+        Root<Produto> root = criteriaQuery.from(type);
+        Predicate emPromocao = criteriaBuilder.notEqual(root.get("precoPromocional"), 0.0);
+        criteriaQuery
+                .select(root)
+                .where(emPromocao);
+        return entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
+    }
+
+    @Override
     public List<Produto> listByCategoria(long categoria, int firstResult, int maxResults) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);

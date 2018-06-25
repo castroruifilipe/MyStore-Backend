@@ -1,10 +1,14 @@
 package mystore.controllers;
 
+import mystore.models.Carrinho;
 import mystore.models.Cliente;
 import mystore.models.Encomenda;
+import mystore.models.Morada;
+import mystore.models.enums.MetodoPagamento;
 import mystore.models.enums.RoleUtilizador;
 import mystore.services.ClienteService;
 import mystore.services.EncomendaService;
+import mystore.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -12,12 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/encomendas")
@@ -28,6 +35,9 @@ public class EncomendaController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private ProdutoService produtoService;
 
 
     @RequestMapping(method = GET)
@@ -58,4 +68,35 @@ public class EncomendaController {
         }
         throw new EntityNotFoundException("Encomenda não existe");
     }
+
+    @RequestMapping(path = "/checkout", method = POST)
+    public Encomenda checkout(Map<String, Object> body, @RequestAttribute long uid, HttpSession session) {
+        Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
+        if (carrinho == null) {
+            throw new EntityNotFoundException("Carrinho não existe");
+        }
+        if (carrinho.getLinhasCarrinho().isEmpty()) {
+            throw new EntityNotFoundException("Carrinho sem produtos");
+        }
+        if (!body.containsKey("moradaEnvio") || !body.containsKey("metodoPagamento")) {
+            throw new IllegalArgumentException("Dados inválidos");
+        }
+        MetodoPagamento metodoPagamento = MetodoPagamento.valueOf((String) body.get("metodoPagamento"));
+        Map<String, String> morada = (Map<String, String>) body.get("moradaEnvio");
+        if (!morada.containsKey("rua") || !morada.containsKey("localidade") || !morada.containsKey("codigoPostal")) {
+            throw new IllegalArgumentException("Dados inválidos");
+        }
+        Morada moradaEnvio = new Morada();
+        moradaEnvio.setRua(morada.get("rua"));
+        moradaEnvio.setLocalidade(morada.get("localidade"));
+        moradaEnvio.setCodigoPostal(morada.get("codigoPostal"));
+
+        Optional<Cliente> optionalCliente = clienteService.get(uid);
+        if (optionalCliente.isPresent()) {
+            Cliente cliente = optionalCliente.get();
+            return encomendaService.checkout(cliente, moradaEnvio, carrinho, metodoPagamento);
+        }
+        throw new EntityNotFoundException("Cliente não existe");
+    }
+
 }

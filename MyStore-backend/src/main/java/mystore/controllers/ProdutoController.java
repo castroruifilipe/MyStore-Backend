@@ -53,6 +53,11 @@ public class ProdutoController {
         return produtoService.maisVendidos(quantidadeProdutos);
     }
 
+    @RequestMapping(value = "/emPromocao/{quantidadeProdutos}", method = GET)
+    public List<Produto> emPromocao(@PathVariable int quantidadeProdutos) {
+        return produtoService.emPromocao(quantidadeProdutos);
+    }
+
     @RequestMapping(value = "/categoria", method = GET)
     public List<Produto> ofCategoria(@RequestParam String categoria, @RequestParam int pagina, @RequestParam int size) {
         Optional<Categoria> categoria_obj = categoriaService.get(categoria);

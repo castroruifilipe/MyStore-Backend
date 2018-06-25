@@ -36,10 +36,7 @@ public class EncomendaCreator extends Creator<Encomenda> {
             Encomenda encomenda = new Encomenda();
             encomenda.setData(data);
             encomenda.setMoradaEnvio(morada);
-            encomenda.setMoradaFaturacao(cli.getMorada());
             encomenda.setEstado(estado);
-            encomenda.setTrackingID(number.numberBetween(0, 10000000));
-            encomenda.setPortes(number.randomDouble(2, 0, 4));
             encomenda.setMetodoPagamento(metodoPagamento);
             encomenda.setCliente(cli);
 

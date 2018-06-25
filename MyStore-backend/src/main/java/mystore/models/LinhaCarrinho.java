@@ -57,8 +57,6 @@ public class LinhaCarrinho implements Serializable {
         this.subTotal = produto.getPrecoFinal() * this.quantidade;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

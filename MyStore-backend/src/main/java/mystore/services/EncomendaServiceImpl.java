@@ -2,14 +2,14 @@ package mystore.services;
 
 import mystore.daos.EncomendaDAO;
 import mystore.daos.LinhaEncomendaDAO;
-import mystore.models.Encomenda;
-import mystore.models.LinhaEncomenda;
+import mystore.models.*;
+import mystore.models.enums.MetodoPagamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 
 @Service
@@ -41,4 +41,20 @@ public class EncomendaServiceImpl implements EncomendaService {
         return encomendaDAO.find(id);
     }
 
+    @Override
+    public Encomenda checkout(Cliente cliente, Morada moradaEnvio, Carrinho carrinho, MetodoPagamento metodoPagamento) {
+        Encomenda encomenda = new Encomenda();
+        encomenda.setCliente(cliente);
+        encomenda.setMoradaEnvio(moradaEnvio);
+        Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
+        for (LinhaCarrinho linhaCarrinho : carrinho.getLinhasCarrinho()) {
+            LinhaEncomenda linhaEncomenda = new LinhaEncomenda();
+            linhaEncomenda.setProduto(linhaCarrinho.getProduto());
+            linhaEncomenda.setQuantidade(linhaCarrinho.getQuantidade());
+            linhasEncomenda.add(linhaEncomenda);
+        }
+        encomenda.setLinhasEncomenda(linhasEncomenda);
+        save(encomenda);
+        return encomenda;
+    }
 }

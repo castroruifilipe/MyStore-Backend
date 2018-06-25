@@ -19,11 +19,11 @@ public interface ProdutoService {
 
     List<Produto> maisVendidos(int quantidadeProdutos);
 
+    List<Produto> emPromocao(int quantidadeProdutos);
+
     List<Produto> porCategoria(long categoria, int pagina, int size);
 
     List<Produto> related(Produto produto, int size);
-
-    List<Produto> listPromocao();
 
     List<Produto> search(String value);
 

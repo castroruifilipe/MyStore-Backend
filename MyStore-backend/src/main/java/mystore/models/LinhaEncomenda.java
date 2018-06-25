@@ -1,6 +1,7 @@
 package mystore.models;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -79,6 +80,19 @@ public class LinhaEncomenda implements Serializable {
         this.valorDesconto = valorDesconto;
     }
 
+    public double getValorFinal() {
+        return (precoUnitario - valorDesconto) * quantidade;
+    }
+
+    @PrePersist
+    public void setDefault() {
+        if (precoUnitario == 0.0) {
+            precoUnitario = produto.getPrecoFinal();
+        }
+        if (valorDesconto == 0.0) {
+            valorDesconto = produto.getPrecoBase() - produto.getPrecoPromocional();
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
