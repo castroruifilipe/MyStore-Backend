@@ -12,6 +12,8 @@ public interface EncomendaService {
 
     List<Encomenda> list();
 
+    List<Encomenda> listByCliente(long uid);
+
     Optional<Encomenda> get(long id);
 
     Encomenda checkout(Cliente cliente, Morada moradaEntrega, Carrinho carrinho, MetodoPagamento metodoPagamento);

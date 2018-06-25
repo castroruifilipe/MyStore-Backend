@@ -37,6 +37,12 @@ public class EncomendaServiceImpl implements EncomendaService {
     }
 
     @Override
+    @Transactional
+    public List<Encomenda> listByCliente(long uid) {
+        return null;
+    }
+
+    @Override
     public Optional<Encomenda> get(long id) {
         return encomendaDAO.find(id);
     }

@@ -33,9 +33,6 @@ public class EncomendaController {
     @Autowired
     private ClienteService clienteService;
 
-    @Autowired
-    private ProdutoService produtoService;
-
 
     @RequestMapping(method = GET)
     public List<Encomenda> list(@RequestAttribute RoleUtilizador role) {
@@ -91,7 +88,9 @@ public class EncomendaController {
         Optional<Cliente> optionalCliente = clienteService.get(uid);
         if (optionalCliente.isPresent()) {
             Cliente cliente = optionalCliente.get();
-            return encomendaService.checkout(cliente, moradaEntrega, carrinho, metodoPagamento);
+            Encomenda encomenda = encomendaService.checkout(cliente, moradaEntrega, carrinho, metodoPagamento);
+            carrinho.clear();
+            return encomenda;
         }
         throw new EntityNotFoundException("Cliente não existe");
     }

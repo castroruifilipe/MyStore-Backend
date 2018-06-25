@@ -3,6 +3,8 @@ package mystore.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +14,7 @@ import static javax.persistence.CascadeType.*;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 import static mystore.models.enums.EstadoEncomenda.*;
+import static org.hibernate.annotations.GenerationTime.*;
 
 @Entity
 @Table(name = "encomenda")
@@ -30,10 +33,11 @@ public class Encomenda {
     @Column(nullable = false)
     private EstadoEncomenda estado;
 
-    @Column(nullable = false)
-    private LocalDate data;
+    @Column(name = "data_registo", nullable = false)
+    private LocalDate dataRegisto;
 
-    @Column(name = "tracking_id", nullable = false, columnDefinition = "serial")
+    @Generated(value = INSERT)
+    @Column(name = "tracking_id", nullable = false, insertable = false)
     private long trackingID;
 
     @OneToOne(fetch = EAGER, cascade = ALL)
@@ -49,7 +53,10 @@ public class Encomenda {
 
     private double total;
 
-    @Column
+    @Column(name = "data_limite_pagamento")
+    private LocalDate dataLimitePagamento;
+
+    @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
 
     @Enumerated(EnumType.STRING)
@@ -72,12 +79,12 @@ public class Encomenda {
         this.estado = estado;
     }
 
-    public LocalDate getData() {
-        return data;
+    public LocalDate getDataRegisto() {
+        return dataRegisto;
     }
 
-    public void setData(LocalDate data) {
-        this.data = data;
+    public void setDataRegisto(LocalDate dataRegisto) {
+        this.dataRegisto = dataRegisto;
     }
 
     public long getTrackingID() {
@@ -132,6 +139,14 @@ public class Encomenda {
         this.dataPagamento = dataPagamento;
     }
 
+    public LocalDate getDataLimitePagamento() {
+        return dataLimitePagamento;
+    }
+
+    public void setDataLimitePagamento(LocalDate dataLimitePagamento) {
+        this.dataLimitePagamento = dataLimitePagamento;
+    }
+
     public MetodoPagamento getMetodoPagamento() {
         return metodoPagamento;
     }
@@ -150,11 +165,11 @@ public class Encomenda {
 
     @PrePersist
     public void setDefault() {
-        if (data == null) {
-            data = LocalDate.now();
+        if (dataRegisto == null) {
+            dataRegisto = LocalDate.now();
         }
-        if (dataPagamento == null) {
-            dataPagamento = LocalDate.now().plusDays(7);
+        if (dataLimitePagamento == null) {
+            dataLimitePagamento = LocalDate.now().plusDays(7);
         }
         if (portes == 0.0) {
             portes = 5.45;
