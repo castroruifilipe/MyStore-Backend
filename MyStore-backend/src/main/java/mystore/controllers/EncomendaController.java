@@ -10,10 +10,7 @@ import mystore.services.ClienteService;
 import mystore.services.EncomendaService;
 import mystore.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
@@ -70,7 +67,7 @@ public class EncomendaController {
     }
 
     @RequestMapping(path = "/checkout", method = POST)
-    public Encomenda checkout(Map<String, Object> body, @RequestAttribute long uid, HttpSession session) {
+    public Encomenda checkout(@RequestBody Map<String, Object> body, @RequestAttribute long uid, HttpSession session) {
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho == null) {
             throw new EntityNotFoundException("Carrinho não existe");
