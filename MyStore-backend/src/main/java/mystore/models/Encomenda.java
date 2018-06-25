@@ -37,7 +37,7 @@ public class Encomenda {
     private LocalDate dataRegisto;
 
     @Generated(value = INSERT)
-    @Column(name = "tracking_id", nullable = false, insertable = false)
+    @Column(name = "tracking_id", insertable = false)
     private long trackingID;
 
     @OneToOne(fetch = EAGER, cascade = ALL)
