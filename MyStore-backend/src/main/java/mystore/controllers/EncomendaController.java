@@ -75,7 +75,6 @@ public class EncomendaController {
         if (carrinho.getLinhasCarrinho().isEmpty()) {
             throw new EntityNotFoundException("Carrinho sem produtos");
         }
-        System.out.println("\n\nbody:" + body.keySet());
         if (!body.containsKey("moradaEntrega") || !body.containsKey("metodoPagamento")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
@@ -84,7 +83,6 @@ public class EncomendaController {
         if (!morada.containsKey("rua") || !morada.containsKey("localidade") || !morada.containsKey("codigoPostal")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
-        System.out.println("\n\nmorada:" + morada.keySet());
         Morada moradaEntrega = new Morada();
         moradaEntrega.setRua(morada.get("rua"));
         moradaEntrega.setLocalidade(morada.get("localidade"));
