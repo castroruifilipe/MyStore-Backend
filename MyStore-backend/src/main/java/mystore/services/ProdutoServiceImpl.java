@@ -40,7 +40,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public Map<Produto, Long> maisVendidosComQtd(int quantidadeProdutos) {
+    public List<Object[]> maisVendidosComQtd(int quantidadeProdutos) {
         return produtoDAO.maisVendidosComQtd(quantidadeProdutos);
     }
 

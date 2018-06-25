@@ -56,7 +56,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
     }
 
     @Override
-    public Map<Produto, Long> maisVendidosComQtd(int quantidadeProdutos) {
+    public List<Object[]> maisVendidosComQtd(int quantidadeProdutos) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<LinhaEncomenda> root = criteriaQuery.from(LinhaEncomenda.class);
@@ -75,8 +75,12 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
                 .orderBy(porQuantidadeComprada);
 
         List<Object[]> list = entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
-        Map<Produto, Long> result = new TreeMap<>();
-        list.forEach(object -> result.put(find((long) object[0]).get(), (long) object[1]));
+        List<Object[]> result = new ArrayList<>();
+        for (Object[] objects : list) {
+            Object[] o = new Object[2];
+            o[0] = find((long) objects[0]).get();
+            o[1] = objects[1];
+        }
         return result;
     }
 
