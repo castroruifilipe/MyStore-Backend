@@ -1,21 +1,19 @@
 package mystore.models;
 
 
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.springframework.context.annotation.ScopedProxyMode.INTERFACES;
-import static org.springframework.context.annotation.ScopedProxyMode.TARGET_CLASS;
-
 
 public class Carrinho implements Serializable {
 
-    private double total = 0;
+    private double totalDesconto;
+
+    private double totalSemDesc;
+
+    private double total;
 
     private List<LinhaCarrinho> linhasCarrinho = new ArrayList<>();
 
@@ -34,7 +32,9 @@ public class Carrinho implements Serializable {
         } else {
             linhasCarrinho.add(linhaCarrinho);
         }
-        total += produto.getPrecoFinal() * quantidade;
+        totalSemDesc += linhaCarrinho.getSubTotalSemDesc();
+        total += linhaCarrinho.getSubTotal();
+        totalDesconto = totalSemDesc - total;
     }
 
     public void removeProduto(long codigoProduto) {
@@ -43,7 +43,9 @@ public class Carrinho implements Serializable {
         LinhaCarrinho linhaCarrinho = new LinhaCarrinho(produto);
         if (linhasCarrinho.contains(linhaCarrinho)) {
             linhaCarrinho = linhasCarrinho.get(linhasCarrinho.indexOf(linhaCarrinho));
+            totalSemDesc -= linhaCarrinho.getSubTotalSemDesc();
             total -= linhaCarrinho.getSubTotal();
+            totalDesconto = totalSemDesc - total;
             linhasCarrinho.remove(linhaCarrinho);
         }
     }
@@ -66,15 +68,17 @@ public class Carrinho implements Serializable {
                 }
             }
         }
-        total = 0;
+        total = totalSemDesc = totalDesconto = 0.0;
         for (LinhaCarrinho linha : linhasCarrinho) {
+            totalSemDesc += linha.getSubTotalSemDesc();
             total += linha.getSubTotal();
+            totalDesconto = totalSemDesc - total;
         }
     }
 
     public void clear() {
         linhasCarrinho = new ArrayList<>();
-        total = 0;
+        total = totalSemDesc = totalDesconto = 0.0;
     }
 
     public double getTotal() {
@@ -93,11 +97,19 @@ public class Carrinho implements Serializable {
         this.linhasCarrinho = linhasCarrinho;
     }
 
-    @Override
-    public String toString() {
-        return "Carrinho{" +
-                "total=" + total +
-                ", linhasCarrinho=" + linhasCarrinho +
-                '}';
+    public double getTotalDesconto() {
+        return totalDesconto;
+    }
+
+    public void setTotalDesconto(double totalDesconto) {
+        this.totalDesconto = totalDesconto;
+    }
+
+    public double getTotalSemDesc() {
+        return totalSemDesc;
+    }
+
+    public void setTotalSemDesc(double totalSemDesc) {
+        this.totalSemDesc = totalSemDesc;
     }
 }
