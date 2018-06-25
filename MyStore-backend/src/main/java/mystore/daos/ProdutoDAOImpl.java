@@ -63,16 +63,20 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
 
         Join<LinhaEncomenda, Produto> linhaEncomenda_produto = root.join("produto", INNER);
 
+        Expression<?>[] expressions = new Expression[2];
+        expressions[0] = linhaEncomenda_produto.get("codigo");
+        expressions[1] = criteriaBuilder.sum(root.get("quantidade"));
+
         Order porQuantidadeComprada = criteriaBuilder.desc(criteriaBuilder.sum(root.get("quantidade")));
 
         criteriaQuery
-                .multiselect(root, criteriaBuilder.sum(root.get("quantidade")), linhaEncomenda_produto.get("codigo"))
+                .multiselect(expressions)
                 .groupBy(linhaEncomenda_produto.get("codigo"))
                 .orderBy(porQuantidadeComprada);
 
         List<Object[]> list = entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
         Map<Produto, Integer> result = new TreeMap<>();
-        list.forEach(object -> result.put((Produto) object[0], (int) object[1]));
+        list.forEach(object -> result.put(find((long) object[0]).get(), (int) object[1]));
         return result;
     }
 
