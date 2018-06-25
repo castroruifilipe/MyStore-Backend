@@ -6,6 +6,7 @@ import mystore.models.enums.MetodoPagamento;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public class Encomenda {
     private EstadoEncomenda estado;
 
     @Column(name = "data_registo", nullable = false)
-    private LocalDate dataRegisto;
+    private LocalDateTime dataRegisto;
 
     @OneToOne(fetch = EAGER, cascade = ALL)
     @JoinColumn(name = "morada_entrega")
@@ -48,7 +49,7 @@ public class Encomenda {
     private double total;
 
     @Column(name = "data_limite_pagamento")
-    private LocalDate dataLimitePagamento;
+    private LocalDateTime dataLimitePagamento;
 
     @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
@@ -73,11 +74,11 @@ public class Encomenda {
         this.estado = estado;
     }
 
-    public LocalDate getDataRegisto() {
+    public LocalDateTime getDataRegisto() {
         return dataRegisto;
     }
 
-    public void setDataRegisto(LocalDate dataRegisto) {
+    public void setDataRegisto(LocalDateTime dataRegisto) {
         this.dataRegisto = dataRegisto;
     }
 
@@ -125,11 +126,11 @@ public class Encomenda {
         this.dataPagamento = dataPagamento;
     }
 
-    public LocalDate getDataLimitePagamento() {
+    public LocalDateTime getDataLimitePagamento() {
         return dataLimitePagamento;
     }
 
-    public void setDataLimitePagamento(LocalDate dataLimitePagamento) {
+    public void setDataLimitePagamento(LocalDateTime dataLimitePagamento) {
         this.dataLimitePagamento = dataLimitePagamento;
     }
 
@@ -152,10 +153,10 @@ public class Encomenda {
     @PrePersist
     public void setDefault() {
         if (dataRegisto == null) {
-            dataRegisto = LocalDate.now();
+            dataRegisto = LocalDateTime.now();
         }
         if (dataLimitePagamento == null) {
-            dataLimitePagamento = LocalDate.now().plusDays(7);
+            dataLimitePagamento = LocalDateTime.now().plusDays(7);
         }
         if (portes == 0.0) {
             portes = 5.45;

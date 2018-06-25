@@ -37,6 +37,11 @@ public class EncomendaServiceImpl implements EncomendaService {
     }
 
     @Override
+    public List<Encomenda> ultimas(int quantidadeEncomendas) {
+        return encomendaDAO.ultimas(quantidadeEncomendas);
+    }
+
+    @Override
     @Transactional
     public List<Encomenda> listByCliente(long uid) {
         return null;

@@ -42,6 +42,11 @@ public class EncomendaController {
         return encomendaService.list();
     }
 
+    @RequestMapping(path = "/ultimas/{quantidadeEncomendas}")
+    public List<Encomenda> ultimas(@RequestAttribute RoleUtilizador role, @PathVariable int quantidadeEncomendas) {
+        return encomendaService.ultimas(quantidadeEncomendas);
+    }
+
     @RequestMapping(path = "/cliente", method = GET)
     public List<Encomenda> ofCliente(@RequestAttribute long uid) {
         Optional<Cliente> optionalCliente = clienteService.get(uid);

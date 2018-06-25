@@ -12,6 +12,8 @@ public interface EncomendaService {
 
     List<Encomenda> list();
 
+    List<Encomenda> ultimas(int quantidadeEncomendas);
+
     List<Encomenda> listByCliente(long uid);
 
     Optional<Encomenda> get(long id);
