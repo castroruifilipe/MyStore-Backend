@@ -83,6 +83,7 @@ public class EncomendaController {
         }
         MetodoPagamento metodoPagamento = MetodoPagamento.valueOf((String) body.get("metodoPagamento"));
         Map<String, String> morada = (Map<String, String>) body.get("moradaEntrega");
+        System.out.println(morada.entrySet());
         if (!morada.containsKey("rua") || !morada.containsKey("localidade") || !morada.containsKey("codigoPostal")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
