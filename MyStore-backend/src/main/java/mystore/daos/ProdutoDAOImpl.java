@@ -56,7 +56,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
     }
 
     @Override
-    public List<Object[]> maisVendidosComQtd(int quantidadeProdutos) {
+    public List<Object[]> maisVendidosDetail(int quantidadeProdutos) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<LinhaEncomenda> root = criteriaQuery.from(LinhaEncomenda.class);
@@ -77,9 +77,10 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         List<Object[]> list = entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
         List<Object[]> result = new ArrayList<>();
         for (Object[] objects : list) {
-            Object[] o = new Object[2];
+            Object[] o = new Object[3];
             o[0] = find((long) objects[0]).get();
             o[1] = objects[1];
+            o[3] = totalFaturado((long) objects[0]);
             result.add(o);
         }
         return result;
@@ -174,11 +175,16 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
     }
 
     @Override
-    public List<Produto> findPromocao() {
+    public double totalFaturado(long codigoProduto) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
-        Root<Produto> produto = criteriaQuery.from(Produto.class);
-        Join<Produto, Promocao> promocao = produto.join("promocoes");
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        CriteriaQuery<Double> criteriaQuery = criteriaBuilder.createQuery(Double.class);
+        Root<LinhaEncomenda> root = criteriaQuery.from(LinhaEncomenda.class);
+        Expression<Double> preco = criteriaBuilder.diff(root.get("precoUnitario"), root.get("valorDesconto"));
+        Expression<Double> precoLinha = criteriaBuilder.prod(preco, root.get("quantidade"));
+        Expression<Double> total = criteriaBuilder.sum(precoLinha);
+        criteriaQuery
+                .select(total.alias("total"));
+        return entityManager.createQuery(criteriaQuery).getSingleResult();
     }
+
 }

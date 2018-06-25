@@ -14,7 +14,7 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long> {
 
     List<Produto> maisVendidos(int quantidadeProdutos);
 
-    List<Object[]> maisVendidosComQtd(int quantidadeProdutos);
+    List<Object[]> maisVendidosDetail(int quantidadeProdutos);
 
     List<Produto> emPromocao(int quantidadeProdutos);
 
@@ -28,5 +28,5 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long> {
 
     void updatePrices(Promocao promocao);
 
-    List<Produto> findPromocao();
+    double totalFaturado(long codigoProduto);
 }

@@ -4,14 +4,12 @@ import mystore.models.Categoria;
 import mystore.models.Produto;
 import mystore.services.CategoriaService;
 import mystore.services.ProdutoService;
-import mystore.services.PromocaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -26,9 +24,6 @@ public class ProdutoController {
 
     @Autowired
     private CategoriaService categoriaService;
-
-    @Autowired
-    private PromocaoService promocaoService;
 
 
     @RequestMapping(method = GET, produces = APPLICATION_JSON_VALUE)
@@ -51,9 +46,9 @@ public class ProdutoController {
         return produtoService.maisVendidos(quantidadeProdutos);
     }
 
-    @RequestMapping(value = "/maisVendidosComQtd/{quantidadeProdutos}", method = GET)
-    public List<Object[]> maisVendidosComQtd(@PathVariable int quantidadeProdutos) {
-        return produtoService.maisVendidosComQtd(quantidadeProdutos);
+    @RequestMapping(value = "/maisVendidosDetail/{quantidadeProdutos}", method = GET)
+    public List<Object[]> maisVendidosDetail(@PathVariable int quantidadeProdutos) {
+        return produtoService.maisVendidosDetail(quantidadeProdutos);
     }
 
     @RequestMapping(value = "/emPromocao/{quantidadeProdutos}", method = GET)

@@ -20,7 +20,7 @@ public interface ProdutoService {
 
     List<Produto> maisVendidos(int quantidadeProdutos);
 
-    List<Object[]> maisVendidosComQtd(int quantidadeProdutos);
+    List<Object[]> maisVendidosDetail(int quantidadeProdutos);
 
     List<Produto> emPromocao(int quantidadeProdutos);
 

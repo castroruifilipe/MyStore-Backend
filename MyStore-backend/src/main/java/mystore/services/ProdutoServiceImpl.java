@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -40,8 +39,8 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public List<Object[]> maisVendidosComQtd(int quantidadeProdutos) {
-        return produtoDAO.maisVendidosComQtd(quantidadeProdutos);
+    public List<Object[]> maisVendidosDetail(int quantidadeProdutos) {
+        return produtoDAO.maisVendidosDetail(quantidadeProdutos);
     }
 
     @Override
