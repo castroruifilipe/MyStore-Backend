@@ -80,6 +80,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
             Object[] o = new Object[2];
             o[0] = find((long) objects[0]).get();
             o[1] = objects[1];
+            result.add(o);
         }
         return result;
     }
