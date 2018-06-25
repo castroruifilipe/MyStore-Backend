@@ -66,7 +66,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         Order porQuantidadeComprada = criteriaBuilder.desc(criteriaBuilder.sum(root.get("quantidade")));
 
         criteriaQuery
-                .multiselect(root, criteriaBuilder.sum(root.get("quantidade")))
+                .multiselect(root, criteriaBuilder.sum(root.get("quantidade")), linhaEncomenda_produto.get("codigo"))
                 .groupBy(linhaEncomenda_produto.get("codigo"))
                 .orderBy(porQuantidadeComprada);
 
