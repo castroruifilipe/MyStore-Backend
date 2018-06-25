@@ -71,6 +71,7 @@ public class EncomendaController {
 
     @RequestMapping(path = "/checkout", method = POST)
     public Encomenda checkout(Map<String, Object> body, @RequestAttribute long uid, HttpSession session) {
+        System.out.println("aquii");
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho == null) {
             throw new EntityNotFoundException("Carrinho não existe");
