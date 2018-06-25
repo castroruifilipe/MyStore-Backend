@@ -78,15 +78,16 @@ public class EncomendaController {
         if (carrinho.getLinhasCarrinho().isEmpty()) {
             throw new EntityNotFoundException("Carrinho sem produtos");
         }
+        System.out.println("\n\nbody:" + body.keySet());
         if (!body.containsKey("moradaEntrega") || !body.containsKey("metodoPagamento")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
         MetodoPagamento metodoPagamento = MetodoPagamento.valueOf((String) body.get("metodoPagamento"));
         Map<String, String> morada = (Map<String, String>) body.get("moradaEntrega");
-        System.out.println(morada.entrySet());
         if (!morada.containsKey("rua") || !morada.containsKey("localidade") || !morada.containsKey("codigoPostal")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
+        System.out.println("\n\nmorada:" + morada.keySet());
         Morada moradaEntrega = new Morada();
         moradaEntrega.setRua(morada.get("rua"));
         moradaEntrega.setLocalidade(morada.get("localidade"));
