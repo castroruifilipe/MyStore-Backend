@@ -3,18 +3,16 @@ package mystore.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 
-import static javax.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
-import static mystore.models.enums.EstadoEncomenda.*;
-import static org.hibernate.annotations.GenerationTime.*;
+import static mystore.models.enums.EstadoEncomenda.AGUARDA_PAGAMENTO;
 
 @Entity
 @Table(name = "encomenda")
@@ -35,10 +33,6 @@ public class Encomenda {
 
     @Column(name = "data_registo", nullable = false)
     private LocalDate dataRegisto;
-
-    @Generated(value = INSERT)
-    @Column(name = "tracking_id", insertable = false)
-    private long trackingID;
 
     @OneToOne(fetch = EAGER, cascade = ALL)
     @JoinColumn(name = "morada_entrega")
@@ -85,14 +79,6 @@ public class Encomenda {
 
     public void setDataRegisto(LocalDate dataRegisto) {
         this.dataRegisto = dataRegisto;
-    }
-
-    public long getTrackingID() {
-        return trackingID;
-    }
-
-    public void setTrackingID(long trackingID) {
-        this.trackingID = trackingID;
     }
 
     public Morada getMoradaEntrega() {
@@ -190,11 +176,11 @@ public class Encomenda {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Encomenda encomenda = (Encomenda) o;
-        return getTrackingID() == encomenda.getTrackingID();
+        return id == encomenda.id;
     }
 
     @Override
     public int hashCode() {
-        return Long.hashCode(trackingID);
+        return Objects.hash(id);
     }
 }
