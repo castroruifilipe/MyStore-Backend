@@ -138,6 +138,10 @@ public class Produto implements Serializable {
         return precoPromocional != 0 ? precoPromocional : precoBase;
     }
 
+    public double getValorDesconto() {
+        return precoBase - getPrecoFinal();
+    }
+
     @PrePersist
     public void setDefault() {
         if (dataRegisto == null) {

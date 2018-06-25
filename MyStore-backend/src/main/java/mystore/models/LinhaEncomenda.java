@@ -92,7 +92,7 @@ public class LinhaEncomenda implements Serializable {
             precoUnitario = produto.getPrecoBase();
         }
         if (valorDesconto == 0.0) {
-            valorDesconto = produto.getPrecoBase() - produto.getPrecoPromocional();
+            valorDesconto = produto.getValorDesconto();
         }
     }
 
