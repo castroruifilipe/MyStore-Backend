@@ -56,6 +56,7 @@ public class EncomendaServiceImpl implements EncomendaService {
         Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
         for (LinhaCarrinho linhaCarrinho : carrinho.getLinhasCarrinho()) {
             LinhaEncomenda linhaEncomenda = new LinhaEncomenda();
+            linhaEncomenda.setEncomenda(encomenda);
             linhaEncomenda.setProduto(linhaCarrinho.getProduto());
             linhaEncomenda.setQuantidade(linhaCarrinho.getQuantidade());
             linhasEncomenda.add(linhaEncomenda);

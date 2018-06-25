@@ -14,9 +14,11 @@ public class LinhaEncomenda implements Serializable {
     private long id;
 
     @ManyToOne
+    @JoinColumn(name = "produto")
     private Produto produto;
 
     @ManyToOne
+    @JoinColumn(name = "encomenda")
     private Encomenda encomenda;
 
     @Column(nullable = false)
