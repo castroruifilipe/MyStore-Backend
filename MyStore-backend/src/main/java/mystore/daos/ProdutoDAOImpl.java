@@ -80,7 +80,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
             Object[] o = new Object[3];
             o[0] = find((long) objects[0]).get();
             o[1] = objects[1];
-            o[3] = totalFaturado((long) objects[0]);
+            o[2] = totalFaturado((long) objects[0]);
             result.add(o);
         }
         return result;
@@ -183,7 +183,8 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         Expression<Double> precoLinha = criteriaBuilder.prod(preco, root.get("quantidade"));
         Expression<Double> total = criteriaBuilder.sum(precoLinha);
         criteriaQuery
-                .select(total.alias("total"));
+                .select(total.alias("total"))
+                .where(criteriaBuilder.equal(root.get("produto"), codigoProduto));
         double r = entityManager.createQuery(criteriaQuery).getSingleResult();
         System.out.println("\n\nfaturado: " + r);
 
