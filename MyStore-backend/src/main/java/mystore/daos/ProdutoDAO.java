@@ -6,12 +6,15 @@ import mystore.models.Promocao;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public interface ProdutoDAO extends GenericDAO<Produto, Long> {
 
     List<Produto> novidades(int quantidadeProdutos);
 
     List<Produto> maisVendidos(int quantidadeProdutos);
+
+    Map<Produto, Integer> maisVendidosComQtd(int quantidadeProdutos);
 
     List<Produto> emPromocao(int quantidadeProdutos);
 

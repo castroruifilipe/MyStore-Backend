@@ -10,10 +10,7 @@ import javax.persistence.criteria.*;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static javax.persistence.criteria.JoinType.*;
@@ -55,8 +52,28 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
                 .orderBy(porQuantidadeComprada);
 
         List<Object[]> result = entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
-        result.forEach(objects -> System.out.println(objects[0] + "\t\t" + objects[1]));
         return result.parallelStream().map(objects -> find((long) objects[0]).get()).collect(Collectors.toList());
+    }
+
+    @Override
+    public Map<Produto, Integer> maisVendidosComQtd(int quantidadeProdutos) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<LinhaEncomenda> root = criteriaQuery.from(LinhaEncomenda.class);
+
+        Join<LinhaEncomenda, Produto> linhaEncomenda_produto = root.join("produto", INNER);
+
+        Order porQuantidadeComprada = criteriaBuilder.desc(criteriaBuilder.sum(root.get("quantidade")));
+
+        criteriaQuery
+                .multiselect(root, criteriaBuilder.sum(root.get("quantidade")))
+                .groupBy(linhaEncomenda_produto.get("codigo"))
+                .orderBy(porQuantidadeComprada);
+
+        List<Object[]> list = entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
+        Map<Produto, Integer> result = new TreeMap<>();
+        list.forEach(object -> result.put((Produto) object[0], (int) object[1]));
+        return result;
     }
 
     @Override

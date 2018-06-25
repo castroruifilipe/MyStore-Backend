@@ -5,6 +5,7 @@ import mystore.models.Produto;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ProdutoService {
@@ -18,6 +19,8 @@ public interface ProdutoService {
     List<Produto> novidades(int quantidadeProdutos);
 
     List<Produto> maisVendidos(int quantidadeProdutos);
+
+    Map<Produto, Integer> maisVendidosComQtd(int quantidadeProdutos);
 
     List<Produto> emPromocao(int quantidadeProdutos);
 
