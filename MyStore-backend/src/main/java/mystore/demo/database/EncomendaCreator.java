@@ -6,6 +6,7 @@ import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -23,8 +24,8 @@ public class EncomendaCreator extends Creator<Encomenda> {
 
         for (int i = 0; i < nEncomendas; i++) {
             EstadoEncomenda estado = RandomCollectionUtil.choice(estados);
-            LocalDate data = dateAndTime.past(700, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate dataPagamento = dateAndTime.past(10, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDateTime data = dateAndTime.past(700, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            LocalDateTime dataPagamento = dateAndTime.past(10, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             MetodoPagamento metodoPagamento = RandomCollectionUtil.choice(metodosPagamento);
             int nLinhas = number.numberBetween(0, 10);
 

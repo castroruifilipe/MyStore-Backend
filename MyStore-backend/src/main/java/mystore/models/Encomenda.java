@@ -49,10 +49,10 @@ public class Encomenda {
     private double total;
 
     @Column(name = "data_limite_pagamento")
-    private LocalDateTime dataLimitePagamento;
+    private LocalDate dataLimitePagamento;
 
     @Column(name = "data_pagamento")
-    private LocalDate dataPagamento;
+    private LocalDateTime dataPagamento;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "metodo_pagamento", nullable = false)
@@ -118,19 +118,19 @@ public class Encomenda {
         this.id = id;
     }
 
-    public LocalDate getDataPagamento() {
+    public LocalDateTime getDataPagamento() {
         return dataPagamento;
     }
 
-    public void setDataPagamento(LocalDate dataPagamento) {
+    public void setDataPagamento(LocalDateTime dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
 
-    public LocalDateTime getDataLimitePagamento() {
+    public LocalDate getDataLimitePagamento() {
         return dataLimitePagamento;
     }
 
-    public void setDataLimitePagamento(LocalDateTime dataLimitePagamento) {
+    public void setDataLimitePagamento(LocalDate dataLimitePagamento) {
         this.dataLimitePagamento = dataLimitePagamento;
     }
 
@@ -156,7 +156,7 @@ public class Encomenda {
             dataRegisto = LocalDateTime.now();
         }
         if (dataLimitePagamento == null) {
-            dataLimitePagamento = LocalDateTime.now().plusDays(7);
+            dataLimitePagamento = LocalDate.now().plusDays(7);
         }
         if (portes == 0.0) {
             portes = 5.45;
