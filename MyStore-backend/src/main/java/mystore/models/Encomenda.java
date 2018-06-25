@@ -38,8 +38,8 @@ public class Encomenda {
     private long trackingID;
 
     @OneToOne(fetch = EAGER, cascade = ALL)
-    @JoinColumn(name = "morada_envio")
-    private Morada moradaEnvio;
+    @JoinColumn(name = "morada_entrega")
+    private Morada moradaEntrega;
 
     @Column(nullable = false)
     private double portes;
@@ -89,12 +89,12 @@ public class Encomenda {
         this.trackingID = trackingID;
     }
 
-    public Morada getMoradaEnvio() {
-        return moradaEnvio;
+    public Morada getMoradaEntrega() {
+        return moradaEntrega;
     }
 
-    public void setMoradaEnvio(Morada moradaEnvio) {
-        this.moradaEnvio = moradaEnvio;
+    public void setMoradaEntrega(Morada moradaEntrega) {
+        this.moradaEntrega = moradaEntrega;
     }
 
     public double getPortes() {

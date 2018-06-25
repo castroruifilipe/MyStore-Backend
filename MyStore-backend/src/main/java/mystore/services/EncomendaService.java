@@ -14,5 +14,5 @@ public interface EncomendaService {
 
     Optional<Encomenda> get(long id);
 
-    Encomenda checkout(Cliente cliente, Morada moradaEnvio, Carrinho carrinho, MetodoPagamento metodoPagamento);
+    Encomenda checkout(Cliente cliente, Morada moradaEntrega, Carrinho carrinho, MetodoPagamento metodoPagamento);
 }

@@ -71,7 +71,6 @@ public class EncomendaController {
 
     @RequestMapping(path = "/checkout", method = POST)
     public Encomenda checkout(Map<String, Object> body, @RequestAttribute long uid, HttpSession session) {
-        System.out.println("aquii");
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho == null) {
             throw new EntityNotFoundException("Carrinho não existe");
@@ -79,23 +78,23 @@ public class EncomendaController {
         if (carrinho.getLinhasCarrinho().isEmpty()) {
             throw new EntityNotFoundException("Carrinho sem produtos");
         }
-        if (!body.containsKey("moradaEnvio") || !body.containsKey("metodoPagamento")) {
+        if (!body.containsKey("moradaEntrega") || !body.containsKey("metodoPagamento")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
         MetodoPagamento metodoPagamento = MetodoPagamento.valueOf((String) body.get("metodoPagamento"));
-        Map<String, String> morada = (Map<String, String>) body.get("moradaEnvio");
+        Map<String, String> morada = (Map<String, String>) body.get("moradaEntrega");
         if (!morada.containsKey("rua") || !morada.containsKey("localidade") || !morada.containsKey("codigoPostal")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
-        Morada moradaEnvio = new Morada();
-        moradaEnvio.setRua(morada.get("rua"));
-        moradaEnvio.setLocalidade(morada.get("localidade"));
-        moradaEnvio.setCodigoPostal(morada.get("codigoPostal"));
+        Morada moradaEntrega = new Morada();
+        moradaEntrega.setRua(morada.get("rua"));
+        moradaEntrega.setLocalidade(morada.get("localidade"));
+        moradaEntrega.setCodigoPostal(morada.get("codigoPostal"));
 
         Optional<Cliente> optionalCliente = clienteService.get(uid);
         if (optionalCliente.isPresent()) {
             Cliente cliente = optionalCliente.get();
-            return encomendaService.checkout(cliente, moradaEnvio, carrinho, metodoPagamento);
+            return encomendaService.checkout(cliente, moradaEntrega, carrinho, metodoPagamento);
         }
         throw new EntityNotFoundException("Cliente não existe");
     }

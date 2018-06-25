@@ -42,10 +42,10 @@ public class EncomendaServiceImpl implements EncomendaService {
     }
 
     @Override
-    public Encomenda checkout(Cliente cliente, Morada moradaEnvio, Carrinho carrinho, MetodoPagamento metodoPagamento) {
+    public Encomenda checkout(Cliente cliente, Morada moradaEntrega, Carrinho carrinho, MetodoPagamento metodoPagamento) {
         Encomenda encomenda = new Encomenda();
         encomenda.setCliente(cliente);
-        encomenda.setMoradaEnvio(moradaEnvio);
+        encomenda.setMoradaEntrega(moradaEntrega);
         Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
         for (LinhaCarrinho linhaCarrinho : carrinho.getLinhasCarrinho()) {
             LinhaEncomenda linhaEncomenda = new LinhaEncomenda();
