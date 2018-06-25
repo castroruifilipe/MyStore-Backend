@@ -6,7 +6,6 @@ import mystore.models.enums.MetodoPagamento;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.*;
@@ -163,7 +162,7 @@ public class Encomenda {
         if (total == 0.0) {
             total = linhasEncomenda
                     .parallelStream()
-                    .mapToDouble(LinhaEncomenda::getValorFinal)
+                    .mapToDouble(LinhaEncomenda::getSubTotal)
                     .sum();
         }
         if (estado == null) {

@@ -80,14 +80,14 @@ public class LinhaEncomenda implements Serializable {
         this.valorDesconto = valorDesconto;
     }
 
-    public double getValorFinal() {
+    public double getSubTotal() {
         return (precoUnitario - valorDesconto) * quantidade;
     }
 
     @PrePersist
     public void setDefault() {
         if (precoUnitario == 0.0) {
-            precoUnitario = produto.getPrecoFinal();
+            precoUnitario = produto.getPrecoBase();
         }
         if (valorDesconto == 0.0) {
             valorDesconto = produto.getPrecoBase() - produto.getPrecoPromocional();
