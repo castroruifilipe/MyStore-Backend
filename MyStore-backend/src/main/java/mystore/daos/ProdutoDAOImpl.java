@@ -184,7 +184,10 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         Expression<Double> total = criteriaBuilder.sum(precoLinha);
         criteriaQuery
                 .select(total.alias("total"));
-        return entityManager.createQuery(criteriaQuery).getSingleResult();
+        double r = entityManager.createQuery(criteriaQuery).getSingleResult();
+        System.out.println("\n\nfaturado: " + r);
+
+        return r;
     }
 
 }
