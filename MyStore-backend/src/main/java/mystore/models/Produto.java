@@ -46,6 +46,7 @@ public class Produto implements Serializable {
     @JoinColumn(name = "categoria")
     private Categoria categoria;
 
+    @JsonIgnoreProperties("produto")
     @OneToOne(mappedBy = "produto", cascade = ALL, fetch = LAZY)
     private EstatisticasVendas estatisticasVendas;
 
