@@ -54,7 +54,6 @@ public class EncomendaCreator extends Creator<Encomenda> {
 
             encomenda.setTotal(total);
 
-            
             items.add(encomenda);
         }
     }

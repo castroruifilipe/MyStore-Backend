@@ -11,10 +11,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 @Component
@@ -53,10 +50,11 @@ public class DatabaseCreator implements ApplicationRunner {
             createProdutos(namespace.getInt("nProducts"), categorias);
             System.out.println("\nInseridos produtos.");
             List<Produto> produtos = produtoService.list();
-            createClientes(namespace.getInt("nClients"), produtos);
+            Set<Cliente> clientes = createClientes(namespace.getInt("nClients"), produtos);
             System.out.println("\nInseridos clientes.");
             createPromocoes(produtos, categorias);
             System.out.println("\nInseridas promoções.");
+            createEncomendas(produtos, new ArrayList<>(clientes));
         }
 
     }
@@ -69,7 +67,7 @@ public class DatabaseCreator implements ApplicationRunner {
         }
     }
 
-    public void createClientes(int nClientes, Collection<Produto> produtos) {
+    public Set<Cliente> createClientes(int nClientes, Collection<Produto> produtos) {
         ClienteCreator clienteCreator = new ClienteCreator(bCryptPasswordEncoder);
         clienteCreator.addCliente("ruicastroleite@outlook.com", "Rui Leite", "123");
         clienteCreator.addCliente("diogomachado@gmail.com", "Diogo Machado", "123");
@@ -78,6 +76,7 @@ public class DatabaseCreator implements ApplicationRunner {
         for (Cliente cliente : clienteCreator.getItems()) {
             clienteService.save(cliente);
         }
+        return clienteCreator.getItems();
     }
 
     public void createProdutos(int nProdutos, Collection<Categoria> categorias) {
