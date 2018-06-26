@@ -2,6 +2,8 @@ package mystore.models;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Table(name = "estatisticas_vendas")
 public class EstatisticasVendas {
@@ -9,6 +11,10 @@ public class EstatisticasVendas {
     @Id
     @GeneratedValue
     private long id;
+
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "produto")
+    private Produto produto;
 
     @Column(name = "numero_vendas")
     private int numeroVendas;
@@ -64,5 +70,13 @@ public class EstatisticasVendas {
 
     public void setTotalFaturado(double totalFaturado) {
         this.totalFaturado = totalFaturado;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 }
