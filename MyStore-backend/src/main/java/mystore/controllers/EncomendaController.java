@@ -10,6 +10,7 @@ import mystore.services.ClienteService;
 import mystore.services.EncomendaService;
 import mystore.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -38,7 +39,7 @@ public class EncomendaController {
     @RequestMapping(method = GET)
     public List<Encomenda> list(@RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
-            //throw new AuthorizationServiceException("Sem autorização");
+            throw new AuthorizationServiceException("Sem autorização");
         }
         return encomendaService.list();
     }

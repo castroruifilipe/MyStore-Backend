@@ -6,6 +6,7 @@ import mystore.models.enums.RoleUtilizador;
 import mystore.services.ClienteService;
 import mystore.services.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -90,7 +91,7 @@ public class UtilizadorController {
     @RequestMapping(path = "clientes", method = GET)
     public List<Cliente> clientes(@RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
-            //throw new AuthorizationServiceException("Sem autorização");
+            throw new AuthorizationServiceException("Sem autorização");
         }
         return clienteService.list();
     }
