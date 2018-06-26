@@ -47,7 +47,7 @@ public class Produto implements Serializable {
     private Categoria categoria;
 
     @OneToOne(mappedBy = "produto", cascade = ALL, fetch = LAZY)
-    private EstatisticasVendas estatisticasVendas = new EstatisticasVendas();
+    private EstatisticasVendas estatisticasVendas;
 
     @JsonIgnoreProperties("produto")
     @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "produto")
