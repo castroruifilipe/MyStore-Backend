@@ -79,4 +79,6 @@ public class EstatisticasVendas {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
+
+
 }
