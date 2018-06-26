@@ -8,7 +8,6 @@ import mystore.models.enums.MetodoPagamento;
 import mystore.models.enums.RoleUtilizador;
 import mystore.services.ClienteService;
 import mystore.services.EncomendaService;
-import mystore.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @RequestMapping("/encomendas")
