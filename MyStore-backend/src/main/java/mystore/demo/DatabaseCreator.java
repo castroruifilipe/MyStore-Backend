@@ -107,12 +107,10 @@ public class DatabaseCreator implements ApplicationRunner {
         return encomendaCreator.getItems();
     }
 
-    public void createPagamentos(Collection<Encomenda> encomendas) {
-        List<Encomenda> porPagar = new ArrayList<>(encomendas);
-        for (int i = 0; i < 70; i++) {
-            Encomenda e = RandomCollectionUtil.choice(porPagar);
+    public void createPagamentos(ArrayList<Encomenda> encomendas) {
+        List<Encomenda> porPagar = encomendas.subList(0, encomendas.size() - 10);
+        for (Encomenda e : porPagar) {
             encomendaService.pagar(e.getId());
-            porPagar.remove(e);
         }
     }
 
