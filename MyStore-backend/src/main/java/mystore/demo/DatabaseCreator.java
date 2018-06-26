@@ -50,13 +50,15 @@ public class DatabaseCreator implements ApplicationRunner {
             createProdutos(namespace.getInt("nProducts"), categorias);
             System.out.println("\nInseridos produtos.");
             List<Produto> produtos = produtoService.list();
-            Set<Cliente> clientes = createClientes(namespace.getInt("nClients"), produtos);
+            createClientes(namespace.getInt("nClients"), produtos);
             System.out.println("\nInseridos clientes.");
+            List<Cliente> clientes = clienteService.list();
             createPromocoes(produtos, categorias);
             System.out.println("\nInseridas promoções.");
-            Set<Encomenda> encomendas = createEncomendas(produtos, new ArrayList<>(clientes));
+            createEncomendas(produtos, clientes);
             System.out.println("\nInseridas encomendas.");
-            createPagamentos(new ArrayList<>(encomendas));
+            List<Encomenda> encomendas = encomendaService.list();
+            createPagamentos(encomendas);
             System.out.println("\nEncomendas pagas.");
         }
 
@@ -70,16 +72,16 @@ public class DatabaseCreator implements ApplicationRunner {
         }
     }
 
-    public Set<Cliente> createClientes(int nClientes, Collection<Produto> produtos) {
+    public void createClientes(int nClientes, Collection<Produto> produtos) {
         ClienteCreator clienteCreator = new ClienteCreator(bCryptPasswordEncoder);
         clienteCreator.addCliente("ruicastroleite@outlook.com", "Rui Leite", "123");
         clienteCreator.addCliente("diogomachado@gmail.com", "Diogo Machado", "123");
         clienteCreator.addCliente("andrerfcsantos@gmail.com", "André Santos", "123");
         clienteCreator.addRandomClientes(nClientes);
-        for (Cliente cliente : clienteCreator.getItems()) {
+        Set<Cliente> clientes = clienteCreator.getItems();
+        for (Cliente cliente : clientes) {
             clienteService.save(cliente);
         }
-        return clienteCreator.getItems();
     }
 
     public void createProdutos(int nProdutos, Collection<Categoria> categorias) {
@@ -98,16 +100,16 @@ public class DatabaseCreator implements ApplicationRunner {
         }
     }
 
-    public Set<Encomenda> createEncomendas(Collection<Produto> produtos, Collection<Cliente> clientes) {
+    public void createEncomendas(Collection<Produto> produtos, Collection<Cliente> clientes) {
         EncomendaCreator encomendaCreator = new EncomendaCreator();
         encomendaCreator.addRandomEncomendas(100, produtos, clientes);
-        for (Encomenda encomenda : encomendaCreator.getItems()) {
+        Set<Encomenda> encomendas = encomendaCreator.getItems();
+        for (Encomenda encomenda : encomendas) {
             encomendaService.save(encomenda);
         }
-        return encomendaCreator.getItems();
     }
 
-    public void createPagamentos(ArrayList<Encomenda> encomendas) {
+    public void createPagamentos(List<Encomenda> encomendas) {
         List<Encomenda> porPagar = encomendas.subList(0, encomendas.size() - 10);
         for (Encomenda e : porPagar) {
             encomendaService.pagar(e.getId());

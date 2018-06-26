@@ -23,4 +23,9 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Optional<Cliente>  get(long uid) { return clienteDAO.find(uid);}
+
+    @Override
+    public List<Cliente> list() {
+        return clienteDAO.getAll();
+    }
 }

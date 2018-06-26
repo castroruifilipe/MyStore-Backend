@@ -28,7 +28,6 @@ public class EncomendaCreator extends Creator<Encomenda> {
             Cliente cli = RandomCollectionUtil.choice(clientes);
             EstadoEncomenda estado = RandomCollectionUtil.choice(estados);
             LocalDateTime data = dateAndTime.past(700, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            LocalDateTime dataPagamento = dateAndTime.past(10, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             MetodoPagamento metodoPagamento = RandomCollectionUtil.choice(metodosPagamento);
             int nLinhas = number.numberBetween(0, 10);
 
