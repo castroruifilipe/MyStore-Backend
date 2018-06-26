@@ -8,10 +8,7 @@ import mystore.services.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
@@ -94,6 +91,11 @@ public class UtilizadorController {
             throw new AuthorizationServiceException("Sem autorização");
         }
         return clienteService.list();
+    }
+
+    @RequestMapping(value = "clientes/{id}", method = GET)
+    public Cliente get(@PathVariable long codigo) {
+        return clienteService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Cliente não existe"));
     }
 
 }
