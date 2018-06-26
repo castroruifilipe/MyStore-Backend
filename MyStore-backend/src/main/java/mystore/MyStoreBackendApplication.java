@@ -50,6 +50,8 @@ public class MyStoreBackendApplication {
                 "/utilizadores/editarDados",
                 "/utilizadores/dados",
                 "/utilizadores/alterarPassword",
+                "/utilizadores/clientes",
+                "/produtos/maisVendidosDetail",
                 "/encomendas/*"
         );
         return registrationBean;
