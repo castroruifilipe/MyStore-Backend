@@ -58,10 +58,6 @@ public class Produto implements Serializable {
     public Produto() {
     }
 
-    public Produto(EstatisticasVendas estatisticasVendas) {
-        this.estatisticasVendas = estatisticasVendas;
-    }
-
     public long getCodigo() {
         return codigo;
     }

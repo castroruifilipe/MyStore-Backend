@@ -33,14 +33,12 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
     public List<Produto> maisVendidos(int quantidadeProdutos) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
-        Root<Produto> root = criteriaQuery.from(type);
+        Root<EstatisticasVendas> root = criteriaQuery.from(EstatisticasVendas.class);
 
-        Join<Produto, EstatisticasVendas> produto_EstatisticasVendas = root.join("estatisticasVendas", INNER);
-
-        Order porQuantidadeVendida = criteriaBuilder.desc(produto_EstatisticasVendas.get("numeroVendas"));
+        Order porQuantidadeVendida = criteriaBuilder.desc(root.get("numeroVendas"));
 
         criteriaQuery
-                .multiselect(produto_EstatisticasVendas)
+                .select(root.get("produto"))
                 .orderBy(porQuantidadeVendida);
 
         return entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
