@@ -32,24 +32,18 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
     @Override
     public List<Produto> maisVendidos(int quantidadeProdutos) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
-        Root<LinhaEncomenda> root = criteriaQuery.from(LinhaEncomenda.class);
+        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
+        Root<Produto> root = criteriaQuery.from(type);
 
-        Join<LinhaEncomenda, Produto> linhaEncomenda_produto = root.join("produto", INNER);
+        Join<Produto, EstatisticasVendas> produto_EstatisticasVendas = root.join("estatisticas_vendas", INNER);
 
-        Expression<?>[] expressions = new Expression[2];
-        expressions[0] = linhaEncomenda_produto.get("codigo");
-        expressions[1] = criteriaBuilder.sum(root.get("quantidade"));
-
-        Order porQuantidadeComprada = criteriaBuilder.desc(criteriaBuilder.sum(root.get("quantidade")));
+        Order porQuantidadeVendida = criteriaBuilder.desc(produto_EstatisticasVendas.get("numeroVendas"));
 
         criteriaQuery
-                .multiselect(expressions)
-                .groupBy(linhaEncomenda_produto.get("codigo"))
-                .orderBy(porQuantidadeComprada);
+                .multiselect(produto_EstatisticasVendas)
+                .orderBy(porQuantidadeVendida);
 
-        List<Object[]> result = entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
-        return result.parallelStream().map(objects -> find((long) objects[0]).get()).collect(Collectors.toList());
+        return entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
     }
 
     @Override
