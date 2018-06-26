@@ -35,7 +35,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
         Root<Produto> root = criteriaQuery.from(type);
 
-        Join<Produto, EstatisticasVendas> produto_EstatisticasVendas = root.join("estatisticas_vendas", INNER);
+        Join<Produto, EstatisticasVendas> produto_EstatisticasVendas = root.join("estatisticasVendas", INNER);
 
         Order porQuantidadeVendida = criteriaBuilder.desc(produto_EstatisticasVendas.get("numeroVendas"));
 
