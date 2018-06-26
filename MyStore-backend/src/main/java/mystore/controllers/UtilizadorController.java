@@ -1,7 +1,9 @@
 package mystore.controllers;
 
+import mystore.models.Cliente;
 import mystore.models.Utilizador;
 import mystore.models.enums.RoleUtilizador;
+import mystore.services.ClienteService;
 import mystore.services.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
+import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
@@ -22,6 +26,9 @@ public class UtilizadorController {
 
     @Autowired
     private UtilizadorService utilizadorService;
+
+    @Autowired
+    private ClienteService clienteService;
 
 
     @RequestMapping(path = "/signin", method = POST)
@@ -78,6 +85,14 @@ public class UtilizadorController {
         if (!r) {
             throw new AuthenticationCredentialsNotFoundException("Credenciais inválidas");
         }
+    }
+
+    @RequestMapping(path = "clientes", method = GET)
+    public List<Cliente> clientes(@RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            //throw new AuthorizationServiceException("Sem autorização");
+        }
+        return clienteService.list();
     }
 
 }
