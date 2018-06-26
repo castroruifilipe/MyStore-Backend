@@ -3,15 +3,19 @@ package mystore.services;
 import mystore.daos.EncomendaDAO;
 import mystore.daos.LinhaEncomendaDAO;
 import mystore.models.*;
+import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
+import static mystore.models.enums.EstadoEncomenda.*;
 
 
 @Service
@@ -33,6 +37,14 @@ public class EncomendaServiceImpl implements EncomendaService {
         encomendaDAO.save(encomenda);
         for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
             encomendaDAO.updateEstatisticasEncomenda(linha);
+        }
+    }
+
+    @Override
+    public void update(Encomenda encomenda) {
+        encomendaDAO.update(encomenda);
+        for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
+            encomendaDAO.updateEstatisticasVenda(linha);
         }
     }
 
@@ -75,5 +87,26 @@ public class EncomendaServiceImpl implements EncomendaService {
         encomenda.setLinhasEncomenda(linhasEncomenda);
         save(encomenda);
         return encomenda;
+    }
+
+    @Override
+    public Optional<Encomenda> pagar(long id) {
+        Optional<Encomenda> optionalEncomenda = encomendaDAO.find(id);
+        if (optionalEncomenda.isPresent()) {
+            Encomenda e = optionalEncomenda.get();
+            LocalDateTime now = LocalDateTime.now();
+            if (e.getDataLimitePagamento().isBefore(now.toLocalDate())) {
+                return Optional.empty();
+            }
+            if (e.getEstado() != AGUARDA_PAGAMENTO) {
+                return Optional.empty();
+            }
+            e.setDataPagamento(now);
+            e.setEstado(EM_PROCESSAMENTO);
+            update(e);
+            return Optional.of(e);
+        } else {
+            return Optional.empty();
+        }
     }
 }

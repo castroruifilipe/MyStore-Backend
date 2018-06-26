@@ -55,6 +55,7 @@ public class DatabaseCreator implements ApplicationRunner {
             createPromocoes(produtos, categorias);
             System.out.println("\nInseridas promoções.");
             createEncomendas(produtos, new ArrayList<>(clientes));
+            System.out.println("\nInseridas encomendas.");
         }
 
     }

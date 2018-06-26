@@ -22,6 +22,7 @@ import java.util.Optional;
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 @RequestMapping("/encomendas")
@@ -68,6 +69,7 @@ public class EncomendaController {
         throw new EntityNotFoundException("Encomenda não existe");
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(path = "/checkout", method = POST)
     public Encomenda checkout(@RequestBody Map<String, Object> body, @RequestAttribute long uid, HttpSession session) {
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
@@ -98,6 +100,17 @@ public class EncomendaController {
             return encomenda;
         }
         throw new EntityNotFoundException("Cliente não existe");
+    }
+
+    @RequestMapping(path = "/pagar", method = PUT)
+    public Encomenda pagar(@RequestBody Map<String, Long> body, @RequestAttribute long uid) {
+        if (!body.containsKey("encomenda")) {
+            throw new IllegalArgumentException("Dados inválidos");
+        }
+        long id = body.get("encomenda");
+        return encomendaService
+                .pagar(id)
+                .orElseThrow(() -> new IllegalArgumentException("Não foi possível pagar"));
     }
 
 }

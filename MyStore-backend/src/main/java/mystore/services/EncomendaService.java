@@ -10,6 +10,8 @@ public interface EncomendaService {
 
     void save(Encomenda encomenda);
 
+    void update(Encomenda encomenda);
+
     List<Encomenda> list();
 
     List<Encomenda> ultimas(int quantidadeEncomendas);
@@ -19,4 +21,6 @@ public interface EncomendaService {
     Optional<Encomenda> get(long id);
 
     Encomenda checkout(Cliente cliente, Morada moradaEntrega, Carrinho carrinho, MetodoPagamento metodoPagamento);
+
+    Optional<Encomenda> pagar(long id);
 }
