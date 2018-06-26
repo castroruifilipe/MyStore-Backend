@@ -47,17 +47,22 @@ public class DatabaseCreator implements ApplicationRunner {
             createCategorias(namespace.getInt("nCategories"));
             System.out.println("\nInseridas categorias.");
             List<Categoria> categorias = categoriaService.list();
+
             createProdutos(namespace.getInt("nProducts"), categorias);
             System.out.println("\nInseridos produtos.");
             List<Produto> produtos = produtoService.list();
-            createClientes(namespace.getInt("nClients"), produtos);
+
+            createClientes(namespace.getInt("nClients"));
             System.out.println("\nInseridos clientes.");
             List<Cliente> clientes = clienteService.list();
+
             createPromocoes(produtos, categorias);
             System.out.println("\nInseridas promoções.");
+
             createEncomendas(produtos, clientes);
             System.out.println("\nInseridas encomendas.");
             List<Encomenda> encomendas = encomendaService.list();
+
             createPagamentos(encomendas);
             System.out.println("\nEncomendas pagas.");
         }
@@ -72,7 +77,7 @@ public class DatabaseCreator implements ApplicationRunner {
         }
     }
 
-    public void createClientes(int nClientes, Collection<Produto> produtos) {
+    public void createClientes(int nClientes) {
         ClienteCreator clienteCreator = new ClienteCreator(bCryptPasswordEncoder);
         clienteCreator.addCliente("ruicastroleite@outlook.com", "Rui Leite", "123");
         clienteCreator.addCliente("diogomachado@gmail.com", "Diogo Machado", "123");
@@ -101,8 +106,8 @@ public class DatabaseCreator implements ApplicationRunner {
 
     public void createEncomendas(Collection<Produto> produtos, Collection<Cliente> clientes) {
         EncomendaCreator encomendaCreator = new EncomendaCreator();
-        encomendaCreator.addRandomEncomendas(100, produtos, clientes);
-        for (Encomenda encomenda : encomendaCreator.getItems()) {
+        List<Encomenda> encomendas = encomendaCreator.addRandomEncomendas(100, produtos, clientes);
+        for (Encomenda encomenda : encomendas) {
             encomendaService.save(encomenda);
         }
     }

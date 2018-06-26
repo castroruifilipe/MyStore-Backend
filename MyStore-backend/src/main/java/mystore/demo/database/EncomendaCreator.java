@@ -20,12 +20,15 @@ public class EncomendaCreator extends Creator<Encomenda> {
         super();
     }
 
-    public void addRandomEncomendas(int nEncomendas, Collection<Produto> produtos, Collection<Cliente> clientes) {
+    public List<Encomenda> addRandomEncomendas(int nEncomendas, Collection<Produto> produtos, Collection<Cliente> clientes) {
         Collection<EstadoEncomenda> estados = Arrays.asList(AGUARDA_PAGAMENTO, CANCELADA);
         Collection<MetodoPagamento> metodosPagamento = Arrays.asList(MetodoPagamento.values());
 
+        List<Encomenda> encomendas = new ArrayList<>();
+
         for (int i = 0; i < nEncomendas; i++) {
             Cliente cli = RandomCollectionUtil.choice(clientes);
+            System.out.println("\n\nCliente:" + cli.getNome());
             EstadoEncomenda estado = RandomCollectionUtil.choice(estados);
             LocalDateTime data = dateAndTime.past(700, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             MetodoPagamento metodoPagamento = RandomCollectionUtil.choice(metodosPagamento);
@@ -36,6 +39,7 @@ public class EncomendaCreator extends Creator<Encomenda> {
             morada.setCodigoPostal(address.zipCode());
             morada.setLocalidade(address.city());
 
+            System.out.println("Morada:" + morada.getRua());
             Encomenda encomenda = new Encomenda();
             encomenda.setDataRegisto(data);
             encomenda.setMoradaEntrega(morada);
@@ -44,6 +48,7 @@ public class EncomendaCreator extends Creator<Encomenda> {
             encomenda.setCliente(cli);
 
             Set<LinhaEncomenda> linhas = createLinhasEncomenda(encomenda, nLinhas, produtos);
+            System.out.println("Linhas de encomenda:" + linhas.size());
             encomenda.setLinhasEncomenda(linhas);
 
             double total = linhas
@@ -52,9 +57,12 @@ public class EncomendaCreator extends Creator<Encomenda> {
                     .sum();
 
             encomenda.setTotal(total);
+            System.out.println("Total:" + encomenda.getTotal());
+            encomendas.add(encomenda);
 
-            items.add(encomenda);
+            System.out.println("Items:" + encomendas.size());
         }
+        return encomendas;
     }
 
     private Set<LinhaEncomenda> createLinhasEncomenda(Encomenda encomenda, int nLinhas, Collection<Produto> produtos) {
