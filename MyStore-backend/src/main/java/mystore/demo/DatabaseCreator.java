@@ -54,8 +54,10 @@ public class DatabaseCreator implements ApplicationRunner {
             System.out.println("\nInseridos clientes.");
             createPromocoes(produtos, categorias);
             System.out.println("\nInseridas promoções.");
-            createEncomendas(produtos, new ArrayList<>(clientes));
+            Set<Encomenda> encomendas = createEncomendas(produtos, new ArrayList<>(clientes));
             System.out.println("\nInseridas encomendas.");
+            createPagamentos(new ArrayList<>(encomendas));
+            System.out.println("\nEncomendas pagas.");
         }
 
     }
@@ -96,12 +98,13 @@ public class DatabaseCreator implements ApplicationRunner {
         }
     }
 
-    public void createEncomendas(Collection<Produto> produtos, Collection<Cliente> clientes) {
+    public Set<Encomenda> createEncomendas(Collection<Produto> produtos, Collection<Cliente> clientes) {
         EncomendaCreator encomendaCreator = new EncomendaCreator();
         encomendaCreator.addRandomEncomendas(100, produtos, clientes);
         for (Encomenda encomenda : encomendaCreator.getItems()) {
             encomendaService.save(encomenda);
         }
+        return encomendaCreator.getItems();
     }
 
     public void createPagamentos(Collection<Encomenda> encomendas) {
