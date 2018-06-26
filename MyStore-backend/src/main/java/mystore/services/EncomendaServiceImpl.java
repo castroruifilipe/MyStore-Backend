@@ -38,8 +38,6 @@ public class EncomendaServiceImpl implements EncomendaService {
         for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
             encomendaDAO.updateEstatisticasEncomenda(linha);
         }
-
-        System.out.println("\n\nAQUI");
     }
 
     @Override

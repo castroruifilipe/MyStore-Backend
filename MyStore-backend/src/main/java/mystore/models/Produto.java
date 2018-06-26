@@ -156,9 +156,7 @@ public class Produto implements Serializable {
 
     @PrePersist
     public void setDefault() {
-        if (dataRegisto == null) {
-            dataRegisto = LocalDateTime.now();
-        }
+        dataRegisto = LocalDateTime.now();
     }
 
     @Override

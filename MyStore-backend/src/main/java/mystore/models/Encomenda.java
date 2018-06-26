@@ -152,21 +152,13 @@ public class Encomenda {
 
     @PrePersist
     public void setDefault() {
-        if (dataRegisto == null) {
-            dataRegisto = LocalDateTime.now();
-        }
-        if (dataLimitePagamento == null) {
-            dataLimitePagamento = LocalDate.now().plusDays(7);
-        }
-        if (portes == 0.0) {
-            portes = 5.45;
-        }
-        if (total == 0.0) {
-            total = portes + linhasEncomenda
-                    .parallelStream()
-                    .mapToDouble(LinhaEncomenda::getSubTotal)
-                    .sum();
-        }
+        dataRegisto = LocalDateTime.now();
+        dataLimitePagamento = LocalDate.now().plusDays(7);
+        portes = 5.45;
+        total = portes + linhasEncomenda
+                .parallelStream()
+                .mapToDouble(LinhaEncomenda::getSubTotal)
+                .sum();
         if (estado == null) {
             estado = AGUARDA_PAGAMENTO;
         }

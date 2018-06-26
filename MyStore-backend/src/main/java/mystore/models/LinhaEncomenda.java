@@ -88,12 +88,8 @@ public class LinhaEncomenda implements Serializable {
 
     @PrePersist
     public void setDefault() {
-        if (precoUnitario == 0.0) {
-            precoUnitario = produto.getPrecoBase();
-        }
-        if (valorDesconto == 0.0) {
-            valorDesconto = produto.getValorDesconto();
-        }
+        precoUnitario = produto.getPrecoBase();
+        valorDesconto = produto.getValorDesconto();
     }
 
     @Override
