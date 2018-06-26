@@ -22,6 +22,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
+    @Transactional
     public Optional<Cliente>  get(long uid) { return clienteDAO.find(uid);}
 
     @Override
