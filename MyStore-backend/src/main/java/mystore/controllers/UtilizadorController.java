@@ -94,8 +94,11 @@ public class UtilizadorController {
     }
 
     @RequestMapping(value = "clientes/{id}", method = GET)
-    public Cliente get(@PathVariable long codigo) {
-        return clienteService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Cliente não existe"));
+    public Cliente get(@PathVariable long id, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        return clienteService.get(id).orElseThrow(() -> new EntityNotFoundException("Cliente não existe"));
     }
 
 }
