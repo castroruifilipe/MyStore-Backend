@@ -33,7 +33,10 @@ public class DatabaseCreator implements ApplicationRunner {
     private ClienteService clienteService;
 
     @Autowired
-    PromocaoService promocaoService;
+    private PromocaoService promocaoService;
+
+    @Autowired
+    private EncomendaService encomendaService;
 
     @Autowired
     protected BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -71,7 +74,7 @@ public class DatabaseCreator implements ApplicationRunner {
         clienteCreator.addCliente("ruicastroleite@outlook.com", "Rui Leite", "123");
         clienteCreator.addCliente("diogomachado@gmail.com", "Diogo Machado", "123");
         clienteCreator.addCliente("andrerfcsantos@gmail.com", "André Santos", "123");
-        clienteCreator.addRandomClientes(nClientes, produtos);
+        clienteCreator.addRandomClientes(nClientes);
         for (Cliente cliente : clienteCreator.getItems()) {
             clienteService.save(cliente);
         }
@@ -90,6 +93,14 @@ public class DatabaseCreator implements ApplicationRunner {
         promocaoCreator.addRandomPromocoes(new ArrayList<>(produtos), new ArrayList<>(categorias));
         for (Promocao promocao : promocaoCreator.getItems()) {
             promocaoService.save(promocao);
+        }
+    }
+
+    public void createEncomendas(Collection<Produto> produtos, Collection<Cliente> clientes) {
+        EncomendaCreator encomendaCreator = new EncomendaCreator();
+        encomendaCreator.addRandomEncomendas(100, produtos, clientes);
+        for (Encomenda encomenda : encomendaCreator.getItems()) {
+            encomendaService.save(encomenda);
         }
     }
 

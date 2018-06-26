@@ -11,6 +11,8 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import static mystore.models.enums.EstadoEncomenda.*;
+
 public class EncomendaCreator extends Creator<Encomenda> {
 
 
@@ -18,11 +20,12 @@ public class EncomendaCreator extends Creator<Encomenda> {
         super();
     }
 
-    public void addRandomEncomendas(int nEncomendas, Collection<Produto> produtos, Cliente cli) {
-        Collection<EstadoEncomenda> estados = Arrays.asList(EstadoEncomenda.values());
+    public void addRandomEncomendas(int nEncomendas, Collection<Produto> produtos, Collection<Cliente> clientes) {
+        Collection<EstadoEncomenda> estados = Arrays.asList(AGUARDA_PAGAMENTO, CANCELADA);
         Collection<MetodoPagamento> metodosPagamento = Arrays.asList(MetodoPagamento.values());
 
         for (int i = 0; i < nEncomendas; i++) {
+            Cliente cli = RandomCollectionUtil.choice(clientes);
             EstadoEncomenda estado = RandomCollectionUtil.choice(estados);
             LocalDateTime data = dateAndTime.past(700, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             LocalDateTime dataPagamento = dateAndTime.past(10, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
@@ -50,11 +53,6 @@ public class EncomendaCreator extends Creator<Encomenda> {
                     .sum();
 
             encomenda.setTotal(total);
-
-            if (encomenda.getEstado() != EstadoEncomenda.AGUARDA_PAGAMENTO
-                    && encomenda.getEstado() != EstadoEncomenda.CANCELADA) {
-                encomenda.setDataPagamento(dataPagamento);
-            }
 
             items.add(encomenda);
         }

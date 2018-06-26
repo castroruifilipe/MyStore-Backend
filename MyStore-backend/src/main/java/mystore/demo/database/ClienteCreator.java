@@ -28,7 +28,7 @@ public class ClienteCreator extends Creator<Cliente> {
     }
 
 
-    public void addRandomClientes(int nClientes, Collection<Produto> produtos) {
+    public void addRandomClientes(int nClientes) {
         for (int i = 0; i < nClientes; i++) {
             Cliente cli = new Cliente();
             cli.setEmail(internet.emailAddress());
@@ -44,13 +44,6 @@ public class ClienteCreator extends Creator<Cliente> {
             morada.setLocalidade(address.city());
 
             cli.setMorada(morada);
-
-            if (produtos != null) {
-                EncomendaCreator encomendaCreator = new EncomendaCreator();
-                encomendaCreator.addRandomEncomendas(number.numberBetween(0, 10), produtos, cli);
-                cli.setEncomendas(encomendaCreator.getItems());
-            }
-
             items.add(cli);
         }
     }
