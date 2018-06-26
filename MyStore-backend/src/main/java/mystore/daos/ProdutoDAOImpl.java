@@ -1,9 +1,6 @@
 package mystore.daos;
 
-import mystore.models.Categoria;
-import mystore.models.LinhaEncomenda;
-import mystore.models.Produto;
-import mystore.models.Promocao;
+import mystore.models.*;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.*;
@@ -53,37 +50,6 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
 
         List<Object[]> result = entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
         return result.parallelStream().map(objects -> find((long) objects[0]).get()).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Object[]> maisVendidosDetail(int quantidadeProdutos) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
-        Root<LinhaEncomenda> root = criteriaQuery.from(LinhaEncomenda.class);
-
-        Join<LinhaEncomenda, Produto> linhaEncomenda_produto = root.join("produto", INNER);
-
-        Expression<?>[] expressions = new Expression[2];
-        expressions[0] = linhaEncomenda_produto.get("codigo");
-        expressions[1] = criteriaBuilder.sum(root.get("quantidade"));
-
-        Order porQuantidadeComprada = criteriaBuilder.desc(criteriaBuilder.sum(root.get("quantidade")));
-
-        criteriaQuery
-                .multiselect(expressions)
-                .groupBy(linhaEncomenda_produto.get("codigo"))
-                .orderBy(porQuantidadeComprada);
-
-        List<Object[]> list = entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
-        List<Object[]> result = new ArrayList<>();
-        for (Object[] objects : list) {
-            Object[] o = new Object[3];
-            o[0] = find((long) objects[0]).get();
-            o[1] = objects[1];
-            o[2] = totalFaturado((long) objects[0]);
-            result.add(o);
-        }
-        return result;
     }
 
     @Override
@@ -173,22 +139,4 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         }
         entityManager.createQuery(criteriaUpdate).executeUpdate();
     }
-
-    @Override
-    public double totalFaturado(long codigoProduto) {
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Double> criteriaQuery = criteriaBuilder.createQuery(Double.class);
-        Root<LinhaEncomenda> root = criteriaQuery.from(LinhaEncomenda.class);
-        Expression<Double> preco = criteriaBuilder.diff(root.get("precoUnitario"), root.get("valorDesconto"));
-        Expression<Double> precoLinha = criteriaBuilder.prod(preco, root.get("quantidade"));
-        Expression<Double> total = criteriaBuilder.sum(precoLinha);
-        criteriaQuery
-                .select(total.alias("total"))
-                .where(criteriaBuilder.equal(root.get("produto"), codigoProduto));
-        double r = entityManager.createQuery(criteriaQuery).getSingleResult();
-        System.out.println("\n\nfaturado: " + r);
-
-        return r;
-    }
-
 }

@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -22,12 +24,16 @@ public class EncomendaServiceImpl implements EncomendaService {
     @Autowired
     private LinhaEncomendaDAO linhaEncomendaDAO;
 
+
     @Override
     public void save(Encomenda encomenda) {
         for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
             linhaEncomendaDAO.save(linha);
         }
         encomendaDAO.save(encomenda);
+        for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
+            encomendaDAO.updateEstatisticasEncomenda(linha);
+        }
     }
 
     @Override

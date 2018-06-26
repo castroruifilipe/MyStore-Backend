@@ -46,6 +46,10 @@ public class Produto implements Serializable {
     @JoinColumn(name = "categoria")
     private Categoria categoria;
 
+    @OneToOne(fetch = LAZY, cascade = ALL)
+    @JoinColumn(name = "estatisticas_vendas")
+    private EstatisticasVendas estatisticasVendas;
+
     @JsonIgnoreProperties("produto")
     @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "produto")
     private Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
@@ -140,6 +144,14 @@ public class Produto implements Serializable {
 
     public double getValorDesconto() {
         return precoBase - getPrecoFinal();
+    }
+
+    public EstatisticasVendas getEstatisticasVendas() {
+        return estatisticasVendas;
+    }
+
+    public void setEstatisticasVendas(EstatisticasVendas estatisticasVendas) {
+        this.estatisticasVendas = estatisticasVendas;
     }
 
     @PrePersist

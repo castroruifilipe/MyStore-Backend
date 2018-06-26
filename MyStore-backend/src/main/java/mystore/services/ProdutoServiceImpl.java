@@ -39,8 +39,9 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public List<Object[]> maisVendidosDetail(int quantidadeProdutos) {
-        return produtoDAO.maisVendidosDetail(quantidadeProdutos);
+    @Transactional
+    public List<Produto> maisVendidosDetail(int quantidadeProdutos) {
+        return produtoDAO.maisVendidos(quantidadeProdutos);
     }
 
     @Override

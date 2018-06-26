@@ -47,7 +47,7 @@ public class ProdutoController {
     }
 
     @RequestMapping(value = "/maisVendidosDetail/{quantidadeProdutos}", method = GET)
-    public List<Object[]> maisVendidosDetail(@PathVariable int quantidadeProdutos) {
+    public List<Produto> maisVendidosDetail(@PathVariable int quantidadeProdutos) {
         return produtoService.maisVendidosDetail(quantidadeProdutos);
     }
 

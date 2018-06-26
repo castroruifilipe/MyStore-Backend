@@ -1,11 +1,9 @@
 package mystore.services;
 
-import mystore.models.Categoria;
+import mystore.models.Encomenda;
 import mystore.models.Produto;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public interface ProdutoService {
@@ -20,7 +18,7 @@ public interface ProdutoService {
 
     List<Produto> maisVendidos(int quantidadeProdutos);
 
-    List<Object[]> maisVendidosDetail(int quantidadeProdutos);
+    List<Produto> maisVendidosDetail(int quantidadeProdutos);
 
     List<Produto> emPromocao(int quantidadeProdutos);
 

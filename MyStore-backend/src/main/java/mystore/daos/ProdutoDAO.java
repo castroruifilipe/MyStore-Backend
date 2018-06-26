@@ -1,20 +1,15 @@
 package mystore.daos;
 
-import mystore.models.Categoria;
 import mystore.models.Produto;
 import mystore.models.Promocao;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public interface ProdutoDAO extends GenericDAO<Produto, Long> {
 
     List<Produto> novidades(int quantidadeProdutos);
 
     List<Produto> maisVendidos(int quantidadeProdutos);
-
-    List<Object[]> maisVendidosDetail(int quantidadeProdutos);
 
     List<Produto> emPromocao(int quantidadeProdutos);
 
@@ -28,5 +23,4 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long> {
 
     void updatePrices(Promocao promocao);
 
-    double totalFaturado(long codigoProduto);
 }
