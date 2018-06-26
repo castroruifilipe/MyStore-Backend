@@ -78,8 +78,7 @@ public class DatabaseCreator implements ApplicationRunner {
         clienteCreator.addCliente("diogomachado@gmail.com", "Diogo Machado", "123");
         clienteCreator.addCliente("andrerfcsantos@gmail.com", "André Santos", "123");
         clienteCreator.addRandomClientes(nClientes);
-        Set<Cliente> clientes = clienteCreator.getItems();
-        for (Cliente cliente : clientes) {
+        for (Cliente cliente : clienteCreator.getItems()) {
             clienteService.save(cliente);
         }
     }
@@ -103,8 +102,7 @@ public class DatabaseCreator implements ApplicationRunner {
     public void createEncomendas(Collection<Produto> produtos, Collection<Cliente> clientes) {
         EncomendaCreator encomendaCreator = new EncomendaCreator();
         encomendaCreator.addRandomEncomendas(100, produtos, clientes);
-        Set<Encomenda> encomendas = encomendaCreator.getItems();
-        for (Encomenda encomenda : encomendas) {
+        for (Encomenda encomenda : encomendaCreator.getItems()) {
             encomendaService.save(encomenda);
         }
     }
