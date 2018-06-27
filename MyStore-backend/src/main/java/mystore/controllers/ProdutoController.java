@@ -41,8 +41,8 @@ public class ProdutoController {
         return produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
     }
 
-    @RequestMapping(value = "novo", method = POST)
-    public Produto novo(@RequestBody Map<String, String> body, @RequestAttribute RoleUtilizador role) {
+    @RequestMapping(value = "criar", method = POST)
+    public Produto criar(@RequestBody Map<String, String> body, @RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
             throw new AuthorizationServiceException("Sem autorização");
         }
@@ -58,7 +58,7 @@ public class ProdutoController {
                 .get(body.get("categoria"))
                 .orElseThrow(() -> new EntityNotFoundException("Categoria não existe"));
 
-        return produtoService.novo(nome, descricao, precoBase, stock, categoria);
+        return produtoService.criar(nome, descricao, precoBase, stock, categoria);
     }
 
     @RequestMapping(value = "/novidades/{quantidadeProdutos}", method = GET)

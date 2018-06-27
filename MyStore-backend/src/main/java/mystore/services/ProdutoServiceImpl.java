@@ -76,7 +76,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public Produto novo(String nome, String descricao, double precoBase, int stock, Categoria categoria) {
+    public Produto criar(String nome, String descricao, double precoBase, int stock, Categoria categoria) {
         Produto produto = new Produto();
         produto.setNome(nome);
         produto.setDescricao(descricao);

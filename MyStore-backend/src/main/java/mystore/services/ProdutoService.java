@@ -12,7 +12,7 @@ public interface ProdutoService {
 
     void save(Produto produto);
 
-    Produto novo(String nome, String descricao, double precoBase, int stock, Categoria categoria);
+    Produto criar(String nome, String descricao, double precoBase, int stock, Categoria categoria);
 
     Optional<Produto> get(long codigo);
 
