@@ -36,6 +36,11 @@ public class PromocaoServiceImpl implements PromocaoService {
     }
 
     @Override
+    public List<Promocao> list() {
+        return promocaoDAO.getAll();
+    }
+
+    @Override
     public Optional<SimpleEntry<Promocao, Double>> get(Produto produto) {
         List<Promocao> promocoesProduto = promocaoDAO.listByProduto(produto.getCodigo());
         List<Promocao> promocoesCategoria = promocaoDAO.listByCategoria(produto.getCategoria().getDescricao());
