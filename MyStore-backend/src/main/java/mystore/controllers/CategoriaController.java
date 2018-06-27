@@ -29,7 +29,7 @@ public class CategoriaController {
         return categorias;
     }
 
-    @RequestMapping(path = "/{descricao}", method = DELETE)
+    @RequestMapping(path = "{descricao}", method = DELETE)
     public void delete(@PathVariable String descricao) {
         Optional<Categoria> optionalCategoria = categoriaService.get(descricao);
         if (optionalCategoria.isPresent()) {
