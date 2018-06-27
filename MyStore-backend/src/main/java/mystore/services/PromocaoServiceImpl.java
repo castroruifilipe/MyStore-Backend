@@ -16,6 +16,7 @@ import static java.util.AbstractMap.SimpleEntry;
 
 
 @Service
+@Transactional
 public class PromocaoServiceImpl implements PromocaoService {
 
     @Autowired

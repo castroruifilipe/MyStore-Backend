@@ -19,6 +19,7 @@ import static mystore.models.enums.EstadoEncomenda.EM_PROCESSAMENTO;
 
 
 @Service
+@Transactional
 public class EncomendaServiceImpl implements EncomendaService {
 
     @Autowired

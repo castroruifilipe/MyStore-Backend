@@ -3,11 +3,13 @@ package mystore.services;
 import mystore.models.MyStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.TreeMap;
 
 @Service
+@Transactional
 public class MyStoreServiceImpl implements MyStoreService {
 
     @Autowired
