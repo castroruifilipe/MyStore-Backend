@@ -3,12 +3,11 @@ package mystore.controllers;
 import mystore.models.Categoria;
 import mystore.services.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -29,8 +28,8 @@ public class CategoriaController {
         return categorias;
     }
 
-    @RequestMapping(path = "/apagar/{descricao}", method = DELETE)
-    public void delete(@PathVariable String descricao) {
+    @RequestMapping(method = DELETE)
+    public void delete(@RequestParam String descricao) {
         Optional<Categoria> optionalCategoria = categoriaService.get(descricao);
         if (optionalCategoria.isPresent()) {
             categoriaService.delete(optionalCategoria.get());
