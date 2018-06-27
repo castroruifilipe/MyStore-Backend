@@ -1,9 +1,8 @@
 package mystore.models;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Objects;
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "linha_encomenda")

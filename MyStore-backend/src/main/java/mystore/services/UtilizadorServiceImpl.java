@@ -27,7 +27,6 @@ import static mystore.models.enums.RoleUtilizador.CLIENTE;
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
 
 @Service
-@Transactional
 public class UtilizadorServiceImpl implements UtilizadorService {
 
     private static final String ISSUER = "in.sdqali.jwt";

@@ -1,6 +1,5 @@
 package mystore.services;
 
-import mystore.models.Encomenda;
 import mystore.models.Produto;
 
 import java.util.List;

@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
     protected ClienteDAO clienteDAO;
+
 
     @Override
     public void save(Cliente objToSave) {
@@ -23,7 +23,9 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     @Transactional
-    public Optional<Cliente>  get(long uid) { return clienteDAO.find(uid);}
+    public Optional<Cliente> get(long uid) {
+        return clienteDAO.find(uid);
+    }
 
     @Override
     public List<Cliente> list() {

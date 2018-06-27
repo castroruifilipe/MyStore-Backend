@@ -3,7 +3,6 @@ package mystore.services;
 import mystore.models.Utilizador;
 import mystore.models.enums.RoleUtilizador;
 
-import javax.management.relation.Role;
 import java.util.Map;
 import java.util.Optional;
 

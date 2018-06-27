@@ -3,7 +3,6 @@ package mystore.services;
 import mystore.daos.EncomendaDAO;
 import mystore.daos.LinhaEncomendaDAO;
 import mystore.models.*;
-import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +14,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static mystore.models.enums.EstadoEncomenda.*;
+import static mystore.models.enums.EstadoEncomenda.AGUARDA_PAGAMENTO;
+import static mystore.models.enums.EstadoEncomenda.EM_PROCESSAMENTO;
 
 
 @Service
-@Transactional
 public class EncomendaServiceImpl implements EncomendaService {
 
     @Autowired
