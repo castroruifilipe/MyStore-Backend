@@ -53,6 +53,7 @@ public class MyStoreBackendApplication {
                 "/utilizadores/clientes",
                 "/utilizadores/clientes/*",
                 "/produtos/maisVendidosDetail",
+                "/produtos/new",
                 "/encomendas/*"
         );
         return registrationBean;

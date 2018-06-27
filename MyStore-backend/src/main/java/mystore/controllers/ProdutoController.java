@@ -2,18 +2,23 @@ package mystore.controllers;
 
 import mystore.models.Categoria;
 import mystore.models.Produto;
+import mystore.models.enums.RoleUtilizador;
 import mystore.services.CategoriaService;
 import mystore.services.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/produtos")
@@ -34,6 +39,26 @@ public class ProdutoController {
     @RequestMapping(value = "/{codigo}", method = GET)
     public Produto get(@PathVariable long codigo) {
         return produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
+    }
+
+    @RequestMapping(value = "novo", method = POST)
+    public Produto novo(@RequestBody Map<String, String> body, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        if (!body.containsKey("nome") || !body.containsKey("descricao") || !body.containsKey("precoBase")
+                || !body.containsKey("stock") || !body.containsKey("iva") || !body.containsKey("categoria")) {
+            throw new IllegalArgumentException("Dados inválidos");
+        }
+        String nome = body.get("nome");
+        String descricao = body.get("descricao");
+        double precoBase = Double.valueOf(body.get("precoBase"));
+        int stock = Integer.valueOf(body.get("stock"));
+        Categoria categoria = categoriaService
+                .get(body.get("categoria"))
+                .orElseThrow(() -> new EntityNotFoundException("Categoria não existe"));
+
+        return produtoService.novo(nome, descricao, precoBase, stock, categoria);
     }
 
     @RequestMapping(value = "/novidades/{quantidadeProdutos}", method = GET)

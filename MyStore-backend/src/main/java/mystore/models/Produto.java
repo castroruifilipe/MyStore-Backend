@@ -36,9 +36,6 @@ public class Produto implements Serializable {
     @Column(nullable = false)
     private int stock;
 
-    @Column(nullable = false)
-    private float iva;
-
     @Column(name = "data_registo")
     private LocalDateTime dataRegisto;
 
@@ -106,14 +103,6 @@ public class Produto implements Serializable {
         this.stock = stock;
     }
 
-    public float getIva() {
-        return iva;
-    }
-
-    public void setIva(float iva) {
-        this.iva = iva;
-    }
-
     public Categoria getCategoria() {
         return categoria;
     }
@@ -157,6 +146,8 @@ public class Produto implements Serializable {
     @PrePersist
     public void setDefault() {
         dataRegisto = LocalDateTime.now();
+        estatisticasVendas = new EstatisticasVendas();
+        estatisticasVendas.setProduto(this);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package mystore.services;
 
+import mystore.models.Categoria;
 import mystore.models.Produto;
 
 import java.util.List;
@@ -10,6 +11,8 @@ public interface ProdutoService {
     List<Produto> list();
 
     void save(Produto produto);
+
+    Produto novo(String nome, String descricao, double precoBase, int stock, Categoria categoria);
 
     Optional<Produto> get(long codigo);
 

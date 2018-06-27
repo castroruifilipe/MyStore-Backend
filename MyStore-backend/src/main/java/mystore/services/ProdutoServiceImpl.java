@@ -1,6 +1,7 @@
 package mystore.services;
 
 import mystore.daos.ProdutoDAO;
+import mystore.models.Categoria;
 import mystore.models.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,5 +72,17 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void save(Produto produto) {
         produtoDAO.save(produto);
+    }
+
+    @Override
+    public Produto novo(String nome, String descricao, double precoBase, int stock, Categoria categoria) {
+        Produto produto = new Produto();
+        produto.setNome(nome);
+        produto.setDescricao(descricao);
+        produto.setPrecoBase(precoBase);
+        produto.setStock(stock);
+        produto.setCategoria(categoria);
+        save(produto);
+        return produto;
     }
 }
