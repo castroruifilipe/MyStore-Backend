@@ -1,6 +1,7 @@
 package mystore.daos;
 
 import mystore.models.Categoria;
+import mystore.models.Produto;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
@@ -25,5 +26,16 @@ public class CategoriaDAOImpl extends GenericDAOImpl<Categoria, Long> implements
         } catch (NoResultException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public boolean canDelete(long id) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+        Root<Produto> root = criteriaQuery.from(Produto.class);
+        criteriaQuery
+                .select(root.get("codigo"))
+                .where(criteriaBuilder.equal(root.get("categoria"), id));
+        return entityManager.createQuery(criteriaQuery).setMaxResults(1).getResultList().isEmpty();
     }
 }

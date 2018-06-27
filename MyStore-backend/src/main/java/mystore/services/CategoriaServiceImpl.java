@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,15 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public Optional<Categoria> get(String descricao) {
         return categoriaDAO.find(descricao);
+    }
+
+    @Override
+    public void delete(Categoria categoria) {
+        if (categoriaDAO.canDelete(categoria.getId())) {
+            categoriaDAO.delete(categoria);
+        } else {
+            throw new EntityExistsException("Existem produtos para esta categoria");
+        }
     }
 
 }

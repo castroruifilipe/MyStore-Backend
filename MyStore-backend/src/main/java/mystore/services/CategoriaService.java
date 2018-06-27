@@ -13,4 +13,6 @@ public interface CategoriaService {
     void save(Categoria categoria);
 
     Optional<Categoria> get(String descricao);
+
+    void delete(Categoria categoria);
 }
