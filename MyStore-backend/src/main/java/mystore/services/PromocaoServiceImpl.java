@@ -4,6 +4,7 @@ import mystore.daos.ProdutoDAO;
 import mystore.daos.PromocaoDAO;
 import mystore.models.Produto;
 import mystore.models.Promocao;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,14 @@ public class PromocaoServiceImpl implements PromocaoService {
         if (promocao.isAtual()) {
             produtoDAO.updatePrices(promocao);
         }
+    }
+
+    @Override
+    @Transactional
+    public Optional<Promocao> get(long id) {
+        Optional<Promocao> optionalPromocao = promocaoDAO.find(id);
+        optionalPromocao.ifPresent(promocao -> Hibernate.initialize(promocao.getProdutos()));
+        return optionalPromocao;
     }
 
     @Override

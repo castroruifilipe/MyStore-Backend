@@ -12,6 +12,8 @@ public interface PromocaoService {
 
     void save(Promocao promocao);
 
+    Optional<Promocao> get(long id);
+
     List<Promocao> list();
 
     Optional<SimpleEntry<Promocao, Double>> get(Produto produto);

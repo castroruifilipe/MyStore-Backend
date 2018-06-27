@@ -1,5 +1,7 @@
 package mystore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -37,7 +39,8 @@ public class Promocao implements Serializable {
     )
     private Set<Produto> produtos = new HashSet<>();
 
-    @ManyToOne(fetch = LAZY)
+    @JsonIgnoreProperties("promocoes")
+    @ManyToOne(fetch = EAGER)
     private Categoria categoria;
 
 
