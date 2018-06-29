@@ -47,7 +47,7 @@ public class ProdutoController {
             throw new AuthorizationServiceException("Sem autorização");
         }
         if (!body.containsKey("nome") || !body.containsKey("descricao") || !body.containsKey("precoBase")
-                || !body.containsKey("stock") || !body.containsKey("iva") || !body.containsKey("categoria")) {
+                || !body.containsKey("stock") || !body.containsKey("categoria")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
         String nome = body.get("nome");
