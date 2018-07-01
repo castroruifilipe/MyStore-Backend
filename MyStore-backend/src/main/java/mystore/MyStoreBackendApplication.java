@@ -58,7 +58,7 @@ public class MyStoreBackendApplication {
                 "/encomendas/*",
                 "/categorias/apagar",
                 "/categorias/criar",
-                "/promocoes"
+                "/promocoes/*"
         );
         return registrationBean;
     }
