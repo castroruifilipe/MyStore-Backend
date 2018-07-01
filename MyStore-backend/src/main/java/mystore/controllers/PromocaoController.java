@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
@@ -57,8 +58,14 @@ public class PromocaoController {
         }
         String descricao = (String) body.get("descricao");
         double desconto = Double.valueOf((String) body.get("desconto"));
-        LocalDate dataInicio = (LocalDate) body.get("dataInicio");
-        LocalDate dataFim = (LocalDate) body.get("dataFim");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        LocalDate dataInicio = LocalDate.parse((String) body.get("dataInicio"), formatter);
+        LocalDate dataFim = LocalDate.parse((String) body.get("dataFim"), formatter);
+
+        if (dataInicio.isAfter(dataFim)) {
+            throw new IllegalArgumentException("Dados inválidos");
+        }
 
         if (body.containsKey("categoria")) {
             String descricaoCategoria = (String) body.get("categoria");
