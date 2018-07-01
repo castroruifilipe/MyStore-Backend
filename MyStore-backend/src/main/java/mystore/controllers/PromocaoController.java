@@ -56,7 +56,7 @@ public class PromocaoController {
             throw new IllegalArgumentException("Dados inválidos");
         }
         String descricao = (String) body.get("descricao");
-        Double desconto = (Double) body.get("desconto");
+        double desconto = Double.valueOf((String) body.get("desconto"));
         LocalDate dataInicio = (LocalDate) body.get("dataInicio");
         LocalDate dataFim = (LocalDate) body.get("dataFim");
 
