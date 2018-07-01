@@ -32,4 +32,6 @@ public interface ProdutoService {
 
     List<Produto> search(long categoria, String value);
 
+    void apagar(long codigo);
+
 }

@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -57,7 +58,6 @@ public class ProdutoController {
         Categoria categoria = categoriaService
                 .get(body.get("categoria"))
                 .orElseThrow(() -> new EntityNotFoundException("Categoria não existe"));
-
         return produtoService.criar(nome, descricao, precoBase, stock, categoria);
     }
 
@@ -113,6 +113,14 @@ public class ProdutoController {
             return produtoService.related(optionalProduto.get(), quantidadeProdutos);
         }
         throw new EntityNotFoundException("Produto não existe");
+    }
+
+    @RequestMapping(value = "apagar", method = DELETE)
+    public void apagar(@RequestParam Long codigo, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        produtoService.apagar(codigo);
     }
 
 }

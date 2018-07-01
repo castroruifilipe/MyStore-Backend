@@ -21,6 +21,8 @@ public class Produto implements Serializable {
     @GeneratedValue
     private long codigo;
 
+    private boolean active;
+
     @Column(nullable = false)
     private String nome;
 
@@ -148,6 +150,7 @@ public class Produto implements Serializable {
         dataRegisto = LocalDateTime.now();
         estatisticasVendas = new EstatisticasVendas();
         estatisticasVendas.setProduto(this);
+        active = true;
     }
 
     @Override

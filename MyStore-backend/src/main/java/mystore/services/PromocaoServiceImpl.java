@@ -2,6 +2,7 @@ package mystore.services;
 
 import mystore.daos.ProdutoDAO;
 import mystore.daos.PromocaoDAO;
+import mystore.models.Categoria;
 import mystore.models.Produto;
 import mystore.models.Promocao;
 import org.hibernate.Hibernate;
@@ -9,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static java.util.AbstractMap.SimpleEntry;
 
@@ -72,5 +75,29 @@ public class PromocaoServiceImpl implements PromocaoService {
         } else {
             return Optional.of(new SimpleEntry<>(melhor_promocao, melhor_preco));
         }
+    }
+
+    @Override
+    public Promocao criar(String descricao, double desconto, LocalDate dataInicio, LocalDate dataFim, Categoria categoria) {
+        Promocao promocao = new Promocao();
+        promocao.setDescricao(descricao);
+        promocao.setDataInicio(dataInicio);
+        promocao.setDataFim(dataFim);
+        promocao.setDesconto(desconto);
+        promocao.setCategoria(categoria);
+        save(promocao);
+        return promocao;
+    }
+
+    @Override
+    public Promocao criar(String descricao, double desconto, LocalDate dataInicio, LocalDate dataFim, Set<Produto> produtos) {
+        Promocao promocao = new Promocao();
+        promocao.setDescricao(descricao);
+        promocao.setDataInicio(dataInicio);
+        promocao.setDataFim(dataFim);
+        promocao.setDesconto(desconto);
+        promocao.setProdutos(produtos);
+        save(promocao);
+        return promocao;
     }
 }

@@ -131,4 +131,14 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         }
         entityManager.createQuery(criteriaUpdate).executeUpdate();
     }
+
+    @Override
+    public void apagar(long codigo) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaUpdate<Produto> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(type);
+        Root<Produto> root = criteriaUpdate.from(type);
+        criteriaUpdate
+                .set(root.get("active"), false);
+        entityManager.createQuery(criteriaUpdate).executeUpdate();
+    }
 }

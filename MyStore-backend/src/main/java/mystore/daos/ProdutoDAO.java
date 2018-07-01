@@ -23,4 +23,6 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long> {
 
     void updatePrices(Promocao promocao);
 
+    void apagar(long codigo);
+
 }

@@ -71,6 +71,11 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    public void apagar(long codigo) {
+        produtoDAO.apagar(codigo);
+    }
+
+    @Override
     public void save(Produto produto) {
         produtoDAO.save(produto);
     }
@@ -86,4 +91,5 @@ public class ProdutoServiceImpl implements ProdutoService {
         save(produto);
         return produto;
     }
+
 }
