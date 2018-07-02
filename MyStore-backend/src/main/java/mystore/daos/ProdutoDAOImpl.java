@@ -21,10 +21,11 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
         Root<Produto> root = criteriaQuery.from(Produto.class);
         Predicate novidade = criteriaBuilder.greaterThanOrEqualTo(root.get("dataRegisto"), LocalDateTime.now().minusDays(7));
+        Predicate active = criteriaBuilder.equal(root.get("active"), true);
         Order porDataDesc = criteriaBuilder.desc(root.get("dataRegisto"));
         criteriaQuery
                 .select(root)
-                .where(novidade)
+                .where(criteriaBuilder.and(novidade, active))
                 .orderBy(porDataDesc);
         return entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
     }
@@ -35,10 +36,13 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
         Root<EstatisticasVendas> root = criteriaQuery.from(EstatisticasVendas.class);
 
+        Predicate active = criteriaBuilder.equal(root.get("active"), true);
+
         Order porQuantidadeVendida = criteriaBuilder.desc(root.get("numeroVendas"));
 
         criteriaQuery
                 .select(root.get("produto"))
+                .where(active)
                 .orderBy(porQuantidadeVendida);
 
         return entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
@@ -50,9 +54,11 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
         Root<Produto> root = criteriaQuery.from(type);
         Predicate emPromocao = criteriaBuilder.notEqual(root.get("precoPromocional"), 0.0);
+        Predicate active = criteriaBuilder.equal(root.get("active"), true);
+
         criteriaQuery
                 .select(root)
-                .where(emPromocao);
+                .where(criteriaBuilder.and(emPromocao, active));
         return entityManager.createQuery(criteriaQuery).setMaxResults(quantidadeProdutos).getResultList();
     }
 
@@ -61,9 +67,10 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
         Root<Produto> root = criteriaQuery.from(type);
+        Predicate active = criteriaBuilder.equal(root.get("active"), true);
         criteriaQuery
                 .select(root)
-                .where(criteriaBuilder.equal(root.get("categoria"), categoria));
+                .where(criteriaBuilder.and(criteriaBuilder.equal(root.get("categoria"), categoria), active));
         return entityManager.createQuery(criteriaQuery).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
 
@@ -72,9 +79,10 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
         Root<Produto> root = criteriaQuery.from(type);
+        Predicate active = criteriaBuilder.equal(root.get("active"), true);
         criteriaQuery
                 .select(root)
-                .where(criteriaBuilder.and(
+                .where(criteriaBuilder.and(active,
                         criteriaBuilder.equal(root.get("categoria"), produto.getCategoria().getId())),
                         criteriaBuilder.notEqual(root.get("codigo"), produto.getCodigo()));
         return entityManager.createQuery(criteriaQuery).setMaxResults(maxResults).getResultList();
@@ -85,11 +93,12 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
         Root<Produto> root = criteriaQuery.from(type);
+        Predicate active = criteriaBuilder.equal(root.get("active"), true);
         criteriaQuery
                 .select(root)
-                .where(criteriaBuilder.or(
+                .where(criteriaBuilder.and(active, criteriaBuilder.or(
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("nome")), "%" + value.toLowerCase() + "%"),
-                        criteriaBuilder.like(criteriaBuilder.lower(root.get("descricao")), "%" + value.toLowerCase() + "%"))
+                        criteriaBuilder.like(criteriaBuilder.lower(root.get("descricao")), "%" + value.toLowerCase() + "%")))
                 );
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
@@ -99,9 +108,10 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
         Root<Produto> root = criteriaQuery.from(type);
+        Predicate active = criteriaBuilder.equal(root.get("active"), true);
         criteriaQuery
                 .select(root)
-                .where(criteriaBuilder.and(
+                .where(criteriaBuilder.and(active,
                         criteriaBuilder.or(
                                 criteriaBuilder.like(criteriaBuilder.lower(root.get("nome")), "%" + value.toLowerCase() + "%"),
                                 criteriaBuilder.like(criteriaBuilder.lower(root.get("descricao")), "%" + value.toLowerCase() + "%"))),
