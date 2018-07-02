@@ -55,6 +55,7 @@ public class MyStoreBackendApplication {
                 "/produtos/maisVendidosDetail",
                 "/produtos/criar",
                 "/produtos/apagar",
+                "/produtos/editar",
                 "/encomendas/*",
                 "/categorias/apagar",
                 "/categorias/criar",

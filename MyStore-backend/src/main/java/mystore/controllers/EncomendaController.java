@@ -101,7 +101,10 @@ public class EncomendaController {
     }
 
     @RequestMapping(path = "/pagar", method = PUT)
-    public Encomenda pagar(@RequestBody Map<String, Long> body, @RequestAttribute long uid) {
+    public Encomenda pagar(@RequestBody Map<String, Long> body, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
         if (!body.containsKey("encomenda")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
