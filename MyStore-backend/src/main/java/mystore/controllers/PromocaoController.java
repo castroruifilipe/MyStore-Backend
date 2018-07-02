@@ -16,7 +16,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static java.time.format.DateTimeFormatter.*;
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -35,7 +37,10 @@ public class PromocaoController {
 
 
     @RequestMapping(method = GET)
-    public List<Promocao> list() {
+    public List<Promocao> list(@RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
         return promocaoService.list();
     }
 
@@ -47,7 +52,7 @@ public class PromocaoController {
         return promocaoService.get(id).orElseThrow(() -> new EntityNotFoundException("Promocao não existe"));
     }
 
-    @RequestMapping(value = "criar", method = POST)
+    @RequestMapping(value = "/criar", method = POST)
     public Promocao criar(@RequestBody Map<String, Object> body, @RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
             throw new AuthorizationServiceException("Sem autorização");
@@ -59,12 +64,11 @@ public class PromocaoController {
         String descricao = (String) body.get("descricao");
         double desconto = Double.valueOf((String) body.get("desconto"));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        LocalDate dataInicio = LocalDate.parse((String) body.get("dataInicio"), formatter);
-        LocalDate dataFim = LocalDate.parse((String) body.get("dataFim"), formatter);
+        LocalDate dataInicio = LocalDate.parse((String) body.get("dataInicio"), ISO_LOCAL_DATE);
+        LocalDate dataFim = LocalDate.parse((String) body.get("dataFim"), ISO_LOCAL_DATE);
 
         if (dataInicio.isAfter(dataFim)) {
-            throw new IllegalArgumentException("Dados inválidos");
+            throw new IllegalArgumentException("Datas inválidas");
         }
 
         if (body.containsKey("categoria")) {
@@ -75,11 +79,27 @@ public class PromocaoController {
             }
             throw new EntityNotFoundException("Categoria não existe");
         } else if (body.containsKey("produtos")) {
-            Set<Long> codigos = (Set<Long>) body.get("produtos");
+            List<Integer> codigos = (List<Integer>) body.get("produtos");
             Set<Produto> produtos = new HashSet<>();
-            codigos.forEach(codigo -> produtos.add(produtoService.get(codigo).get()));
+            for (Integer codigo : codigos) {
+                Optional<Produto> optionalProduto = produtoService.get(Long.valueOf(codigo.longValue()));
+                if (optionalProduto.isPresent()) {
+                    System.out.println("\n\nproduto: " + optionalProduto.get().getNome());
+                    produtos.add(optionalProduto.get());
+                } else {
+                    throw new EntityNotFoundException("Produto não existe");
+                }
+            }
             return promocaoService.criar(descricao, desconto, dataInicio, dataFim, produtos);
         }
         throw new IllegalArgumentException("Dados inválidos");
+    }
+
+    @RequestMapping(value = "apagar", method = DELETE)
+    public void apagar(@RequestParam long id, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        promocaoService.apagar(id);
     }
 }

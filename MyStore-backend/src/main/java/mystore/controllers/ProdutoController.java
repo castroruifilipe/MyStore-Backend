@@ -17,9 +17,7 @@ import java.util.Optional;
 
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @RequestMapping("/produtos")
@@ -92,15 +90,15 @@ public class ProdutoController {
     }
 
     @RequestMapping(value = "/search", method = GET)
-    public List<Produto> search(@RequestParam String value) {
-        return produtoService.search(value);
+    public List<Produto> search(@RequestParam String value, @RequestParam int pagina, @RequestParam int size) {
+        return produtoService.search(value, pagina, size);
     }
 
     @RequestMapping(value = "/search/categoria", method = GET)
-    public List<Produto> search(@RequestParam String categoria, @RequestParam String value) {
+    public List<Produto> search(@RequestParam String categoria, @RequestParam String value, @RequestParam int pagina, @RequestParam int size) {
         Optional<Categoria> categoria_obj = categoriaService.get(categoria);
         if (categoria_obj.isPresent()) {
-            return produtoService.search(categoria_obj.get().getId(), value);
+            return produtoService.search(categoria_obj.get().getId(), value, pagina, size);
         } else {
             return new ArrayList<>();
         }
@@ -116,11 +114,23 @@ public class ProdutoController {
     }
 
     @RequestMapping(value = "apagar", method = DELETE)
-    public void apagar(@RequestParam Long codigo, @RequestAttribute RoleUtilizador role) {
+    public void apagar(@RequestParam long codigo, @RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
             throw new AuthorizationServiceException("Sem autorização");
         }
         produtoService.apagar(codigo);
+    }
+
+    @RequestMapping(value = "editar", method = PUT)
+    public Produto editar(@RequestBody Map<String, String> body, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        if (!body.containsKey("codigo")) {
+            throw new IllegalArgumentException("Dados inválidos");
+        }
+        long codigo = Long.valueOf(body.get("codigo"));
+        return produtoService.editar(codigo, body).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
     }
 
 }

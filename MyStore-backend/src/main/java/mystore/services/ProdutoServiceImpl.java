@@ -1,5 +1,6 @@
 package mystore.services;
 
+import mystore.daos.CategoriaDAO;
 import mystore.daos.ProdutoDAO;
 import mystore.models.Categoria;
 import mystore.models.Produto;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -15,13 +17,16 @@ import java.util.Optional;
 public class ProdutoServiceImpl implements ProdutoService {
 
     @Autowired
-    protected ProdutoDAO produtoDAO;
+    private ProdutoDAO produtoDAO;
+
+    @Autowired
+    private CategoriaDAO categoriaDAO;
 
 
     @Override
     @Transactional
     public List<Produto> list() {
-        return produtoDAO.getAll();
+        return produtoDAO.find("active", true);
     }
 
     @Override
@@ -61,18 +66,50 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public List<Produto> search(String value) {
-        return produtoDAO.search(value);
+    public List<Produto> search(String value, int pagina, int size) {
+        return produtoDAO.search(value, (pagina - 1) * size, size);
     }
 
     @Override
-    public List<Produto> search(long categoria, String value) {
-        return produtoDAO.search(categoria, value);
+    public List<Produto> search(long categoria, String value, int pagina, int size) {
+        return produtoDAO.search(categoria, value, (pagina - 1) * size, size);
     }
 
     @Override
     public void apagar(long codigo) {
         produtoDAO.apagar(codigo);
+    }
+
+    @Override
+    public Optional<Produto> editar(long codigo, Map<String, String> dados) {
+        Optional<Produto> optionalProduto = produtoDAO.find(codigo);
+        if (optionalProduto.isPresent()) {
+            Produto produto = optionalProduto.get();
+            if (dados.containsKey("nome")) {
+                produto.setNome(dados.get("nome"));
+            }
+            if (dados.containsKey("precoBase")) {
+                produto.setPrecoBase(Double.valueOf(dados.get("precoBase")));
+            }
+            if (dados.containsKey("descricao")) {
+                produto.setDescricao(dados.get("descricao"));
+            }
+            if (dados.containsKey("stock")) {
+                produto.setStock(Integer.valueOf(dados.get("stock")));
+            }
+            if (dados.containsKey("categoria")) {
+                Optional<Categoria> optionalCategoria = categoriaDAO.find(dados.get("categoria"));
+                if (optionalCategoria.isPresent()) {
+                    produto.setCategoria(optionalCategoria.get());
+                } else {
+                    return Optional.empty();
+                }
+            }
+            produtoDAO.update(produto);
+            return Optional.of(produto);
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override

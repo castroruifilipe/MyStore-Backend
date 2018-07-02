@@ -4,6 +4,7 @@ import mystore.models.Categoria;
 import mystore.models.Produto;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ProdutoService {
@@ -28,10 +29,12 @@ public interface ProdutoService {
 
     List<Produto> related(Produto produto, int size);
 
-    List<Produto> search(String value);
+    List<Produto> search(String value, int pagina, int size);
 
-    List<Produto> search(long categoria, String value);
+    List<Produto> search(long categoria, String value, int pagina, int size);
 
     void apagar(long codigo);
+
+    Optional<Produto> editar(long codigo, Map<String, String> dados);
 
 }
