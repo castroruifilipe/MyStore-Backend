@@ -26,6 +26,7 @@ public class Produto implements Serializable {
     @Column(nullable = false)
     private String nome;
 
+    @Column(columnDefinition = "TEXT")
     private String imageURL;
 
     @Column(columnDefinition = "TEXT")
@@ -54,7 +55,7 @@ public class Produto implements Serializable {
     @JsonIgnoreProperties("produto")
     @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "produto")
     private Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
-    
+
     public Produto() {
     }
 
