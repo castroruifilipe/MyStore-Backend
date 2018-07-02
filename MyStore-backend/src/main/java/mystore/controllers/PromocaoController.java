@@ -63,13 +63,8 @@ public class PromocaoController {
         String descricao = (String) body.get("descricao");
         double desconto = Double.valueOf((String) body.get("desconto")) / 100;
 
-
         LocalDate dataInicio = LocalDate.parse((String) body.get("dataInicio"), ISO_LOCAL_DATE);
         LocalDate dataFim = LocalDate.parse((String) body.get("dataFim"), ISO_LOCAL_DATE);
-
-
-        System.out.println("\n\n" + dataInicio.toString());
-        System.out.println("\n\n" + dataInicio.toString());
 
         if (dataInicio.isAfter(dataFim)) {
             throw new IllegalArgumentException("Datas inválidas");
@@ -85,9 +80,15 @@ public class PromocaoController {
         } else if (body.containsKey("produtos")) {
             List<Integer> codigos = (List<Integer>) body.get("produtos");
             Set<Produto> produtos = new HashSet<>();
-            codigos.forEach(codigo -> produtos.add(
-                    produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe")))
-            );
+            for (Integer codigo : codigos) {
+                Optional<Produto> optionalProduto = produtoService.get(Long.valueOf(codigo.longValue()));
+                if (optionalProduto.isPresent()) {
+                    System.out.println("\n\nproduto: " + optionalProduto.get().getNome());
+                    produtos.add(optionalProduto.get());
+                } else {
+                    throw new EntityNotFoundException("Produto não existe");
+                }
+            }
             return promocaoService.criar(descricao, desconto, dataInicio, dataFim, produtos);
         }
         throw new IllegalArgumentException("Dados inválidos");
