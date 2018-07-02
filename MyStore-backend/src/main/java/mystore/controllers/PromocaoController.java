@@ -63,15 +63,16 @@ public class PromocaoController {
         String descricao = (String) body.get("descricao");
         double desconto = Double.valueOf((String) body.get("desconto"));
 
-        System.out.println("\n\n" + (String) body.get("dataInicio"));
-        System.out.println("\n\n" + (String) body.get("dataFim"));
-
 
         LocalDate dataInicio = LocalDate.parse((String) body.get("dataInicio"), ISO_LOCAL_DATE);
         LocalDate dataFim = LocalDate.parse((String) body.get("dataFim"), ISO_LOCAL_DATE);
 
+
+        System.out.println("\n\n" + dataInicio.toString());
+        System.out.println("\n\n" + dataInicio.toString());
+
         if (dataInicio.isAfter(dataFim)) {
-            throw new IllegalArgumentException("Dados inválidos");
+            throw new IllegalArgumentException("Datas inválidas");
         }
 
         if (body.containsKey("categoria")) {
