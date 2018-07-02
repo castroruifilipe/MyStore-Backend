@@ -4,45 +4,45 @@ import requests as req
 import random as rd
 from datetime import timedelta
 
-class FuncionarioUtilizadores(TaskSet):
 
-    def on_start(self):
-        self.CLIENTES = []
+class FuncionarioUtilizadores(TaskSet):
 
     @task(1)
     def get_clientes(self):
         r = self.parent.client.get("/utilizadores/clientes",
                                    headers=self.parent.MY_AUTH_HEADER)
         if r.status_code == req.status_codes.codes.ok:
-            self.CLIENTES = json.loads(r.text)
+            self.parent.CLIENTES = json.loads(r.text)
 
     @task(1)
     def get_cliente(self):
-        if len(self.CLIENTES) > 0:
-            id = self.CLIENTES[rd.randint(0, len(self.CLIENTES) - 1)]["id"]
+        if len(self.parent.CLIENTES) == 0:
+            self.get_clientes()
+
+        if len(self.parent.CLIENTES) > 0:
+            id = rd.choice(self.parent.CLIENTES)["id"]
+
             r = self.parent.client.get("/utilizadores/clientes/" + str(id),
                                        headers=self.parent.MY_AUTH_HEADER,
                                        name="/utilizadores/clientes/{id}")
 
-class FuncionarioPromocoes(TaskSet):
 
-    def on_start(self):
-        self.PROMOCOES = []
-        self.PROM_CRIADAS = []
+class FuncionarioPromocoes(TaskSet):
 
     @task(10)
     def get_promocoes(self):
         r = self.parent.client.get("/promocoes",
                                    headers=self.parent.MY_AUTH_HEADER)
         if r.status_code == req.status_codes.codes.ok:
-            self.PROMOCOES = json.loads(r.text)
+            self.parent.PROMOCOES = json.loads(r.text)
 
     @task(10)
     def get_promocao(self):
-        r = self.parent.client.get("/promocoes",
-                                   headers=self.parent.MY_AUTH_HEADER)
-        if len(self.PROMOCOES) > 0:
-            id = self.PROMOCOES[rd.randint(0, len(self.PROMOCOES) - 1)]["id"]
+        if len(self.parent.PROMOCOES) == 0:
+            self.get_promocoes()
+
+        if len(self.parent.PROMOCOES) > 0:
+            id = rd.choice(self.parent.PROMOCOES)["id"]
             r = self.parent.client.get("/promocoes/" + str(id),
                                        headers=self.parent.MY_AUTH_HEADER,
                                        name="/promocoes/{id}")
@@ -84,7 +84,7 @@ class FuncionarioPromocoes(TaskSet):
 
             if r.status_code == req.status_codes.codes.ok:
                 r_json = json.loads(r.text)
-                self.PROM_CRIADAS.append(r_json)
+                self.parent.PROM_CRIADAS.append(r_json)
 
     @task(1)
     def criar_promocao_produto(self):
@@ -129,14 +129,111 @@ class FuncionarioPromocoes(TaskSet):
 
             if r.status_code == req.status_codes.codes.ok:
                 r_json = json.loads(r.text)
-                self.PROM_CRIADAS.append(r_json)
+                self.parent.PROM_CRIADAS.append(r_json)
 
     @task(1)
     def delete_promocao(self):
-        if len(self.PROM_CRIADAS) > 0:
-            prom_id = rd.choice(self.PROM_CRIADAS)["id"]
+        if len(self.parent.PROM_CRIADAS) > 0:
+            prom_id = rd.choice(self.parent.PROM_CRIADAS)["id"]
 
             r = self.parent.client.delete("/promocoes/apagar",
                                           params={"id": prom_id},
                                           headers=self.parent.MY_AUTH_HEADER,
                                           name="/promocoes/apagar?id={id}")
+
+
+class FuncionarioProdutos(TaskSet):
+
+    def get_categorias(self):
+        r = self.parent.client.get("/categorias",
+                                   headers=self.parent.MY_AUTH_HEADER)
+
+        if r.status_code == req.status_codes.codes.ok:
+            self.parent.CATEGORIAS = json.loads(r.text)
+
+    def get_produtos(self):
+        r = self.parent.client.get("/produtos",
+                                   headers=self.parent.MY_AUTH_HEADER)
+
+        if r.status_code == req.status_codes.codes.ok:
+            self.parent.PRODUTOS = json.loads(r.text)
+
+    @task(10)
+    def editar_produto(self):
+        if len(self.parent.PRODUTOS) == 0:
+            self.get_produtos()
+
+        if len(self.parent.PRODUTOS) > 0:
+            prod = rd.choice(self.parent.PRODUTOS)
+            body = {
+                "codigo": prod["codigo"],
+                "descricao": self.parent.MY_FAKER.sentence(nb_words=3)
+            }
+
+            r = self.parent.client.put("/produtos/editar",
+                                       json=body,
+                                       headers=self.parent.MY_AUTH_HEADER)
+
+    @task(5)
+    def criar_produto(self):
+        if len(self.parent.CATEGORIAS) == 0:
+            self.get_categorias()
+
+        if len(self.parent.CATEGORIAS) > 0:
+            body = {
+                "nome": self.parent.MY_FAKER.sentence(nb_words=3).replace('.',
+                                                                          ''),
+                "descricao": self.parent.MY_FAKER.sentence(nb_words=4),
+                "precoBase": str(rd.uniform(1.0, 50.0)),
+                "stock": str(rd.randint(0, 50)),
+                "categoria": str(rd.choice(self.parent.CATEGORIAS)["descricao"])
+            }
+
+            r = self.parent.client.post("/produtos/criar",
+                                        json=body,
+                                        headers=self.parent.MY_AUTH_HEADER)
+
+    @task(1)
+    def remover_produto(self):
+        if len(self.parent.PRODUTOS) == 0:
+            self.get_produtos()
+
+        if len(self.parent.PRODUTOS) > 0:
+            prod = rd.choice(self.parent.PRODUTOS)
+            cod_prod = prod["codigo"]
+            r = self.parent.client.post("/produtos/apagar",
+                                        params={"codigo": str(cod_prod)},
+                                        headers=self.parent.MY_AUTH_HEADER,
+                                        name="/produtos/apagar?codigo={codigo}")
+
+
+class FuncionarioCategoria(TaskSet):
+
+    @task(20)
+    def get_categorias(self):
+        r = self.parent.client.get("/categorias",
+                                   headers=self.parent.MY_AUTH_HEADER)
+
+        if r.status_code == req.status_codes.codes.ok:
+            self.parent.CATEGORIAS = json.loads(r.text)
+
+    @task(2)
+    def criar_categoria(self):
+
+        r = self.parent.client.post("/categorias/criar",
+                                    json={"descricao": self.parent.MY_FAKER.sentence(
+                                            nb_words=3).replace('.', '')},
+                                    headers=self.parent.MY_AUTH_HEADER)
+
+    @task(1)
+    def delete_categoria(self):
+        if len(self.parent.CATEGORIAS) == 0:
+            self.get_categorias()
+
+        if len(self.parent.CATEGORIAS) > 0:
+            cat_desc = rd.choice(self.parent.CATEGORIAS)["descricao"]
+
+            r = self.parent.client.delete("/categorias/apagar",
+                                          params={"descricao": cat_desc},
+                                          headers=self.parent.MY_AUTH_HEADER,
+                                          name="/categorias/apagar?descricao={descricao}")
