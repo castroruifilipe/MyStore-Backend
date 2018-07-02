@@ -4,6 +4,7 @@ import mystore.models.Carrinho;
 import mystore.models.Cliente;
 import mystore.models.Encomenda;
 import mystore.models.Morada;
+import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
 import mystore.models.enums.RoleUtilizador;
 import mystore.services.ClienteService;
@@ -100,18 +101,18 @@ public class EncomendaController {
         throw new EntityNotFoundException("Cliente não existe");
     }
 
-    @RequestMapping(path = "/pagar", method = PUT)
-    public Encomenda pagar(@RequestBody Map<String, Long> body, @RequestAttribute RoleUtilizador role) {
+    @RequestMapping(path = "alterarEstado", method = PUT)
+    public Encomenda alterarEstado(@RequestBody Map<String, String> body, @RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
             throw new AuthorizationServiceException("Sem autorização");
         }
-        if (!body.containsKey("encomenda")) {
+        if (!body.containsKey("estado") || !body.containsKey("id")) {
             throw new IllegalArgumentException("Dados inválidos");
         }
-        long id = body.get("encomenda");
+        long id = Long.valueOf(body.get("id"));
+        EstadoEncomenda novoEstado = EstadoEncomenda.valueOf(body.get("estado"));
         return encomendaService
-                .pagar(id)
+                .alterarEstado(id, novoEstado)
                 .orElseThrow(() -> new IllegalArgumentException("Não foi possível pagar"));
     }
-
 }

@@ -3,6 +3,7 @@ package mystore.services;
 import mystore.daos.EncomendaDAO;
 import mystore.daos.LinhaEncomendaDAO;
 import mystore.models.*;
+import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static mystore.models.enums.EstadoEncomenda.AGUARDA_PAGAMENTO;
-import static mystore.models.enums.EstadoEncomenda.EM_PROCESSAMENTO;
+import static mystore.models.enums.EstadoEncomenda.*;
 
 
 @Service
@@ -90,21 +90,37 @@ public class EncomendaServiceImpl implements EncomendaService {
     }
 
     @Override
-    public Optional<Encomenda> pagar(long id) {
+    public Optional<Encomenda> alterarEstado(long id, EstadoEncomenda estadoEncomenda) {
         Optional<Encomenda> optionalEncomenda = encomendaDAO.find(id);
         if (optionalEncomenda.isPresent()) {
-            Encomenda e = optionalEncomenda.get();
-            LocalDateTime now = LocalDateTime.now();
-            if (e.getDataLimitePagamento().isBefore(now.toLocalDate())) {
-                return Optional.empty();
+            Encomenda encomenda = optionalEncomenda.get();
+            switch (estadoEncomenda) {
+                case EM_PROCESSAMENTO:
+                    if (encomenda.getEstado() != AGUARDA_PAGAMENTO) {
+                        return Optional.empty();
+                    }
+                    LocalDateTime now = LocalDateTime.now();
+                    if (encomenda.getDataLimitePagamento().isBefore(now.toLocalDate())) {
+                        return Optional.empty();
+                    }
+                    encomenda.setDataPagamento(now);
+                    break;
+                case ENVIADA:
+                    if (encomenda.getEstado() != EM_PROCESSAMENTO) {
+                        return Optional.empty();
+                    }
+                case ENTREGUE:
+                    if (encomenda.getEstado() != ENVIADA) {
+                        return Optional.empty();
+                    }
+                case CANCELADA:
+                    if (encomenda.getEstado() != AGUARDA_PAGAMENTO) {
+                        return Optional.empty();
+                    }
             }
-            if (e.getEstado() != AGUARDA_PAGAMENTO) {
-                return Optional.empty();
-            }
-            e.setDataPagamento(now);
-            e.setEstado(EM_PROCESSAMENTO);
-            update(e);
-            return Optional.of(e);
+            encomenda.setEstado(EM_PROCESSAMENTO);
+            update(encomenda);
+            return Optional.of(encomenda);
         } else {
             return Optional.empty();
         }

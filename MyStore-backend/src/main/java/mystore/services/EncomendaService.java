@@ -1,6 +1,7 @@
 package mystore.services;
 
 import mystore.models.*;
+import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
 
 import java.util.List;
@@ -22,5 +23,5 @@ public interface EncomendaService {
 
     Encomenda checkout(Cliente cliente, Morada moradaEntrega, Carrinho carrinho, MetodoPagamento metodoPagamento);
 
-    Optional<Encomenda> pagar(long id);
+    Optional<Encomenda> alterarEstado(long id, EstadoEncomenda estadoEncomenda);
 }
