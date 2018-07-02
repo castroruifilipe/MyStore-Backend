@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static java.time.format.DateTimeFormatter.*;
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -66,9 +67,8 @@ public class PromocaoController {
         System.out.println("\n\n" + (String) body.get("dataFim"));
 
 
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        LocalDate dataInicio = LocalDate.parse((String) body.get("dataInicio"));
-        LocalDate dataFim = LocalDate.parse((String) body.get("dataFim"));
+        LocalDate dataInicio = LocalDate.parse((String) body.get("dataInicio"), ISO_LOCAL_DATE);
+        LocalDate dataFim = LocalDate.parse((String) body.get("dataFim"), ISO_LOCAL_DATE);
 
         if (dataInicio.isAfter(dataFim)) {
             throw new IllegalArgumentException("Dados inválidos");
