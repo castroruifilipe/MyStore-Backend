@@ -2,17 +2,18 @@ package mystore.demo.database;
 
 import mystore.demo.RandomCollectionUtil;
 import mystore.models.Categoria;
-import mystore.models.EstatisticasVendas;
 import mystore.models.Produto;
-import mystore.models.Promocao;
+import org.springframework.util.Base64Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.List;
 
 
 public class ProdutoCreator extends Creator<Produto> {
@@ -32,7 +33,11 @@ public class ProdutoCreator extends Creator<Produto> {
     public ProdutoCreator() {
         super();
         for (String url : imageURLs) {
-            encodedImages.add(getByteArrayFromImageURL(url));
+            try {
+                encodedImages.add(getByteArrayFromImageURL(url));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -53,23 +58,19 @@ public class ProdutoCreator extends Creator<Produto> {
         }
     }
 
-    private byte[] getByteArrayFromImageURL(String url) {
-        try {
-            URL imageUrl = new URL(url);
-            URLConnection urlConnection = imageUrl.openConnection();
-            InputStream inputStream = urlConnection.getInputStream();
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int read = 0;
-            while ((read = inputStream.read(buffer, 0, buffer.length)) != -1) {
-                outputStream.write(buffer, 0, read);
+    private byte[] getByteArrayFromImageURL(String urlText) throws Exception {
+        URL url = new URL(urlText);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+        try (InputStream inputStream = url.openStream()) {
+            int n = 0;
+            byte [] buffer = new byte[ 1024 ];
+            while (-1 != (n = inputStream.read(buffer))) {
+                output.write(buffer, 0, n);
             }
-            outputStream.flush();
-            return Base64.getEncoder().encode(buffer);
-        } catch (IOException e) {
-            return null;
         }
 
+        return output.toByteArray();
     }
 
 }
