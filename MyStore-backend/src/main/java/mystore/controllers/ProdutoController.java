@@ -122,7 +122,7 @@ public class ProdutoController {
     }
 
     @RequestMapping(value = "editar", method = PUT)
-    public void editar(@RequestBody Map<String, String> body, @RequestAttribute RoleUtilizador role) {
+    public Produto editar(@RequestBody Map<String, String> body, @RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
             throw new AuthorizationServiceException("Sem autorização");
         }
@@ -130,7 +130,7 @@ public class ProdutoController {
             throw new IllegalArgumentException("Dados inválidos");
         }
         long codigo = Long.valueOf(body.get("codigo"));
-        produtoService.editar(codigo, body).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
+        return produtoService.editar(codigo, body).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
     }
 
 }
