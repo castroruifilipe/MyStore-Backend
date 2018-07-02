@@ -17,9 +17,7 @@ import java.util.Optional;
 
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @RequestMapping("/produtos")
@@ -116,11 +114,19 @@ public class ProdutoController {
     }
 
     @RequestMapping(value = "apagar", method = DELETE)
-    public void apagar(@RequestParam Long codigo, @RequestAttribute RoleUtilizador role) {
+    public void apagar(@RequestParam long codigo, @RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
             throw new AuthorizationServiceException("Sem autorização");
         }
         produtoService.apagar(codigo);
+    }
+
+    @RequestMapping(value = "editar/{codigo}", method = PUT)
+    public void editar(@PathVariable long codigo, @RequestBody Map<String, String> body, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        produtoService.editar(codigo, body).orElseThrow(() -> new EntityNotFoundException("Produto não existe"));
     }
 
 }

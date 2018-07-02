@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -73,6 +74,16 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void apagar(long codigo) {
         produtoDAO.apagar(codigo);
+    }
+
+    @Override
+    public Optional<Produto> editar(long codigo, Map<String, String> dados) {
+        Optional<Produto> optionalProduto = produtoDAO.find(codigo);
+        if (optionalProduto.isPresent()) {
+            return optionalProduto;
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override

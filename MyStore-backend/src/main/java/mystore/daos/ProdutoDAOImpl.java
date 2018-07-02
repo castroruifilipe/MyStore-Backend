@@ -36,7 +36,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
         Root<EstatisticasVendas> root = criteriaQuery.from(EstatisticasVendas.class);
 
-        Predicate active = criteriaBuilder.equal(root.get("active"), true);
+        Predicate active = criteriaBuilder.equal(root.get("produto").get("active"), true);
 
         Order porQuantidadeVendida = criteriaBuilder.desc(root.get("numeroVendas"));
 

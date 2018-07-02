@@ -4,6 +4,7 @@ import mystore.models.Categoria;
 import mystore.models.Produto;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ProdutoService {
@@ -33,5 +34,7 @@ public interface ProdutoService {
     List<Produto> search(long categoria, String value);
 
     void apagar(long codigo);
+
+    Optional<Produto> editar(long codigo, Map<String, String> dados);
 
 }
