@@ -18,6 +18,7 @@ import java.util.*;
 
 import static java.time.format.DateTimeFormatter.*;
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -92,5 +93,13 @@ public class PromocaoController {
             return promocaoService.criar(descricao, desconto, dataInicio, dataFim, produtos);
         }
         throw new IllegalArgumentException("Dados inválidos");
+    }
+
+    @RequestMapping(value = "apagar", method = DELETE)
+    public void apagar(@RequestParam long id, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        promocaoService.apagar(id);
     }
 }
