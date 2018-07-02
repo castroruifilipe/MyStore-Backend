@@ -27,6 +27,7 @@ public class Produto implements Serializable {
     private String nome;
 
     @Lob
+    @Basic(fetch = LAZY)
     private byte[] image;
 
     @Column(columnDefinition = "TEXT")
@@ -49,7 +50,7 @@ public class Produto implements Serializable {
     private Categoria categoria;
 
     @JsonIgnoreProperties("produto")
-    @OneToOne(mappedBy = "produto", cascade = ALL, fetch = LAZY)
+    @OneToOne(mappedBy = "produto", cascade = ALL, fetch = EAGER)
     private EstatisticasVendas estatisticasVendas;
 
     @JsonIgnoreProperties("produto")

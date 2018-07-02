@@ -24,22 +24,24 @@ public class ProdutoServiceImpl implements ProdutoService {
 
 
     @Override
-    @Transactional
     public List<Produto> list() {
         return produtoDAO.find("active", true);
     }
 
     @Override
+    @Transactional
     public Optional<Produto> get(long codigo) {
         return produtoDAO.find(codigo);
     }
 
     @Override
+    @Transactional
     public List<Produto> novidades(int quantidadeProdutos) {
         return produtoDAO.novidades(quantidadeProdutos);
     }
 
     @Override
+    @Transactional
     public List<Produto> maisVendidos(int quantidadeProdutos) {
         return produtoDAO.maisVendidos(quantidadeProdutos);
     }
@@ -51,26 +53,31 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    @Transactional
     public List<Produto> emPromocao(int quantidadeProdutos) {
         return produtoDAO.emPromocao(quantidadeProdutos);
     }
 
     @Override
+    @Transactional
     public List<Produto> porCategoria(long categoria, int pagina, int size) {
         return produtoDAO.listByCategoria(categoria, (pagina - 1) * size, size);
     }
 
     @Override
+    @Transactional
     public List<Produto> related(Produto produto, int size) {
         return produtoDAO.related(produto, size);
     }
 
     @Override
+    @Transactional
     public List<Produto> search(String value, int pagina, int size) {
         return produtoDAO.search(value, (pagina - 1) * size, size);
     }
 
     @Override
+    @Transactional
     public List<Produto> search(long categoria, String value, int pagina, int size) {
         return produtoDAO.search(categoria, value, (pagina - 1) * size, size);
     }
