@@ -29,9 +29,9 @@ public interface ProdutoService {
 
     List<Produto> related(Produto produto, int size);
 
-    List<Produto> search(String value);
+    List<Produto> search(String value, int pagina, int size);
 
-    List<Produto> search(long categoria, String value);
+    List<Produto> search(long categoria, String value, int pagina, int size);
 
     void apagar(long codigo);
 

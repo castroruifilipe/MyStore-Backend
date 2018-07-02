@@ -89,7 +89,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
     }
 
     @Override
-    public List<Produto> search(String value) {
+    public List<Produto> search(String value, int firstResult, int maxResults) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
         Root<Produto> root = criteriaQuery.from(type);
@@ -100,11 +100,11 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("nome")), "%" + value.toLowerCase() + "%"),
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("descricao")), "%" + value.toLowerCase() + "%")))
                 );
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return entityManager.createQuery(criteriaQuery).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
 
     @Override
-    public List<Produto> search(long categoria, String value) {
+    public List<Produto> search(long categoria, String value, int firstResult, int maxResults) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(type);
         Root<Produto> root = criteriaQuery.from(type);
@@ -117,7 +117,7 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
                                 criteriaBuilder.like(criteriaBuilder.lower(root.get("descricao")), "%" + value.toLowerCase() + "%"))),
                         criteriaBuilder.equal(root.get("categoria"), categoria)
                 );
-        return entityManager.createQuery(criteriaQuery).getResultList();
+        return entityManager.createQuery(criteriaQuery).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
 
     @Override

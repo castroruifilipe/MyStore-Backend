@@ -17,9 +17,9 @@ public interface ProdutoDAO extends GenericDAO<Produto, Long> {
 
     List<Produto> related(Produto produto, int maxResults);
 
-    List<Produto> search(String value);
+    List<Produto> search(String value, int firstResult, int maxResults);
 
-    List<Produto> search(long categoria, String value);
+    List<Produto> search(long categoria, String value, int firstResult, int maxResults);
 
     void updatePrices(Promocao promocao);
 

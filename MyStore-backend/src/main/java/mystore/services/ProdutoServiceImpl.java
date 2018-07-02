@@ -66,13 +66,13 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public List<Produto> search(String value) {
-        return produtoDAO.search(value);
+    public List<Produto> search(String value, int pagina, int size) {
+        return produtoDAO.search(value, (pagina - 1) * size, size);
     }
 
     @Override
-    public List<Produto> search(long categoria, String value) {
-        return produtoDAO.search(categoria, value);
+    public List<Produto> search(long categoria, String value, int pagina, int size) {
+        return produtoDAO.search(categoria, value, (pagina - 1) * size, size);
     }
 
     @Override

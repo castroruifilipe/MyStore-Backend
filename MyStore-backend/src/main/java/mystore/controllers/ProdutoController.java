@@ -90,15 +90,15 @@ public class ProdutoController {
     }
 
     @RequestMapping(value = "/search", method = GET)
-    public List<Produto> search(@RequestParam String value) {
-        return produtoService.search(value);
+    public List<Produto> search(@RequestParam String value, @RequestParam int pagina, @RequestParam int size) {
+        return produtoService.search(value, pagina, size);
     }
 
     @RequestMapping(value = "/search/categoria", method = GET)
-    public List<Produto> search(@RequestParam String categoria, @RequestParam String value) {
+    public List<Produto> search(@RequestParam String categoria, @RequestParam String value, @RequestParam int pagina, @RequestParam int size) {
         Optional<Categoria> categoria_obj = categoriaService.get(categoria);
         if (categoria_obj.isPresent()) {
-            return produtoService.search(categoria_obj.get().getId(), value);
+            return produtoService.search(categoria_obj.get().getId(), value, pagina, size);
         } else {
             return new ArrayList<>();
         }
