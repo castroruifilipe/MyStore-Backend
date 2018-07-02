@@ -148,7 +148,8 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         CriteriaUpdate<Produto> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(type);
         Root<Produto> root = criteriaUpdate.from(type);
         criteriaUpdate
-                .set(root.get("active"), false);
+                .set(root.get("active"), false)
+                .where(criteriaBuilder.equal(root.get("codigo"), codigo));
         entityManager.createQuery(criteriaUpdate).executeUpdate();
     }
 }
