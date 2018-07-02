@@ -6,14 +6,34 @@ import mystore.models.EstatisticasVendas;
 import mystore.models.Produto;
 import mystore.models.Promocao;
 
-import java.util.Collection;
-import java.util.List;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.*;
 
 
 public class ProdutoCreator extends Creator<Produto> {
 
+    public static String[] imageURLs = {
+            "http://bworldonline.com/wp-content/uploads/2018/01/Lenovo-Mirage-Solo-with-Daydream.jpg",
+            "https://1enu9c17f1aj3pmqfi35l21c-wpengine.netdna-ssl.com/wp-content/uploads/2017/09/Screen-Shot-2017-09-08-at-4.42.47-PM.png",
+            "https://www.co-27.com/wp-content/uploads/2016/08/mochila-samsonite-metropolis-luxemburgo-para-pc-17-negra-D_NQ_NP_19923-MLA20181179202_102014-O.jpg",
+            "https://www.tatacliq.com/que/wp-content/uploads/2016/10/wireless-headphone.jpg",
+            "https://brain-images-ssl.cdn.dixons.com/2/1/10167312/u_10167312.jpg",
+            "https://assets.umart.com.au/newsite/images/201703/source_img/38431_G_1488953358907.jpg",
+            "https://airmore.com/wp-content/uploads/2018/04/play-pubg-mobile-on-pc.jpg"
+    };
+
+    public List<byte[]> encodedImages = new ArrayList<>();
+
     public ProdutoCreator() {
         super();
+        for (String url : imageURLs) {
+            encodedImages.add(getByteArrayFromImageURL(url));
+        }
     }
 
     public void addRandomProducts(int nProducts, Collection<Categoria> categorias) {
@@ -27,12 +47,29 @@ public class ProdutoCreator extends Creator<Produto> {
             if (categorias != null) {
                 produto.setCategoria(RandomCollectionUtil.choice(categorias));
             }
-            /*EstatisticasVendas estatisticasVendas = new EstatisticasVendas();
-            estatisticasVendas.setProduto(produto);
-            produto.setEstatisticasVendas(estatisticasVendas);*/
-
+            int index = number.numberBetween(0, encodedImages.size() - 1);
+            produto.setImage(encodedImages.get(index));
             items.add(produto);
         }
+    }
+
+    private byte[] getByteArrayFromImageURL(String url) {
+        try {
+            URL imageUrl = new URL(url);
+            URLConnection urlConnection = imageUrl.openConnection();
+            InputStream inputStream = urlConnection.getInputStream();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int read = 0;
+            while ((read = inputStream.read(buffer, 0, buffer.length)) != -1) {
+                outputStream.write(buffer, 0, read);
+            }
+            outputStream.flush();
+            return Base64.getEncoder().encode(buffer);
+        } catch (IOException e) {
+            return null;
+        }
+
     }
 
 }

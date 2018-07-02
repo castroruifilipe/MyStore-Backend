@@ -26,6 +26,9 @@ public class Produto implements Serializable {
     @Column(nullable = false)
     private String nome;
 
+    @Lob
+    private byte[] image;
+
     @Column(columnDefinition = "TEXT")
     private String descricao;
 
@@ -135,6 +138,14 @@ public class Produto implements Serializable {
 
     public double getValorDesconto() {
         return precoBase - getPrecoFinal();
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public boolean isActive() {
