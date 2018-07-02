@@ -26,9 +26,7 @@ public class Produto implements Serializable {
     @Column(nullable = false)
     private String nome;
 
-    @Lob
-    @Basic(fetch = LAZY)
-    private byte[] image;
+    private String imageURL;
 
     @Column(columnDefinition = "TEXT")
     private String descricao;
@@ -141,12 +139,12 @@ public class Produto implements Serializable {
         return precoBase - getPrecoFinal();
     }
 
-    public byte[] getImage() {
-        return image;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public boolean isActive() {

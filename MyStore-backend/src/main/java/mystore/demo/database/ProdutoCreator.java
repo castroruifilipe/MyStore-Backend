@@ -3,17 +3,9 @@ package mystore.demo.database;
 import mystore.demo.RandomCollectionUtil;
 import mystore.models.Categoria;
 import mystore.models.Produto;
-import org.springframework.util.Base64Utils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Base64;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 
 public class ProdutoCreator extends Creator<Produto> {
@@ -28,17 +20,8 @@ public class ProdutoCreator extends Creator<Produto> {
             "https://airmore.com/wp-content/uploads/2018/04/play-pubg-mobile-on-pc.jpg"
     };
 
-    public List<byte[]> encodedImages = new ArrayList<>();
-
     public ProdutoCreator() {
         super();
-        for (String url : imageURLs) {
-            try {
-                encodedImages.add(getByteArrayFromImageURL(url));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public void addRandomProducts(int nProducts, Collection<Categoria> categorias) {
@@ -52,25 +35,9 @@ public class ProdutoCreator extends Creator<Produto> {
             if (categorias != null) {
                 produto.setCategoria(RandomCollectionUtil.choice(categorias));
             }
-            int index = number.numberBetween(0, encodedImages.size() - 1);
-            produto.setImage(encodedImages.get(index));
+            produto.setImageURL(RandomCollectionUtil.choice(Arrays.asList(imageURLs)));
             items.add(produto);
         }
-    }
-
-    private byte[] getByteArrayFromImageURL(String urlText) throws Exception {
-        URL url = new URL(urlText);
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-
-        try (InputStream inputStream = url.openStream()) {
-            int n = 0;
-            byte [] buffer = new byte[ 1024 ];
-            while (-1 != (n = inputStream.read(buffer))) {
-                output.write(buffer, 0, n);
-            }
-        }
-
-        return output.toByteArray();
     }
 
 }
