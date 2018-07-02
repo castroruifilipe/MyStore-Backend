@@ -35,7 +35,10 @@ public class PromocaoController {
 
 
     @RequestMapping(method = GET)
-    public List<Promocao> list() {
+    public List<Promocao> list(@RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
         return promocaoService.list();
     }
 
@@ -59,9 +62,9 @@ public class PromocaoController {
         String descricao = (String) body.get("descricao");
         double desconto = Double.valueOf((String) body.get("desconto"));
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
-        LocalDate dataInicio = LocalDate.parse((String) body.get("dataInicio"), formatter);
-        LocalDate dataFim = LocalDate.parse((String) body.get("dataFim"), formatter);
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        LocalDate dataInicio = LocalDate.parse((String) body.get("dataInicio"));
+        LocalDate dataFim = LocalDate.parse((String) body.get("dataFim"));
 
         if (dataInicio.isAfter(dataFim)) {
             throw new IllegalArgumentException("Dados inválidos");
