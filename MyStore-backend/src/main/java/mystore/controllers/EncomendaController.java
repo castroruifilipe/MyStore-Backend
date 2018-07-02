@@ -113,6 +113,6 @@ public class EncomendaController {
         EstadoEncomenda novoEstado = EstadoEncomenda.valueOf(body.get("estado"));
         return encomendaService
                 .alterarEstado(id, novoEstado)
-                .orElseThrow(() -> new IllegalArgumentException("Não foi possível pagar"));
+                .orElseThrow(() -> new IllegalArgumentException("Não foi possível alterar estado"));
     }
 }

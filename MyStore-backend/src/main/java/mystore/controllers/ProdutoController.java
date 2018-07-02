@@ -10,7 +10,6 @@ import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -122,7 +121,7 @@ public class ProdutoController {
         produtoService.apagar(codigo);
     }
 
-    @RequestMapping(value = "editar/{codigo}", method = PUT)
+    @RequestMapping(value = "editar", method = PUT)
     public void editar(@RequestBody Map<String, String> body, @RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
             throw new AuthorizationServiceException("Sem autorização");
