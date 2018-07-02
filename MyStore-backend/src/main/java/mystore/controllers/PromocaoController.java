@@ -62,6 +62,10 @@ public class PromocaoController {
         String descricao = (String) body.get("descricao");
         double desconto = Double.valueOf((String) body.get("desconto"));
 
+        System.out.println("\n\n" + (String) body.get("dataInicio"));
+        System.out.println("\n\n" + (String) body.get("dataFim"));
+
+
         //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         LocalDate dataInicio = LocalDate.parse((String) body.get("dataInicio"));
         LocalDate dataFim = LocalDate.parse((String) body.get("dataFim"));
