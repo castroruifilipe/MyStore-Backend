@@ -3,6 +3,7 @@ package mystore.demo;
 import mystore.argparse.Argparse;
 import mystore.demo.database.*;
 import mystore.models.*;
+import mystore.models.enums.EstadoEncomenda;
 import mystore.services.*;
 import net.sourceforge.argparse4j.inf.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+
+import static mystore.models.enums.EstadoEncomenda.EM_PROCESSAMENTO;
 
 
 @Component
@@ -115,7 +118,7 @@ public class DatabaseCreator implements ApplicationRunner {
     public void createPagamentos(List<Encomenda> encomendas) {
         List<Encomenda> porPagar = encomendas.subList(0, encomendas.size() - 10);
         for (Encomenda e : porPagar) {
-            encomendaService.pagar(e.getId());
+            encomendaService.alterarEstado(e.getId(), EM_PROCESSAMENTO);
         }
     }
 
