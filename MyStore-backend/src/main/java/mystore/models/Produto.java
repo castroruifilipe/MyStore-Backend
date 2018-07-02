@@ -54,8 +54,7 @@ public class Produto implements Serializable {
     @JsonIgnoreProperties("produto")
     @OneToMany(fetch = LAZY, cascade = ALL, mappedBy = "produto")
     private Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
-
-
+    
     public Produto() {
     }
 
