@@ -30,7 +30,7 @@ class ClienteBehavior(TaskSet):
 
 class FuncionarioBehavior(TaskSet):
 
-    tasks = {FuncionarioUtilizadores: 1}
+    tasks = {FuncionarioUtilizadores: 1, FuncionarioPromocoes: 1}
 
     def on_start(self):
         self.MY_FAKER = Faker()
