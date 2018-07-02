@@ -118,13 +118,14 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public Produto criar(String nome, String descricao, double precoBase, int stock, Categoria categoria) {
+    public Produto criar(String nome, String descricao, String image, double precoBase, int stock, Categoria categoria) {
         Produto produto = new Produto();
         produto.setNome(nome);
         produto.setDescricao(descricao);
         produto.setPrecoBase(precoBase);
         produto.setStock(stock);
         produto.setCategoria(categoria);
+        produto.setImageURL(image);
         save(produto);
         return produto;
     }

@@ -1,5 +1,6 @@
 package mystore.controllers;
 
+import mystore.demo.database.ProdutoCreator;
 import mystore.models.Categoria;
 import mystore.models.Produto;
 import mystore.models.enums.RoleUtilizador;
@@ -53,10 +54,11 @@ public class ProdutoController {
         String descricao = body.get("descricao");
         double precoBase = Double.valueOf(body.get("precoBase"));
         int stock = Integer.valueOf(body.get("stock"));
+        String image = ProdutoCreator.randomImage();
         Categoria categoria = categoriaService
                 .get(body.get("categoria"))
                 .orElseThrow(() -> new EntityNotFoundException("Categoria não existe"));
-        return produtoService.criar(nome, descricao, precoBase, stock, categoria);
+        return produtoService.criar(nome, descricao, image, precoBase, stock, categoria);
     }
 
     @RequestMapping(value = "/novidades/{quantidadeProdutos}", method = GET)
