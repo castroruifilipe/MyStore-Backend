@@ -152,4 +152,24 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
                 .where(criteriaBuilder.equal(root.get("codigo"), codigo));
         entityManager.createQuery(criteriaUpdate).executeUpdate();
     }
+
+    @Override
+    public void removePromocao(Promocao promocao) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaUpdate<Produto> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(type);
+        Root<Produto> root = criteriaUpdate.from(type);
+
+        criteriaUpdate
+                .set(root.get("precoPromocional"), 0.0);
+
+        if (promocao.getCategoria() != null) {
+            criteriaUpdate
+                    .where(criteriaBuilder.equal(root.get("categoria"), promocao.getCategoria().getId()));
+        } else {
+            Set<Long> ids = promocao.getProdutos().parallelStream().map(Produto::getCodigo).collect(Collectors.toSet());
+            criteriaUpdate
+                    .where(root.get("codigo").in(ids));
+        }
+        entityManager.createQuery(criteriaUpdate).executeUpdate();
+    }
 }

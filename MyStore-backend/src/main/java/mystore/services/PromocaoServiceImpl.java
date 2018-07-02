@@ -104,6 +104,13 @@ public class PromocaoServiceImpl implements PromocaoService {
     @Override
     public void apagar(long id) {
         Optional<Promocao> optionalPromocao = promocaoDAO.find(id);
-        optionalPromocao.ifPresent(promocao -> promocaoDAO.delete(promocao));
+        if (optionalPromocao.isPresent()) {
+            Promocao promocao = optionalPromocao.get();
+            if (promocao.isAtual()) {
+                produtoDAO.removePromocao(promocao);
+            }
+            promocaoDAO.delete(promocao);
+        }
+
     }
 }

@@ -109,16 +109,19 @@ public class EncomendaServiceImpl implements EncomendaService {
                     if (encomenda.getEstado() != EM_PROCESSAMENTO) {
                         return Optional.empty();
                     }
+                    break;
                 case ENTREGUE:
                     if (encomenda.getEstado() != ENVIADA) {
                         return Optional.empty();
                     }
+                    break;
                 case CANCELADA:
                     if (encomenda.getEstado() != AGUARDA_PAGAMENTO) {
                         return Optional.empty();
                     }
+                    break;
             }
-            encomenda.setEstado(EM_PROCESSAMENTO);
+            encomenda.setEstado(estadoEncomenda);
             update(encomenda);
             return Optional.of(encomenda);
         } else {
