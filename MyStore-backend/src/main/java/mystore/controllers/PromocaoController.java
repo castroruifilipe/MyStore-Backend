@@ -83,7 +83,7 @@ public class PromocaoController {
             }
             throw new EntityNotFoundException("Categoria não existe");
         } else if (body.containsKey("produtos")) {
-            List<Long> codigos = (List<Long>) body.get("produtos");
+            List<Integer> codigos = (List<Integer>) body.get("produtos");
             Set<Produto> produtos = new HashSet<>();
             codigos.forEach(codigo -> produtos.add(
                     produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe")))
