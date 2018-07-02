@@ -51,7 +51,7 @@ public class PromocaoController {
         return promocaoService.get(id).orElseThrow(() -> new EntityNotFoundException("Promocao não existe"));
     }
 
-    @RequestMapping(value = "criar", method = POST)
+    @RequestMapping(value = "/criar", method = POST)
     public Promocao criar(@RequestBody Map<String, Object> body, @RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
             throw new AuthorizationServiceException("Sem autorização");
@@ -61,7 +61,7 @@ public class PromocaoController {
             throw new IllegalArgumentException("Dados inválidos");
         }
         String descricao = (String) body.get("descricao");
-        double desconto = Double.valueOf((String) body.get("desconto"));
+        double desconto = Double.valueOf((String) body.get("desconto")) / 100;
 
 
         LocalDate dataInicio = LocalDate.parse((String) body.get("dataInicio"), ISO_LOCAL_DATE);
@@ -83,9 +83,11 @@ public class PromocaoController {
             }
             throw new EntityNotFoundException("Categoria não existe");
         } else if (body.containsKey("produtos")) {
-            Set<Long> codigos = (Set<Long>) body.get("produtos");
+            List<Long> codigos = (List<Long>) body.get("produtos");
             Set<Produto> produtos = new HashSet<>();
-            codigos.forEach(codigo -> produtos.add(produtoService.get(codigo).get()));
+            codigos.forEach(codigo -> produtos.add(
+                    produtoService.get(codigo).orElseThrow(() -> new EntityNotFoundException("Produto não existe")))
+            );
             return promocaoService.criar(descricao, desconto, dataInicio, dataFim, produtos);
         }
         throw new IllegalArgumentException("Dados inválidos");
