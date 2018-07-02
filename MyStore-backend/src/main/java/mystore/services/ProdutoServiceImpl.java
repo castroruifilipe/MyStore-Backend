@@ -1,5 +1,6 @@
 package mystore.services;
 
+import mystore.daos.CategoriaDAO;
 import mystore.daos.ProdutoDAO;
 import mystore.models.Categoria;
 import mystore.models.Produto;
@@ -16,7 +17,10 @@ import java.util.Optional;
 public class ProdutoServiceImpl implements ProdutoService {
 
     @Autowired
-    protected ProdutoDAO produtoDAO;
+    private ProdutoDAO produtoDAO;
+
+    @Autowired
+    private CategoriaDAO categoriaDAO;
 
 
     @Override
@@ -80,7 +84,29 @@ public class ProdutoServiceImpl implements ProdutoService {
     public Optional<Produto> editar(long codigo, Map<String, String> dados) {
         Optional<Produto> optionalProduto = produtoDAO.find(codigo);
         if (optionalProduto.isPresent()) {
-            return optionalProduto;
+            Produto produto = optionalProduto.get();
+            if (dados.containsKey("nome")) {
+                produto.setNome(dados.get("nome"));
+            }
+            if (dados.containsKey("precoBase")) {
+                produto.setPrecoBase(Double.valueOf(dados.get("precoBase")));
+            }
+            if (dados.containsKey("descricao")) {
+                produto.setDescricao(dados.get("descricao"));
+            }
+            if (dados.containsKey("stock")) {
+                produto.setStock(Integer.valueOf(dados.get("stock")));
+            }
+            if (dados.containsKey("categoria")) {
+                Optional<Categoria> optionalCategoria = categoriaDAO.find(dados.get("categoria"));
+                if (optionalCategoria.isPresent()) {
+                    produto.setCategoria(optionalCategoria.get());
+                } else {
+                    return Optional.empty();
+                }
+            }
+            produtoDAO.update(produto);
+            return Optional.of(produto);
         } else {
             return Optional.empty();
         }
