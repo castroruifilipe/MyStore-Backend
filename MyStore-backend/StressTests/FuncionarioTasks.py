@@ -131,7 +131,7 @@ class FuncionarioPromocoes(TaskSet):
                 r_json = json.loads(r.text)
                 self.parent.PROM_CRIADAS.append(r_json)
 
-    @task(1)
+    @task(0)
     def delete_promocao(self):
         if len(self.parent.PROM_CRIADAS) > 0:
             prom_id = rd.choice(self.parent.PROM_CRIADAS)["id"]
@@ -193,7 +193,7 @@ class FuncionarioProdutos(TaskSet):
                                         json=body,
                                         headers=self.parent.MY_AUTH_HEADER)
 
-    @task(1)
+    @task(0)
     def remover_produto(self):
         if len(self.parent.PRODUTOS) == 0:
             self.get_produtos()
@@ -201,10 +201,10 @@ class FuncionarioProdutos(TaskSet):
         if len(self.parent.PRODUTOS) > 0:
             prod = rd.choice(self.parent.PRODUTOS)
             cod_prod = prod["codigo"]
-            r = self.parent.client.post("/produtos/apagar",
-                                        params={"codigo": str(cod_prod)},
-                                        headers=self.parent.MY_AUTH_HEADER,
-                                        name="/produtos/apagar?codigo={codigo}")
+            r = self.parent.client.delete("/produtos/apagar",
+                                          params={"codigo": str(cod_prod)},
+                                          headers=self.parent.MY_AUTH_HEADER,
+                                          name="/produtos/apagar?codigo={codigo}")
 
 
 class FuncionarioCategoria(TaskSet):
@@ -221,11 +221,12 @@ class FuncionarioCategoria(TaskSet):
     def criar_categoria(self):
 
         r = self.parent.client.post("/categorias/criar",
-                                    json={"descricao": self.parent.MY_FAKER.sentence(
+                                    json={
+                                        "descricao": self.parent.MY_FAKER.sentence(
                                             nb_words=3).replace('.', '')},
                                     headers=self.parent.MY_AUTH_HEADER)
 
-    @task(1)
+    @task(0)
     def delete_categoria(self):
         if len(self.parent.CATEGORIAS) == 0:
             self.get_categorias()
