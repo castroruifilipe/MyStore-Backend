@@ -159,7 +159,8 @@ public class ProdutoServiceImpl implements ProdutoService {
         String url = "http://base64.blurryface.pt";
 
         ResponseEntity<?> response = new RestTemplate().postForEntity(url, request, String.class);
-        return (String) response.getBody();
+        String res = (String) response.getBody();
+        return res.split(":")[1].replace("\"", "").replace("}", "");
     }
 
 }
