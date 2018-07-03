@@ -5,12 +5,12 @@ import random as rd
 
 
 class ClienteUtilizadores(TaskSet):
-    @task(1)
+    @task(10)
     def dados(self):
         r = self.parent.client.get("/utilizadores/dados",
                                    headers=self.parent.MY_AUTH_HEADER)
 
-    @task(1)
+    @task(2)
     def editarDados(self):
         new_address = self.parent.MY_FAKER.address().replace('\n', ' ')
 
@@ -44,7 +44,7 @@ class ProdutosCliente(TaskSet):
         if r.status_code == req.status_codes.codes.ok:
             self.parent.PRODUTOS = json.loads(r.text)
 
-    @task(1)
+    @task(5)
     def get_produto(self):
         if len(self.parent.PRODUTOS) == 0:
             self.get_produtos()
@@ -55,14 +55,14 @@ class ProdutosCliente(TaskSet):
                                        headers=self.parent.MY_AUTH_HEADER,
                                        name="/produtos/{codigo}")
 
-    @task(5)
+    @task(10)
     def get_novidades(self):
         qtd = rd.randint(10, 20)
         r = self.parent.client.get("/produtos/novidades/" + str(qtd),
                                    headers=self.parent.MY_AUTH_HEADER,
                                    name="/produtos/novidades/{qtd}")
 
-    @task(5)
+    @task(10)
     def get_mais_vendidos(self):
         qtd = rd.randint(10, 20)
         r = self.parent.client.get("/produtos/maisVendidos/" + str(qtd),
@@ -76,14 +76,14 @@ class ProdutosCliente(TaskSet):
                                    headers=self.parent.MY_AUTH_HEADER,
                                    name="/produtos/maisVendidosDetail/{qtd}")
 
-    @task(5)
+    @task(10)
     def get_em_promocao(self):
         qtd = rd.randint(10, 20)
         r = self.parent.client.get("/produtos/emPromocao/" + str(qtd),
                                    headers=self.parent.MY_AUTH_HEADER,
                                    name="/produtos/emPromocao/{qtd}")
 
-    @task(5)
+    @task(10)
     def get_relacionados(self):
         if len(self.parent.PRODUTOS) == 0:
             self.get_produtos()
@@ -140,7 +140,7 @@ class ProdutosCliente(TaskSet):
             r = self.parent.client.get("/produtos/search",
                                        params={"value": nome_prod},
                                        headers=self.parent.MY_AUTH_HEADER,
-                                       name="/produtos/search")
+                                       name="/produtos/search?value={value}")
 
 
 class EncomendasCliente(TaskSet):
@@ -160,7 +160,7 @@ class CarrinhoCliente(TaskSet):
         if r.status_code == req.status_codes.codes.ok:
             self.parent.PRODUTOS = json.loads(r.text)
 
-    @task(1)
+    @task(5)
     def get_carrinho(self):
         r = self.parent.client.get("/carrinho",
                                    headers=self.parent.MY_AUTH_HEADER)
@@ -176,7 +176,7 @@ class CarrinhoCliente(TaskSet):
         self.checkout()
 
 
-    @task(1)
+    @task(3)
     def operacoes_carrinho_clear(self):
         self.add_carrinho()
         self.add_carrinho()
