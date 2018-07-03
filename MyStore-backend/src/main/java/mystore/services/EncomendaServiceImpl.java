@@ -85,7 +85,7 @@ public class EncomendaServiceImpl implements EncomendaService {
         encomenda.setEstado(AGUARDA_PAGAMENTO);
         Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
         for (LinhaCarrinho linhaCarrinho : carrinho.getLinhasCarrinho()) {
-            System.out.println("\n\nPRODUTO:" + linhaCarrinho.getProduto().getNome());
+            System.out.println("\n\nPRODUTO:" + linhaCarrinho.getProduto());
             System.out.println("\n\nQUTD:" + linhaCarrinho.getQuantidade());
             LinhaEncomenda linhaEncomenda = new LinhaEncomenda();
             linhaEncomenda.setEncomenda(encomenda);

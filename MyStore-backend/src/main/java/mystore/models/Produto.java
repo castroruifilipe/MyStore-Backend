@@ -180,6 +180,24 @@ public class Produto implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "Produto{" +
+                "codigo=" + codigo +
+                ", active=" + active +
+                ", nome='" + nome + '\'' +
+                ", imageURL='" + imageURL + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", precoBase=" + precoBase +
+                ", precoPromocional=" + precoPromocional +
+                ", stock=" + stock +
+                ", dataRegisto=" + dataRegisto +
+                ", categoria=" + categoria +
+                ", estatisticasVendas=" + estatisticasVendas +
+                ", linhasEncomenda=" + linhasEncomenda +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return getNome().hashCode();
     }
