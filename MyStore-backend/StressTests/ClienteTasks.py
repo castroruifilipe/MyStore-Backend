@@ -5,12 +5,12 @@ import random as rd
 
 
 class ClienteUtilizadores(TaskSet):
-    @task(1)
+    @task(10)
     def dados(self):
         r = self.parent.client.get("/utilizadores/dados",
                                    headers=self.parent.MY_AUTH_HEADER)
 
-    @task(1)
+    @task(2)
     def editarDados(self):
         new_address = self.parent.MY_FAKER.address().replace('\n', ' ')
 
@@ -44,7 +44,7 @@ class ProdutosCliente(TaskSet):
         if r.status_code == req.status_codes.codes.ok:
             self.parent.PRODUTOS = json.loads(r.text)
 
-    @task(1)
+    @task(5)
     def get_produto(self):
         if len(self.parent.PRODUTOS) == 0:
             self.get_produtos()
@@ -55,35 +55,28 @@ class ProdutosCliente(TaskSet):
                                        headers=self.parent.MY_AUTH_HEADER,
                                        name="/produtos/{codigo}")
 
-    @task(5)
+    @task(10)
     def get_novidades(self):
         qtd = rd.randint(10, 20)
         r = self.parent.client.get("/produtos/novidades/" + str(qtd),
                                    headers=self.parent.MY_AUTH_HEADER,
                                    name="/produtos/novidades/{qtd}")
 
-    @task(5)
+    @task(10)
     def get_mais_vendidos(self):
         qtd = rd.randint(10, 20)
         r = self.parent.client.get("/produtos/maisVendidos/" + str(qtd),
                                    headers=self.parent.MY_AUTH_HEADER,
                                    name="/produtos/maisVendidos/{qtd}")
 
-    @task(5)
-    def get_mais_vendidos_detail(self):
-        qtd = rd.randint(10, 20)
-        r = self.parent.client.get("/produtos/maisVendidosDetail/" + str(qtd),
-                                   headers=self.parent.MY_AUTH_HEADER,
-                                   name="/produtos/maisVendidosDetail/{qtd}")
-
-    @task(5)
+    @task(10)
     def get_em_promocao(self):
         qtd = rd.randint(10, 20)
         r = self.parent.client.get("/produtos/emPromocao/" + str(qtd),
                                    headers=self.parent.MY_AUTH_HEADER,
                                    name="/produtos/emPromocao/{qtd}")
 
-    @task(5)
+    @task(10)
     def get_relacionados(self):
         if len(self.parent.PRODUTOS) == 0:
             self.get_produtos()
@@ -123,11 +116,16 @@ class ProdutosCliente(TaskSet):
             prod = rd.choice(self.parent.PRODUTOS)
             nome, id_cat = prod["nome"], prod["categoria"]["id"]
 
+            pag = 1
+            size = rd.randint(10, 20)
+
             r = self.parent.client.get("/produtos/search/categoria",
                                        params={"value": nome,
-                                               "categoria": id_cat},
+                                               "categoria": id_cat,
+                                               "pagina": pag,
+                                               "size": size},
                                        headers=self.parent.MY_AUTH_HEADER,
-                                       name="/produtos/search/categoria")
+                                       name="/produtos/search/categoria?value={}&categoria={}&pagina={}&size={}")
 
     @task(5)
     def search_produtos(self):
@@ -136,11 +134,15 @@ class ProdutosCliente(TaskSet):
 
         if len(self.parent.PRODUTOS) > 0:
             nome_prod = rd.choice(self.parent.PRODUTOS)["nome"]
+            pag = 1
+            size = rd.randint(10, 20)
 
             r = self.parent.client.get("/produtos/search",
-                                       params={"value": nome_prod},
+                                       params={"value": nome_prod,
+                                               "pagina": pag,
+                                               "size": size},
                                        headers=self.parent.MY_AUTH_HEADER,
-                                       name="/produtos/search")
+                                       name="/produtos/search?value={}&pagina={}&size={}")
 
 
 class EncomendasCliente(TaskSet):
@@ -160,7 +162,7 @@ class CarrinhoCliente(TaskSet):
         if r.status_code == req.status_codes.codes.ok:
             self.parent.PRODUTOS = json.loads(r.text)
 
-    @task(1)
+    @task(5)
     def get_carrinho(self):
         r = self.parent.client.get("/carrinho",
                                    headers=self.parent.MY_AUTH_HEADER)
@@ -175,15 +177,13 @@ class CarrinhoCliente(TaskSet):
         self.update_carrinho()
         self.checkout()
 
-
-    @task(1)
+    @task(3)
     def operacoes_carrinho_clear(self):
         self.add_carrinho()
         self.add_carrinho()
         self.remove_carrinho()
         self.add_carrinho()
         self.clear_carrinho()
-
 
     def add_carrinho(self):
 
@@ -196,7 +196,7 @@ class CarrinhoCliente(TaskSet):
             body = {"codigo": prod["codigo"],
                     "quantidade": rd.randint(1, 2)}
 
-            r = self.parent.client.put("/carrinho/add",
+            r = self.parent.client.put("/carrinho/addProduto",
                                        json=body,
                                        headers=self.parent.MY_AUTH_HEADER)
 
@@ -242,7 +242,7 @@ class CarrinhoCliente(TaskSet):
 
         body = {}
 
-        for linha_carrinho in self.parent.CARRINHO["linhaCarrinho"]:
+        for linha_carrinho in self.parent.CARRINHO["linhasCarrinho"]:
             prod = linha_carrinho["produto"]
 
             body[prod["codigo"]] = linha_carrinho["quantidade"] + 1
@@ -256,10 +256,22 @@ class CarrinhoCliente(TaskSet):
 
     def checkout(self):
         METODO_PAGAMENTO = rd.choice(["MULTIBANCO", "PAYPAL", "MBWAY", "COBRANCA"])
-        morada = self.parent.MY_FAKER.address().replace('\n',' ')
+        morada = self.parent.MY_FAKER.address().replace('\n', ' ')
 
-        r = self.parent.client.post("/encomendas/checkout",
-                                   json={"moradaEntrega": morada, "metodoPagamento": METODO_PAGAMENTO},
+        r = self.parent.client.get("/carrinho",
                                    headers=self.parent.MY_AUTH_HEADER)
 
+        if r.status_code == req.status_codes.codes.ok:
+            print("Carrinho antes do checkout: " + r.text)
+            print("Morada: {} Metodo Pagamento: {}".format(morada, METODO_PAGAMENTO))
 
+        r = self.parent.client.post("/encomendas/checkout",
+                                    json={"moradaEntrega": {
+                                        "rua": morada,
+                                        "localidade": "Gualtar",
+                                        "codigoPostal": "4700-00"
+                                    },
+                                        "metodoPagamento": METODO_PAGAMENTO},
+                                    headers=self.parent.MY_AUTH_HEADER)
+
+        print("Resposta ao checkout: {}".format(r.text))
