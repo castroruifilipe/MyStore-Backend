@@ -78,20 +78,31 @@ public class EncomendaServiceImpl implements EncomendaService {
 
     @Override
     public Encomenda checkout(Cliente cliente, Morada moradaEntrega, Carrinho carrinho, MetodoPagamento metodoPagamento) {
+        int i = 0;
+        System.out.println("AQUI" + i++);
         Encomenda encomenda = new Encomenda();
+        System.out.println("AQUI" + i++);
         encomenda.setCliente(cliente);
+        System.out.println("AQUI" + i++);
         encomenda.setMoradaEntrega(moradaEntrega);
+        System.out.println("AQUI" + i++);
         encomenda.setMetodoPagamento(metodoPagamento);
+        System.out.println("AQUI" + i++);
         encomenda.setEstado(AGUARDA_PAGAMENTO);
+        System.out.println("AQUI" + i++);
         Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
+        System.out.println("AQUI" + i++);
         for (LinhaCarrinho linhaCarrinho : carrinho.getLinhasCarrinho()) {
+            System.out.println("AQUI" + i++);
             LinhaEncomenda linhaEncomenda = new LinhaEncomenda();
             linhaEncomenda.setEncomenda(encomenda);
             linhaEncomenda.setProduto(linhaCarrinho.getProduto());
             linhaEncomenda.setQuantidade(linhaCarrinho.getQuantidade());
             linhasEncomenda.add(linhaEncomenda);
         }
+        System.out.println("AQUI" + i++);
         encomenda.setLinhasEncomenda(linhasEncomenda);
+        System.out.println("AQUI" + i++);
         save(encomenda);
         return encomenda;
     }
