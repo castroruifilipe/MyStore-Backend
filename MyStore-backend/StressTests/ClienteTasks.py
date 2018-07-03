@@ -258,7 +258,20 @@ class CarrinhoCliente(TaskSet):
         METODO_PAGAMENTO = rd.choice(["MULTIBANCO", "PAYPAL", "MBWAY", "COBRANCA"])
         morada = self.parent.MY_FAKER.address().replace('\n', ' ')
 
+        r = self.parent.client.get("/carrinho",
+                                   headers=self.parent.MY_AUTH_HEADER)
+
+        if r.status_code == req.status_codes.codes.ok:
+            print("Carrinho antes do checkout: " + r.text)
+            print("Morada: {} Metodo Pagamento: {}".format(morada, METODO_PAGAMENTO))
+
         r = self.parent.client.post("/encomendas/checkout",
-                                    json={"moradaEntrega": morada,
-                                          "metodoPagamento": METODO_PAGAMENTO},
+                                    json={"moradaEntrega": {
+                                        "rua": morada,
+                                        "localidade": "Gualtar",
+                                        "codigoPostal": "4700-00"
+                                    },
+                                        "metodoPagamento": METODO_PAGAMENTO},
                                     headers=self.parent.MY_AUTH_HEADER)
+
+        print("Resposta ao checkout: {}".format(r.text))

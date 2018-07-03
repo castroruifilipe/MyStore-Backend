@@ -166,6 +166,38 @@ class NewUserBehavior(TaskSet):
         pass
 
 
+class AuthUserBehavior(TaskSet):
+
+    def on_start(self):
+        self.USERS = []
+        self.register()
+
+    @task(1)
+    def register(self):
+        email = self.MY_FAKER.email()
+
+        cliente = {'email': email,
+                   'password': '123',
+                   'nome': self.MY_FAKER.name(),
+                   'role': 'CLIENTE'}
+
+        r = self.client.post('/utilizadores/signup',
+                             json=cliente)
+
+        if r.status_code == req.status_codes.codes.ok:
+            self.USERS.append(cliente)
+
+    @task(3)
+    def login(self):
+        if len(self.USERS) > 0:
+            user = rd.choice(self.USERS)
+            r = self.client.post('/utilizadores/signin',
+                                 json={'email': user["email"],
+                                       'password': user["password"]})
+
+
+
+
 class ClienteLocust(HttpLocust):
     task_set = ClienteBehavior
     weight = 5
@@ -183,4 +215,8 @@ class NewFuncionarioLocust(HttpLocust):
 
 class NewUserLocust(HttpLocust):
     task_set = NewUserBehavior
-    weight = 100
+    weight = 5
+
+class AuthUserLocust(HttpLocust):
+    task_set = AuthUserBehavior
+    weight = 1
