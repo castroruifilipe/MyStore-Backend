@@ -1,9 +1,11 @@
 package mystore.controllers;
 
 import mystore.models.Cliente;
+import mystore.models.Funcionario;
 import mystore.models.Utilizador;
 import mystore.models.enums.RoleUtilizador;
 import mystore.services.ClienteService;
+import mystore.services.FuncionarioService;
 import mystore.services.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AuthorizationServiceException;
@@ -27,6 +29,9 @@ public class UtilizadorController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private FuncionarioService funcionarioService;
 
 
     @RequestMapping(path = "/signin", method = POST)
@@ -91,6 +96,14 @@ public class UtilizadorController {
             throw new AuthorizationServiceException("Sem autorização");
         }
         return clienteService.list();
+    }
+
+    @RequestMapping(path = "funcionarios", method = GET)
+    public List<Funcionario> funcionarios(@RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        return funcionarioService.list();
     }
 
     @RequestMapping(value = "clientes/{id}", method = GET)
