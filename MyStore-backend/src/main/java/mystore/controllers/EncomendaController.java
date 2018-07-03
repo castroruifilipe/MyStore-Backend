@@ -79,6 +79,7 @@ public class EncomendaController {
     @SuppressWarnings("unchecked")
     @RequestMapping(path = "/checkout", method = POST)
     public Encomenda checkout(@RequestBody Map<String, Object> body, @RequestAttribute long uid, HttpSession session) {
+        System.out.println("AQUI1");
         Carrinho carrinho = (Carrinho) session.getAttribute("carrinho");
         if (carrinho == null) {
             throw new EntityNotFoundException("Carrinho não existe");
@@ -99,6 +100,7 @@ public class EncomendaController {
         moradaEntrega.setLocalidade(morada.get("localidade"));
         moradaEntrega.setCodigoPostal(morada.get("codigoPostal"));
 
+        System.out.println("AQUI2");
         Optional<Cliente> optionalCliente = clienteService.get(uid);
         if (optionalCliente.isPresent()) {
             Cliente cliente = optionalCliente.get();
@@ -106,6 +108,7 @@ public class EncomendaController {
             carrinho.clear();
             return encomenda;
         }
+        System.out.println("AQUI3");
         throw new EntityNotFoundException("Cliente não existe");
     }
 
