@@ -1,5 +1,7 @@
 package mystore.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import mystore.daos.CategoriaDAO;
 import mystore.daos.ProdutoDAO;
 import mystore.models.Categoria;
@@ -157,10 +159,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         HttpEntity<?> request = new HttpEntity<>(req_payload, headers);
         String url = "http://base64.blurryface.pt";
-
         ResponseEntity<?> response = new RestTemplate().postForEntity(url, request, String.class);
-        String res = (String) response.getBody();
-        return res.split(":")[1].replace("\"", "").replace("}", "");
+
+        return ((String) response.getBody()).replace("{\"url\": \"", "").replace("\"}", "");
     }
 
 }
