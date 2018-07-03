@@ -77,6 +77,7 @@ public class EncomendaServiceImpl implements EncomendaService {
     }
 
     @Override
+    @Transactional
     public Encomenda checkout(Cliente cliente, Morada moradaEntrega, Carrinho carrinho, MetodoPagamento metodoPagamento) {
         Encomenda encomenda = new Encomenda();
         encomenda.setCliente(cliente);
