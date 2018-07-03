@@ -66,7 +66,15 @@ public class UtilizadorController {
         String nome = body.get("nome");
         RoleUtilizador role = RoleUtilizador.valueOf(body.get("role"));
 
-        utilizadorService.signup(email, password, nome, role);
+        int numero = 0;
+        if (role == FUNCIONARIO) {
+            if (!body.containsKey("numero")) {
+                throw new IllegalArgumentException("Dados inválidos");
+            }
+            numero = Integer.valueOf(body.get("numero"));
+        }
+
+        utilizadorService.signup(email, password, nome, role, numero);
     }
 
     @RequestMapping(path = "/editarDados", method = PUT)
