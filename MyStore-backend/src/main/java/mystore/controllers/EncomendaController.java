@@ -9,6 +9,7 @@ import mystore.models.enums.MetodoPagamento;
 import mystore.models.enums.RoleUtilizador;
 import mystore.services.ClienteService;
 import mystore.services.EncomendaService;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.web.bind.annotation.*;
@@ -65,6 +66,10 @@ public class EncomendaController {
         if (optionalEncomenda.isPresent()) {
             Encomenda encomenda = optionalEncomenda.get();
             if (role == FUNCIONARIO || encomenda.getCliente().getId() == uid) {
+                Hibernate.initialize(encomenda.getCliente());
+                return encomenda;
+            }
+            if (encomenda.getCliente().getId() == uid) {
                 return encomenda;
             }
         }
