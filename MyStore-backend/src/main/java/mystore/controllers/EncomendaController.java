@@ -103,9 +103,13 @@ public class EncomendaController {
         System.out.println("AQUI2");
         Optional<Cliente> optionalCliente = clienteService.get(uid);
         if (optionalCliente.isPresent()) {
+            System.out.println("AQUI2.1");
             Cliente cliente = optionalCliente.get();
+            System.out.println("AQUI2.2");
             Encomenda encomenda = encomendaService.checkout(cliente, moradaEntrega, carrinho, metodoPagamento);
+            System.out.println("AQUI2.3");
             carrinho.clear();
+            System.out.println("AQUI2.4");
             return encomenda;
         }
         System.out.println("AQUI3");
