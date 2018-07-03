@@ -37,12 +37,14 @@ public class EncomendaServiceImpl implements EncomendaService {
     public void save(Encomenda encomenda) {
         for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
             linhaEncomendaDAO.save(linha);
-            produtoDAO.decrementStock(linha.getProduto().getCodigo(), linha.getQuantidade());
         }
         encomendaDAO.save(encomenda);
-        if (encomenda.getEstado() == AGUARDA_PAGAMENTO) {
-            for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
+        for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
+            if (encomenda.getEstado() == AGUARDA_PAGAMENTO) {
                 encomendaDAO.updateEstatisticasEncomenda(linha);
+            }
+            if (encomenda.getEstado() != CANCELADA) {
+                produtoDAO.decrementStock(linha.getProduto().getCodigo(), linha.getQuantidade());
             }
         }
     }

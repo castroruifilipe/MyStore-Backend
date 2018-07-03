@@ -31,7 +31,7 @@ public class EncomendaCreator extends Creator<Encomenda> {
             EstadoEncomenda estado = RandomCollectionUtil.choice(estados);
             LocalDateTime data = dateAndTime.past(700, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             MetodoPagamento metodoPagamento = RandomCollectionUtil.choice(metodosPagamento);
-            int nLinhas = number.numberBetween(0, 10);
+            int nLinhas = number.numberBetween(1, 10);
 
             Morada morada = new Morada();
             morada.setRua(address.streetAddress());
