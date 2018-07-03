@@ -21,8 +21,11 @@ public class CategoriaServiceImpl implements CategoriaService {
 
 
     @Override
-    public void save(Categoria objToSave) {
-        categoriaDAO.save(objToSave);
+    public void save(Categoria categoria) {
+        Optional<Categoria> optionalCategoria = categoriaDAO.find(categoria.getDescricao());
+        if (!optionalCategoria.isPresent()) {
+            categoriaDAO.save(categoria);
+        }
     }
 
     @Override
