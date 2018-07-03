@@ -12,4 +12,6 @@ public interface FuncionarioService {
     List<Funcionario> list();
 
     Optional<Funcionario> get(long uid);
+
+    void apagar(long uid);
 }

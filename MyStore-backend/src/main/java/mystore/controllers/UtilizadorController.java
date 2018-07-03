@@ -130,5 +130,11 @@ public class UtilizadorController {
         return funcionarioService.get(id).orElseThrow(() -> new EntityNotFoundException("Funcionário não existe"));
     }
 
-
+    @RequestMapping(value = "funcionarios/apagar", method = DELETE)
+    public void apagarFuncionario(@RequestParam long uid, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        funcionarioService.apagar(uid);
+    }
 }

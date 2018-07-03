@@ -33,4 +33,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
         return funcionarioDAO.find(uid);
     }
 
+    @Override
+    public void apagar(long uid) {
+        funcionarioDAO.delete(funcionarioDAO.find(uid).get());
+    }
+
 }
