@@ -7,10 +7,19 @@ import requests as req
 
 class ClienteBehavior(TaskSet):
 
-    tasks = {ClienteUtilizadores: 1}
+    tasks = {ClienteUtilizadores: 1,
+             ProdutosCliente: 1,
+             EncomendasCliente: 1,
+             CarrinhoCliente: 1}
 
     def on_start(self):
         self.MY_FAKER = Faker()
+        self.PRODUTOS = []
+        self.PROMOCOES = []
+        self.PROM_CRIADAS = []
+        self.CATEGORIAS = []
+        self.CLIENTES = []
+        self.CARRINHO = []
         self.login()
 
     def on_stop(self):
@@ -30,10 +39,20 @@ class ClienteBehavior(TaskSet):
 
 class FuncionarioBehavior(TaskSet):
 
-    tasks = {FuncionarioUtilizadores: 1}
+    tasks = {FuncionarioUtilizadores: 1,
+             FuncionarioPromocoes: 1,
+             FuncionarioProdutos: 1,
+             FuncionarioCategoria: 1,
+             FuncionarioEncomendas: 1}
 
     def on_start(self):
         self.MY_FAKER = Faker()
+        self.PRODUTOS = []
+        self.PROMOCOES = []
+        self.PROM_CRIADAS = []
+        self.CATEGORIAS = []
+        self.CLIENTES = []
+        self.ENCOMENDAS = []
         self.login()
 
     def on_stop(self):
@@ -58,6 +77,11 @@ class NewUserBehavior(TaskSet):
 
     def on_start(self):
         self.MY_FAKER = Faker()
+        self.PRODUTOS = []
+        self.PROMOCOES = []
+        self.PROM_CRIADAS = []
+        self.CATEGORIAS = []
+        self.CLIENTES = []
         self.create_user()
 
     def on_stop(self):
