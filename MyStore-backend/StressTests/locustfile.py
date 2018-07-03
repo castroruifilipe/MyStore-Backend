@@ -72,11 +72,11 @@ class FuncionarioBehavior(TaskSet):
 
 
 class NewFuncionarioBehavior(TaskSet):
-    tasks = {FuncionarioUtilizadores: 1,
-             FuncionarioPromocoes: 1,
-             FuncionarioProdutos: 1,
+    tasks = {FuncionarioUtilizadores: 2,
+             FuncionarioPromocoes: 2,
+             FuncionarioProdutos: 5,
              FuncionarioCategoria: 1,
-             FuncionarioEncomendas: 1}
+             FuncionarioEncomendas: 2}
 
     def on_start(self):
         self.MY_FAKER = Faker()
@@ -156,6 +156,8 @@ class NewUserBehavior(TaskSet):
             if r.headers['Access-Token']:
                 self.MY_AUTH_HEADER = {'Authorization': 'Bearer ' + r.headers['Access-Token']}
                 self.DADOS_CLIENTE = json.loads(r.text)
+                self.DADOS_CLIENTE["email"] = email
+                self.DADOS_CLIENTE["password"] = '123'
                 print("Novo cliente criado e loggado: " + email)
 
         else:
@@ -169,6 +171,7 @@ class NewUserBehavior(TaskSet):
 class AuthUserBehavior(TaskSet):
 
     def on_start(self):
+        self.MY_FAKER = Faker()
         self.USERS = []
         self.register()
 
@@ -210,7 +213,7 @@ class FuncionarioLocust(HttpLocust):
 
 class NewFuncionarioLocust(HttpLocust):
     task_set = NewFuncionarioBehavior
-    weight = 5
+    weight = 2
 
 
 class NewUserLocust(HttpLocust):

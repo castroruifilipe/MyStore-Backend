@@ -206,7 +206,6 @@ class FuncionarioProdutos(TaskSet):
                                           headers=self.parent.MY_AUTH_HEADER,
                                           name="/produtos/apagar?codigo={codigo}")
 
-
     @task(5)
     def get_mais_vendidos_detail(self):
         qtd = rd.randint(10, 20)
@@ -249,6 +248,13 @@ class FuncionarioCategoria(TaskSet):
 
 
 class FuncionarioEncomendas(TaskSet):
+    CHANGE_STATE_TABLE = {
+        "AGUARDA_PAGAMENTO": ["AGUARDA_PAGAMENTO", "CANCELADA"],
+        "EM_PROCESSAMENTO": ["ENVIADA"],
+        "ENVIADA": ["ENTREGUE"],
+        "ENTREGUE": [],
+        "CANCELADA": []
+    }
 
     @task(1)
     def get_encomendas(self):
@@ -289,7 +295,16 @@ class FuncionarioEncomendas(TaskSet):
 
             enc_id, enc_estado = enc["id"], enc["estado"]
 
-            r = self.parent.client.put("/encomendas/alterarEstado",
-                                       json={"id": enc_id, "estado": enc_estado},
-                                       headers=self.parent.MY_AUTH_HEADER,
-                                       name="/encomendas/alterarEstado")
+            lista_novos_estados = FuncionarioEncomendas.CHANGE_STATE_TABLE[enc["estado"]]
+
+            if len(lista_novos_estados) > 0:
+                novo_estado = rd.choice(lista_novos_estados)
+
+                r = self.parent.client.put("/encomendas/alterarEstado",
+                                           json={"id": enc_id, "estado": novo_estado},
+                                           headers=self.parent.MY_AUTH_HEADER,
+                                           name="/encomendas/alterarEstado")
+
+                if r.status_code != req.status_codes.codes.ok:
+                    print("Alterar estado errado. Encomenda antes: {} Enviado: {} Resposta: {}"
+                          .format(str(enc), str({"id": enc_id, "estado": enc_estado}), r.text))

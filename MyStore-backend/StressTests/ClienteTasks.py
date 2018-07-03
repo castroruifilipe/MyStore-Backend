@@ -167,10 +167,11 @@ class CarrinhoCliente(TaskSet):
         r = self.parent.client.get("/carrinho",
                                    headers=self.parent.MY_AUTH_HEADER)
 
+        print("GET CARRINHO: {}".format(r.text))
         if r.status_code == req.status_codes.codes.ok:
             self.parent.CARRINHO = json.loads(r.text)
 
-    @task(1)
+    @task(0)
     def operacoes_carrinho_checkout(self):
         self.add_carrinho()
         self.add_carrinho()
@@ -181,6 +182,7 @@ class CarrinhoCliente(TaskSet):
     def operacoes_carrinho_clear(self):
         self.add_carrinho()
         self.add_carrinho()
+        self.update_carrinho()
         self.remove_carrinho()
         self.add_carrinho()
         self.clear_carrinho()
@@ -228,14 +230,6 @@ class CarrinhoCliente(TaskSet):
         if r.status_code == req.status_codes.codes.ok:
             self.parent.CARRINHO = json.loads(r.text)
 
-    def clear_carrinho(self):
-
-        r = self.parent.client.delete("/carrinho/clear",
-                                      headers=self.parent.MY_AUTH_HEADER)
-
-        if r.status_code == req.status_codes.codes.ok:
-            self.parent.CARRINHO = json.loads(r.text)
-
     def update_carrinho(self):
 
         self.get_carrinho()
@@ -265,13 +259,19 @@ class CarrinhoCliente(TaskSet):
             print("Carrinho antes do checkout: " + r.text)
             print("Morada: {} Metodo Pagamento: {}".format(morada, METODO_PAGAMENTO))
 
-        r = self.parent.client.post("/encomendas/checkout",
-                                    json={"moradaEntrega": {
-                                        "rua": morada,
-                                        "localidade": "Gualtar",
-                                        "codigoPostal": "4700-00"
-                                    },
-                                        "metodoPagamento": METODO_PAGAMENTO},
-                                    headers=self.parent.MY_AUTH_HEADER)
+            body = {
+                "moradaEntrega": {
+                    "rua": "Rua cenas",
+                    "localidade": "Gualtar",
+                    "codigoPostal": "4700-00"
+                },
+                "metodoPagamento": "PAYPAL"
+            }
 
-        print("Resposta ao checkout: {}".format(r.text))
+            copia = self.parent.MY_AUTH_HEADER
+            copia['Content-Type'] = 'application/json'
+            r = self.parent.client.post("/encomendas/checkout",
+                                        data=json.dumps(body),
+                                        headers=self.parent.MY_AUTH_HEADER)
+
+            print("Resposta ao checkout: {} Body: {}".format(r.text, str(body)))
