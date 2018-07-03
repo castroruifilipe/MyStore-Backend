@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Table(name = "funcionario")
 public class Funcionario extends Utilizador implements Serializable {
 
-    @Column(unique = true)
     private long numero;
 
 

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface UtilizadorService {
 
-    void signup(String email, String password, String nome, RoleUtilizador role);
+    void signup(String email, String password, String nome, RoleUtilizador role, int numero);
 
     Optional<? extends Utilizador> signin(String email, String password);
 

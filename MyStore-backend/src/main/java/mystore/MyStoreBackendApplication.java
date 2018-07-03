@@ -53,6 +53,8 @@ public class MyStoreBackendApplication {
                 "/utilizadores/dados",
                 "/utilizadores/alterarPassword",
                 "/utilizadores/clientes",
+                "/utilizadores/funcionarios",
+                "/utilizadores/funcionarios/*",
                 "/utilizadores/clientes/*",
                 "/produtos/maisVendidosDetail/*",
                 "/produtos/criar",

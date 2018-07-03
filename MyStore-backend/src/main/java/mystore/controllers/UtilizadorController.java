@@ -1,9 +1,11 @@
 package mystore.controllers;
 
 import mystore.models.Cliente;
+import mystore.models.Funcionario;
 import mystore.models.Utilizador;
 import mystore.models.enums.RoleUtilizador;
 import mystore.services.ClienteService;
+import mystore.services.FuncionarioService;
 import mystore.services.UtilizadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AuthorizationServiceException;
@@ -27,6 +29,9 @@ public class UtilizadorController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private FuncionarioService funcionarioService;
 
 
     @RequestMapping(path = "/signin", method = POST)
@@ -61,7 +66,15 @@ public class UtilizadorController {
         String nome = body.get("nome");
         RoleUtilizador role = RoleUtilizador.valueOf(body.get("role"));
 
-        utilizadorService.signup(email, password, nome, role);
+        int numero = 0;
+        if (role == FUNCIONARIO) {
+            if (!body.containsKey("numero")) {
+                throw new IllegalArgumentException("Dados inválidos");
+            }
+            numero = Integer.valueOf(body.get("numero"));
+        }
+
+        utilizadorService.signup(email, password, nome, role, numero);
     }
 
     @RequestMapping(path = "/editarDados", method = PUT)
@@ -94,11 +107,34 @@ public class UtilizadorController {
     }
 
     @RequestMapping(value = "clientes/{id}", method = GET)
-    public Cliente get(@PathVariable long id, @RequestAttribute RoleUtilizador role) {
+    public Cliente getCliente(@PathVariable long id, @RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
             throw new AuthorizationServiceException("Sem autorização");
         }
         return clienteService.get(id).orElseThrow(() -> new EntityNotFoundException("Cliente não existe"));
     }
 
+    @RequestMapping(path = "funcionarios", method = GET)
+    public List<Funcionario> funcionarios(@RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        return funcionarioService.list();
+    }
+
+    @RequestMapping(value = "funcionarios/{id}", method = GET)
+    public Funcionario getFuncionario(@PathVariable long id, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        return funcionarioService.get(id).orElseThrow(() -> new EntityNotFoundException("Funcionário não existe"));
+    }
+
+    @RequestMapping(value = "funcionarios/apagar", method = DELETE)
+    public void apagarFuncionario(@RequestParam long uid, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        funcionarioService.apagar(uid);
+    }
 }

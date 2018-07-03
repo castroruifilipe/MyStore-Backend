@@ -142,7 +142,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @SuppressWarnings("unchecked")
     private String getURLFromImageStorage(String image, String format) {
         if (image == null || format == null) {
-            return "";
+            return "http://blurryface.pt/base64/a9ee88a48b007efc9fc495a14035ff7d83b73deb955a5d5c971f2b3a5708f1e4.png";
         }
 
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();

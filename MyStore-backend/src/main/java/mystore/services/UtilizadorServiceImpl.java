@@ -44,7 +44,7 @@ public class UtilizadorServiceImpl implements UtilizadorService {
 
 
     @Override
-    public void signup(String email, String password, String nome, RoleUtilizador role) {
+    public void signup(String email, String password, String nome, RoleUtilizador role, int numero) {
         if (clienteDAO.contains("email", email) || funcionarioDAO.contains("email", email)) {
             throw new EntityExistsException("Utilizador já existe");
         }
@@ -61,6 +61,7 @@ public class UtilizadorServiceImpl implements UtilizadorService {
                 funcionario.setEmail(email);
                 funcionario.setPassword(bCryptPasswordEncoder.encode(password));
                 funcionario.setNome(nome);
+                funcionario.setNumero(numero);
                 funcionarioDAO.save(funcionario);
         }
     }
