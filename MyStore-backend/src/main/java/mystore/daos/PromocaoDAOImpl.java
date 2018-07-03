@@ -21,7 +21,10 @@ public class PromocaoDAOImpl extends GenericDAOImpl<Promocao, Long> implements P
         Root<Promocao> root = criteriaQuery.from(type);
         Join<Promocao, Produto> promocao_produto = root.join("produto", INNER);
 
-        Predicate emVigor = criteriaBuilder.greaterThanOrEqualTo(root.get("dataFim"), LocalDate.now());
+        Predicate emVigor = criteriaBuilder.and(
+                criteriaBuilder.greaterThanOrEqualTo(root.get("dataFim"), LocalDate.now()),
+                criteriaBuilder.lessThanOrEqualTo(root.get("dataInicio"), LocalDate.now())
+        );
         Predicate sameProduto = criteriaBuilder.equal(promocao_produto.get("codigo"), codigo);
 
         criteriaQuery
@@ -37,12 +40,32 @@ public class PromocaoDAOImpl extends GenericDAOImpl<Promocao, Long> implements P
         Root<Promocao> root = criteriaQuery.from(type);
         Join<Promocao, Categoria> promocao_categoria = root.join("categoria", INNER);
 
-        Predicate emVigor = criteriaBuilder.greaterThanOrEqualTo(root.get("dataFim"), LocalDate.now());
+        Predicate emVigor = criteriaBuilder.and(
+                criteriaBuilder.greaterThanOrEqualTo(root.get("dataFim"), LocalDate.now()),
+                criteriaBuilder.lessThanOrEqualTo(root.get("dataInicio"), LocalDate.now())
+        );
         Predicate sameCategoria = criteriaBuilder.equal(promocao_categoria.get("descricao"), descricao);
 
         criteriaQuery
                 .multiselect(promocao_categoria)
                 .where(criteriaBuilder.and(emVigor, sameCategoria));
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public List<Promocao> listAtuais() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Promocao> criteriaQuery = criteriaBuilder.createQuery(type);
+        Root<Promocao> root = criteriaQuery.from(type);
+
+        Predicate emVigor = criteriaBuilder.and(
+                criteriaBuilder.greaterThanOrEqualTo(root.get("dataFim"), LocalDate.now()),
+                criteriaBuilder.lessThanOrEqualTo(root.get("dataInicio"), LocalDate.now())
+        );
+
+        criteriaQuery
+                .select(root)
+                .where(emVigor);
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
 }

@@ -54,7 +54,12 @@ public class ProdutoController {
         String descricao = body.get("descricao");
         double precoBase = Double.valueOf(body.get("precoBase"));
         int stock = Integer.valueOf(body.get("stock"));
-        String image = ProdutoCreator.randomImage();
+        String[] image = new String[2];
+        if (body.containsKey("image") || body.containsKey("format")) {
+            image[0] = body.get("image");
+            image[1] = body.get("format");
+        }
+
         Categoria categoria = categoriaService
                 .get(body.get("categoria"))
                 .orElseThrow(() -> new EntityNotFoundException("Categoria não existe"));
@@ -72,7 +77,10 @@ public class ProdutoController {
     }
 
     @RequestMapping(value = "/maisVendidosDetail/{quantidadeProdutos}", method = GET)
-    public List<Produto> maisVendidosDetail(@PathVariable int quantidadeProdutos) {
+    public List<Produto> maisVendidosDetail(@PathVariable int quantidadeProdutos, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
         return produtoService.maisVendidosDetail(quantidadeProdutos);
     }
 

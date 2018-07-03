@@ -5,9 +5,15 @@ import mystore.daos.ProdutoDAO;
 import mystore.models.Categoria;
 import mystore.models.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -105,6 +111,9 @@ public class ProdutoServiceImpl implements ProdutoService {
                     return Optional.empty();
                 }
             }
+            if (dados.containsKey("image") && dados.containsKey("format")) {
+                produto.setImageURL(getURLFromImageStorage(dados.get("image"), dados.get("format")));
+            }
             produtoDAO.update(produto);
             return Optional.of(produto);
         } else {
@@ -118,16 +127,39 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public Produto criar(String nome, String descricao, String image, double precoBase, int stock, Categoria categoria) {
+    public Produto criar(String nome, String descricao, String[] image, double precoBase, int stock, Categoria categoria) {
         Produto produto = new Produto();
         produto.setNome(nome);
         produto.setDescricao(descricao);
         produto.setPrecoBase(precoBase);
         produto.setStock(stock);
         produto.setCategoria(categoria);
-        produto.setImageURL(image);
+        produto.setImageURL(getURLFromImageStorage(image[0], image[1]));
         save(produto);
         return produto;
+    }
+
+    @SuppressWarnings("unchecked")
+    private String getURLFromImageStorage(String image, String format) {
+        if (image == null || format == null) {
+            return "";
+        }
+
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        Map<String, String> map = new HashMap<>();
+        map.put("Content-Type", "application/json");
+
+        headers.setAll(map);
+
+        Map req_payload = new HashMap();
+        req_payload.put("base64", image);
+        req_payload.put("format", format);
+
+        HttpEntity<?> request = new HttpEntity<>(req_payload, headers);
+        String url = "http://base64.blurryface.pt";
+
+        ResponseEntity<?> response = new RestTemplate().postForEntity(url, request, String.class);
+        return (String) response.getBody();
     }
 
 }

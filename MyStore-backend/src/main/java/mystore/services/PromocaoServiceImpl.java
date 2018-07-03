@@ -113,4 +113,12 @@ public class PromocaoServiceImpl implements PromocaoService {
         }
 
     }
+
+    @Override
+    public void updatePrecos() {
+        List<Promocao> atuais = promocaoDAO.listAtuais();
+        for (Promocao promocao : atuais) {
+            produtoDAO.updatePrices(promocao);
+        }
+    }
 }

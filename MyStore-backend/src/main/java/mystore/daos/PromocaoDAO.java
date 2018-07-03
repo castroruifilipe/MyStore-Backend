@@ -11,4 +11,6 @@ public interface PromocaoDAO extends GenericDAO<Promocao, Long>{
 
     List<Promocao> listByCategoria(String descricao);
 
+    List<Promocao> listAtuais();
+
 }

@@ -44,6 +44,9 @@ public class EncomendaController {
 
     @RequestMapping(path = "/ultimas/{quantidadeEncomendas}")
     public List<Encomenda> ultimas(@RequestAttribute RoleUtilizador role, @PathVariable int quantidadeEncomendas) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
         return encomendaService.ultimas(quantidadeEncomendas);
     }
 

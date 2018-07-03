@@ -15,6 +15,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -52,7 +54,7 @@ public class MyStoreBackendApplication {
                 "/utilizadores/alterarPassword",
                 "/utilizadores/clientes",
                 "/utilizadores/clientes/*",
-                "/produtos/maisVendidosDetail",
+                "/produtos/maisVendidosDetail/*",
                 "/produtos/criar",
                 "/produtos/apagar",
                 "/produtos/editar",

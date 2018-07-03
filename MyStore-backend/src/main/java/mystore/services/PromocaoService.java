@@ -26,4 +26,6 @@ public interface PromocaoService {
     Promocao criar(String descricao, double desconto, LocalDate dataInicio, LocalDate dataFim, Set<Produto> produtos);
 
     void apagar(long id);
+
+    void updatePrecos();
 }

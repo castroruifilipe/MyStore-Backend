@@ -13,14 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static java.time.format.DateTimeFormatter.*;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static mystore.models.enums.RoleUtilizador.FUNCIONARIO;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @RestController
 @RequestMapping("/promocoes")
@@ -52,6 +49,7 @@ public class PromocaoController {
         return promocaoService.get(id).orElseThrow(() -> new EntityNotFoundException("Promocao não existe"));
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/criar", method = POST)
     public Promocao criar(@RequestBody Map<String, Object> body, @RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
@@ -82,7 +80,7 @@ public class PromocaoController {
             List<Integer> codigos = (List<Integer>) body.get("produtos");
             Set<Produto> produtos = new HashSet<>();
             for (Integer codigo : codigos) {
-                Optional<Produto> optionalProduto = produtoService.get(Long.valueOf(codigo.longValue()));
+                Optional<Produto> optionalProduto = produtoService.get(codigo.longValue());
                 if (optionalProduto.isPresent()) {
                     System.out.println("\n\nproduto: " + optionalProduto.get().getNome());
                     produtos.add(optionalProduto.get());
@@ -101,5 +99,13 @@ public class PromocaoController {
             throw new AuthorizationServiceException("Sem autorização");
         }
         promocaoService.apagar(id);
+    }
+
+    @RequestMapping(value = "updatePrecos", method = GET)
+    public void updatePrecos(@RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        promocaoService.updatePrecos();
     }
 }
