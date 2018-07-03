@@ -172,4 +172,20 @@ public class ProdutoDAOImpl extends GenericDAOImpl<Produto, Long> implements Pro
         }
         entityManager.createQuery(criteriaUpdate).executeUpdate();
     }
+
+    @Override
+    public void decrementStock(long codigo, int quantidade) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaUpdate<Produto> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(type);
+        Root<Produto> root = criteriaUpdate.from(type);
+
+        criteriaUpdate
+                .set(root.<Integer>get("stock"), criteriaBuilder.diff(root.get("stock"), quantidade))
+                .where(criteriaBuilder.and(
+                        criteriaBuilder.greaterThanOrEqualTo(root.get("stock"), quantidade),
+                        criteriaBuilder.equal(root.get("codigo"), codigo)
+                ));
+
+        entityManager.createQuery(criteriaUpdate).executeUpdate();
+    }
 }

@@ -2,6 +2,7 @@ package mystore.services;
 
 import mystore.daos.EncomendaDAO;
 import mystore.daos.LinhaEncomendaDAO;
+import mystore.daos.ProdutoDAO;
 import mystore.models.*;
 import mystore.models.enums.EstadoEncomenda;
 import mystore.models.enums.MetodoPagamento;
@@ -28,24 +29,27 @@ public class EncomendaServiceImpl implements EncomendaService {
     @Autowired
     private LinhaEncomendaDAO linhaEncomendaDAO;
 
+    @Autowired
+    private ProdutoDAO produtoDAO;
+
 
     @Override
     public void save(Encomenda encomenda) {
         for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
             linhaEncomendaDAO.save(linha);
+            produtoDAO.decrementStock(linha.getProduto().getCodigo(), linha.getQuantidade());
         }
         encomendaDAO.save(encomenda);
-        for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
-            encomendaDAO.updateEstatisticasEncomenda(linha);
+        if (encomenda.getEstado() == AGUARDA_PAGAMENTO) {
+            for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
+                encomendaDAO.updateEstatisticasEncomenda(linha);
+            }
         }
     }
 
     @Override
     public void update(Encomenda encomenda) {
         encomendaDAO.update(encomenda);
-        for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
-            encomendaDAO.updateEstatisticasVenda(linha);
-        }
     }
 
     @Override
@@ -76,6 +80,7 @@ public class EncomendaServiceImpl implements EncomendaService {
         encomenda.setCliente(cliente);
         encomenda.setMoradaEntrega(moradaEntrega);
         encomenda.setMetodoPagamento(metodoPagamento);
+        encomenda.setEstado(AGUARDA_PAGAMENTO);
         Set<LinhaEncomenda> linhasEncomenda = new HashSet<>();
         for (LinhaCarrinho linhaCarrinho : carrinho.getLinhasCarrinho()) {
             LinhaEncomenda linhaEncomenda = new LinhaEncomenda();
@@ -104,6 +109,9 @@ public class EncomendaServiceImpl implements EncomendaService {
                         return Optional.empty();
                     }
                     encomenda.setDataPagamento(now);
+                    for (LinhaEncomenda linha : encomenda.getLinhasEncomenda()) {
+                        encomendaDAO.updateEstatisticasVenda(linha);
+                    }
                     break;
                 case ENVIADA:
                     if (encomenda.getEstado() != EM_PROCESSAMENTO) {
