@@ -238,3 +238,50 @@ class FuncionarioCategoria(TaskSet):
                                           params={"descricao": cat_desc},
                                           headers=self.parent.MY_AUTH_HEADER,
                                           name="/categorias/apagar?descricao={descricao}")
+
+
+class FuncionarioEncomendas(TaskSet):
+
+    @task(1)
+    def get_encomendas(self):
+        r = self.parent.client.get("/encomendas",
+                                   headers=self.parent.MY_AUTH_HEADER)
+        if r.status_code == req.status_codes.codes.ok:
+            self.parent.ENCOMENDAS = json.loads(r.text)
+
+    @task(1)
+    def get_ultimas(self):
+        qtd = rd.randint(10, 20)
+
+        r = self.parent.client.get("/encomendas/ultimas/" + str(qtd),
+                                   headers=self.parent.MY_AUTH_HEADER,
+                                   name="/encomendas/ultimas/{qtd}")
+
+    @task(1)
+    def get_encomenda(self):
+
+        if len(self.parent.ENCOMENDAS) == 0:
+            self.get_encomendas()
+
+        if len(self.parent.ENCOMENDAS) > 0:
+            enc_id = rd.choice(self.parent.ENCOMENDAS)["id"]
+
+            r = self.parent.client.get("/encomendas/" + str(enc_id),
+                                       headers=self.parent.MY_AUTH_HEADER,
+                                       name="/encomendas/{id}")
+
+    @task(1)
+    def alterar_estado(self):
+
+        if len(self.parent.ENCOMENDAS) == 0:
+            self.get_encomendas()
+
+        if len(self.parent.ENCOMENDAS) > 0:
+            enc = rd.choice(self.parent.ENCOMENDAS)
+
+            enc_id, enc_estado = enc["id"], enc["estado"]
+
+            r = self.parent.client.put("/encomendas/alterarEstado",
+                                       json={"id": enc_id, "estado": enc_estado},
+                                       headers=self.parent.MY_AUTH_HEADER,
+                                       name="/encomendas/alterarEstado")

@@ -25,6 +25,7 @@ class ClienteUtilizadores(TaskSet):
                                          "newPassword": "123"},
                                    headers=self.parent.MY_AUTH_HEADER)
 
+
 class ProdutosCliente(TaskSet):
 
     @task(1)
@@ -140,5 +141,125 @@ class ProdutosCliente(TaskSet):
                                        params={"value": nome_prod},
                                        headers=self.parent.MY_AUTH_HEADER,
                                        name="/produtos/search")
+
+
+class EncomendasCliente(TaskSet):
+
+    @task(1)
+    def get_encomendas_cliente(self):
+        r = self.parent.client.get("/encomendas/cliente",
+                                   headers=self.parent.MY_AUTH_HEADER)
+
+
+class CarrinhoCliente(TaskSet):
+
+    def get_produtos(self):
+        r = self.parent.client.get("/produtos",
+                                   headers=self.parent.MY_AUTH_HEADER)
+
+        if r.status_code == req.status_codes.codes.ok:
+            self.parent.PRODUTOS = json.loads(r.text)
+
+    @task(1)
+    def get_carrinho(self):
+        r = self.parent.client.get("/carrinho",
+                                   headers=self.parent.MY_AUTH_HEADER)
+
+        if r.status_code == req.status_codes.codes.ok:
+            self.parent.CARRINHO = json.loads(r.text)
+
+    @task(1)
+    def operacoes_carrinho_checkout(self):
+        self.add_carrinho()
+        self.add_carrinho()
+        self.update_carrinho()
+        self.checkout()
+
+
+    @task(1)
+    def operacoes_carrinho_clear(self):
+        self.add_carrinho()
+        self.add_carrinho()
+        self.remove_carrinho()
+        self.add_carrinho()
+        self.clear_carrinho()
+
+
+    def add_carrinho(self):
+
+        if len(self.parent.PRODUTOS) == 0:
+            self.get_produtos()
+
+        if len(self.parent.PRODUTOS) > 0:
+            prod = rd.choice(self.parent.PRODUTOS)
+
+            body = {"codigo": prod["codigo"],
+                    "quantidade": rd.randint(1, 2)}
+
+            r = self.parent.client.put("/carrinho/add",
+                                       json=body,
+                                       headers=self.parent.MY_AUTH_HEADER)
+
+            if r.status_code == req.status_codes.codes.ok:
+                self.parent.CARRINHO = json.loads(r.text)
+
+    def remove_carrinho(self):
+
+        if len(self.parent.CARRINHO["linhasCarrinho"]) == 0:
+            self.get_carrinho()
+
+        if len(self.parent.CARRINHO["linhasCarrinho"]) > 0:
+            cod_prod = rd.choice(self.parent.CARRINHO["linhasCarrinho"])["produto"]["codigo"]
+
+            body = {"codigo": cod_prod}
+
+            r = self.parent.client.put("/carrinho/removeProduto",
+                                       json=body,
+                                       headers=self.parent.MY_AUTH_HEADER)
+
+            if r.status_code == req.status_codes.codes.ok:
+                self.parent.CARRINHO = json.loads(r.text)
+
+    def clear_carrinho(self):
+
+        r = self.parent.client.put("/carrinho/clear",
+                                   headers=self.parent.MY_AUTH_HEADER)
+
+        if r.status_code == req.status_codes.codes.ok:
+            self.parent.CARRINHO = json.loads(r.text)
+
+    def clear_carrinho(self):
+
+        r = self.parent.client.delete("/carrinho/clear",
+                                      headers=self.parent.MY_AUTH_HEADER)
+
+        if r.status_code == req.status_codes.codes.ok:
+            self.parent.CARRINHO = json.loads(r.text)
+
+    def update_carrinho(self):
+
+        self.get_carrinho()
+
+        body = {}
+
+        for linha_carrinho in self.parent.CARRINHO["linhaCarrinho"]:
+            prod = linha_carrinho["produto"]
+
+            body[prod["codigo"]] = linha_carrinho["quantidade"] + 1
+
+        r = self.parent.client.put("/carrinho/update",
+                                   json=body,
+                                   headers=self.parent.MY_AUTH_HEADER)
+
+        if r.status_code == req.status_codes.codes.ok:
+            self.parent.CARRINHO = json.loads(r.text)
+
+    def checkout(self):
+        METODO_PAGAMENTO = rd.choice(["MULTIBANCO", "PAYPAL", "MBWAY", "COBRANCA"])
+        morada = self.parent.MY_FAKER.address().replace('\n',' ')
+
+        r = self.parent.client.post("/encomendas/checkout",
+                                   json={"moradaEntrega": morada, "metodoPagamento": METODO_PAGAMENTO},
+                                   headers=self.parent.MY_AUTH_HEADER)
 
 
