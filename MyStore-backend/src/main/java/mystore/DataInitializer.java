@@ -34,7 +34,7 @@ public class DataInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         try {
-            utilizadorService.signup(email, password, nome, FUNCIONARIO);
+            utilizadorService.signup(email, password, nome, FUNCIONARIO, 0);
             System.out.println("\t\tAdmin registado");
         } catch (EntityExistsException e) {
             System.out.println("\t\tAdmin já registado");
