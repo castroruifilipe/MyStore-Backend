@@ -207,6 +207,14 @@ class FuncionarioProdutos(TaskSet):
                                           name="/produtos/apagar?codigo={codigo}")
 
 
+    @task(5)
+    def get_mais_vendidos_detail(self):
+        qtd = rd.randint(10, 20)
+        r = self.parent.client.get("/produtos/maisVendidosDetail/" + str(qtd),
+                                   headers=self.parent.MY_AUTH_HEADER,
+                                   name="/produtos/maisVendidosDetail/{qtd}")
+
+
 class FuncionarioCategoria(TaskSet):
 
     @task(20)

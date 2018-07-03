@@ -69,13 +69,6 @@ class ProdutosCliente(TaskSet):
                                    headers=self.parent.MY_AUTH_HEADER,
                                    name="/produtos/maisVendidos/{qtd}")
 
-    @task(5)
-    def get_mais_vendidos_detail(self):
-        qtd = rd.randint(10, 20)
-        r = self.parent.client.get("/produtos/maisVendidosDetail/" + str(qtd),
-                                   headers=self.parent.MY_AUTH_HEADER,
-                                   name="/produtos/maisVendidosDetail/{qtd}")
-
     @task(10)
     def get_em_promocao(self):
         qtd = rd.randint(10, 20)
@@ -123,11 +116,16 @@ class ProdutosCliente(TaskSet):
             prod = rd.choice(self.parent.PRODUTOS)
             nome, id_cat = prod["nome"], prod["categoria"]["id"]
 
+            pag = 1
+            size = rd.randint(10, 20)
+
             r = self.parent.client.get("/produtos/search/categoria",
                                        params={"value": nome,
-                                               "categoria": id_cat},
+                                               "categoria": id_cat,
+                                               "pagina": pag,
+                                               "size": size},
                                        headers=self.parent.MY_AUTH_HEADER,
-                                       name="/produtos/search/categoria")
+                                       name="/produtos/search/categoria?value={}&categoria={}&pagina={}&size={}")
 
     @task(5)
     def search_produtos(self):
@@ -136,11 +134,15 @@ class ProdutosCliente(TaskSet):
 
         if len(self.parent.PRODUTOS) > 0:
             nome_prod = rd.choice(self.parent.PRODUTOS)["nome"]
+            pag = 1
+            size = rd.randint(10, 20)
 
             r = self.parent.client.get("/produtos/search",
-                                       params={"value": nome_prod},
+                                       params={"value": nome_prod,
+                                               "pagina": pag,
+                                               "size": size},
                                        headers=self.parent.MY_AUTH_HEADER,
-                                       name="/produtos/search?value={value}")
+                                       name="/produtos/search?value={}&pagina={}&size={}")
 
 
 class EncomendasCliente(TaskSet):
@@ -175,7 +177,6 @@ class CarrinhoCliente(TaskSet):
         self.update_carrinho()
         self.checkout()
 
-
     @task(3)
     def operacoes_carrinho_clear(self):
         self.add_carrinho()
@@ -183,7 +184,6 @@ class CarrinhoCliente(TaskSet):
         self.remove_carrinho()
         self.add_carrinho()
         self.clear_carrinho()
-
 
     def add_carrinho(self):
 
@@ -196,7 +196,7 @@ class CarrinhoCliente(TaskSet):
             body = {"codigo": prod["codigo"],
                     "quantidade": rd.randint(1, 2)}
 
-            r = self.parent.client.put("/carrinho/add",
+            r = self.parent.client.put("/carrinho/addProduto",
                                        json=body,
                                        headers=self.parent.MY_AUTH_HEADER)
 
@@ -242,7 +242,7 @@ class CarrinhoCliente(TaskSet):
 
         body = {}
 
-        for linha_carrinho in self.parent.CARRINHO["linhaCarrinho"]:
+        for linha_carrinho in self.parent.CARRINHO["linhasCarrinho"]:
             prod = linha_carrinho["produto"]
 
             body[prod["codigo"]] = linha_carrinho["quantidade"] + 1
@@ -256,10 +256,9 @@ class CarrinhoCliente(TaskSet):
 
     def checkout(self):
         METODO_PAGAMENTO = rd.choice(["MULTIBANCO", "PAYPAL", "MBWAY", "COBRANCA"])
-        morada = self.parent.MY_FAKER.address().replace('\n',' ')
+        morada = self.parent.MY_FAKER.address().replace('\n', ' ')
 
         r = self.parent.client.post("/encomendas/checkout",
-                                   json={"moradaEntrega": morada, "metodoPagamento": METODO_PAGAMENTO},
-                                   headers=self.parent.MY_AUTH_HEADER)
-
-
+                                    json={"moradaEntrega": morada,
+                                          "metodoPagamento": METODO_PAGAMENTO},
+                                    headers=self.parent.MY_AUTH_HEADER)
