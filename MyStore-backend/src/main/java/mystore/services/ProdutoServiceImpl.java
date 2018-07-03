@@ -1,7 +1,5 @@
 package mystore.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
 import mystore.daos.CategoriaDAO;
 import mystore.daos.ProdutoDAO;
 import mystore.models.Categoria;
