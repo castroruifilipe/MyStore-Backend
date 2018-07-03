@@ -98,6 +98,14 @@ public class UtilizadorController {
         return clienteService.list();
     }
 
+    @RequestMapping(value = "clientes/{id}", method = GET)
+    public Cliente getCliente(@PathVariable long id, @RequestAttribute RoleUtilizador role) {
+        if (role != FUNCIONARIO) {
+            throw new AuthorizationServiceException("Sem autorização");
+        }
+        return clienteService.get(id).orElseThrow(() -> new EntityNotFoundException("Cliente não existe"));
+    }
+
     @RequestMapping(path = "funcionarios", method = GET)
     public List<Funcionario> funcionarios(@RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
@@ -106,12 +114,13 @@ public class UtilizadorController {
         return funcionarioService.list();
     }
 
-    @RequestMapping(value = "clientes/{id}", method = GET)
-    public Cliente get(@PathVariable long id, @RequestAttribute RoleUtilizador role) {
+    @RequestMapping(value = "funcionarios/{id}", method = GET)
+    public Funcionario getFuncionario(@PathVariable long id, @RequestAttribute RoleUtilizador role) {
         if (role != FUNCIONARIO) {
             throw new AuthorizationServiceException("Sem autorização");
         }
-        return clienteService.get(id).orElseThrow(() -> new EntityNotFoundException("Cliente não existe"));
+        return funcionarioService.get(id).orElseThrow(() -> new EntityNotFoundException("Funcionário não existe"));
     }
+
 
 }
