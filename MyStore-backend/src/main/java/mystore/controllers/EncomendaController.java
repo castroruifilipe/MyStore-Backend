@@ -65,7 +65,7 @@ public class EncomendaController {
         Optional<Encomenda> optionalEncomenda = encomendaService.get(id);
         if (optionalEncomenda.isPresent()) {
             Encomenda encomenda = optionalEncomenda.get();
-            if (role == FUNCIONARIO || encomenda.getCliente().getId() == uid) {
+            if (role == FUNCIONARIO) {
                 Hibernate.initialize(encomenda.getCliente());
                 return encomenda;
             }

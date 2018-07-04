@@ -78,7 +78,6 @@ public class EncomendaServiceImpl implements EncomendaService {
 
     @Override
     public Encomenda checkout(Cliente cliente, Morada moradaEntrega, Carrinho carrinho, MetodoPagamento metodoPagamento) {
-        System.out.println("AQUI1");
         Encomenda encomenda = new Encomenda();
         encomenda.setCliente(cliente);
         encomenda.setMoradaEntrega(moradaEntrega);
