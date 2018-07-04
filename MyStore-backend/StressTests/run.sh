@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-locust --host=https://mystore-backend.herokuapp.com NewFuncionarioLocust NewUserLocust AuthUserLocust
+locust --no-reset-stats --host=https://mystore-backend.herokuapp.com NewFuncionarioLocust NewUserLocust AuthUserLocust
